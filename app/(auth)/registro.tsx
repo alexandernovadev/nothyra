@@ -1,23 +1,33 @@
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import { useRouter } from "expo-router";
+import React, { useEffect } from "react";
 import {
+  BackHandler,
   Image,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 
+export default function RegistroScreen() {
+  const router = useRouter();
 
-export default function LoginScreen() {
+
+  useEffect(() => {
+    const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
+      return true; // true = no permite ir atrás
+    });
+    return () => subscription.remove();
+  }, []);
+    
   return (
     <LinearGradient
       colors={["#a1e1e1", "#bce2d4"]}
       style={styles.container}
     >
-
       <View style={styles.textContainer}>
         <Image
           source={require("@/assets/images/nothyra/NothyraLogo.png")}
@@ -30,6 +40,21 @@ export default function LoginScreen() {
 
         <View style={styles.form}>
           <View style={styles.inputsGroup}>
+            <View style={styles.inputWrapper}>
+              <Ionicons
+                name="person-outline"
+                size={22}
+                color="#7B8B8E"
+                style={styles.inputIcon}
+              />
+              <TextInput
+                placeholder="Nombre"
+                placeholderTextColor="#7B8B8E"
+                autoCapitalize="words"
+                autoComplete="name"
+                style={styles.inputName}
+              />
+            </View>
             <View style={styles.inputWrapper}>
               <Ionicons
                 name="mail-outline"
@@ -54,25 +79,28 @@ export default function LoginScreen() {
                 style={styles.inputIcon}
               />
               <TextInput
-                placeholder="Constraseña"
+                placeholder="Contraseña"
                 placeholderTextColor="#7B8B8E"
                 autoCapitalize="none"
-                keyboardType="email-address"
-                autoComplete="email"
+                secureTextEntry
+                autoComplete="new-password"
                 style={styles.inputPassword}
               />
             </View>
           </View>
           <Pressable style={styles.btn}>
-            <Text style={styles.btnText}>Iniciar Sesión</Text>
+            <Text style={styles.btnText}>Crear cuenta</Text>
           </Pressable>
           <View style={styles.separator}>
             <View style={styles.separatorLine} />
-            <Text style={styles.separatorText}> o </Text>
+            <Text style={styles.separatorText}> ¿Ya tiene cuenta? </Text>
             <View style={styles.separatorLine} />
           </View>
-          <Pressable style={[styles.btn, styles.btnSecondary]}>
-            <Text style={styles.btnText}>Crear cuenta nueva</Text>
+          <Pressable
+            style={[styles.btn, styles.btnSecondary]}
+            onPress={() => router.push("/login")}
+          >
+            <Text style={styles.btnText}>Iniciar sesión</Text>
           </Pressable>
         </View>
       </View>
@@ -87,11 +115,7 @@ export default function LoginScreen() {
         style={styles.fondo2}
         resizeMode="stretch"
       />
-
-
-
     </LinearGradient>
-
   );
 }
 
@@ -105,6 +129,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 50,
     paddingTop: 32,
+    zIndex: 10,
   },
   logoImage: {
     width: "100%",
@@ -134,10 +159,16 @@ const styles = StyleSheet.create({
     top: 14,
     zIndex: 1,
   },
-  inputEmail: {
+  inputName: {
     backgroundColor: "#fbfae5",
     borderTopLeftRadius: 22,
     borderTopRightRadius: 22,
+    borderBottomWidth: 2,
+    borderBottomColor: "#c7c3c3",
+    paddingLeft: 48,
+  },
+  inputEmail: {
+    backgroundColor: "#fbfae5",
     borderBottomWidth: 2,
     borderBottomColor: "#c7c3c3",
     paddingLeft: 48,
@@ -180,13 +211,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   fondo2: {
-    // backgroundColor:'red', 
     position: "absolute",
-    width: '100%',
-    height: '90%',
+    width: "100%",
+    height: "90%",
     top: 0,
-    left: 0, 
-    bottom: 0
+    left: 0,
+    bottom: 0,
   },
   layer: {
     position: "absolute",
