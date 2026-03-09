@@ -78,6 +78,13 @@ export default function LoginScreen() {
           >
             <Text style={styles.btnText}>Crear cuenta nueva</Text>
           </Pressable>
+          <Pressable style={styles.btnGoogle}>
+            <Image
+              source={require("@/assets/images/nothyra/google.png")}
+              style={styles.googleLogo}
+              resizeMode="contain"
+            />
+          </Pressable>
         </View>
       </View>
 
@@ -164,6 +171,19 @@ const styles = StyleSheet.create({
   },
   btnSecondary: {
     backgroundColor: "#51a018",
+  },
+  btnGoogle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#fbfae5",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  googleLogo: {
+    width: 24,
+    height: 24,
   },
   separator: {
     flexDirection: "row",
