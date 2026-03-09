@@ -1,3 +1,4 @@
+import { palette, authGradient } from "@/constants/palette";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -16,7 +17,7 @@ export default function LoginScreen() {
   
   return (
     <LinearGradient
-      colors={["#a1e1e1", "#bce2d4"]}
+      colors={authGradient}
       style={styles.container}
     >
       <View style={styles.textContainer}>
@@ -35,12 +36,12 @@ export default function LoginScreen() {
               <Ionicons
                 name="mail-outline"
                 size={22}
-                color="#7B8B8E"
+                color={palette.text.secondary}
                 style={styles.inputIcon}
               />
               <TextInput
                 placeholder="Correo electrónico"
-                placeholderTextColor="#7B8B8E"
+                placeholderTextColor={palette.text.secondary}
                 autoCapitalize="none"
                 keyboardType="email-address"
                 autoComplete="email"
@@ -51,12 +52,12 @@ export default function LoginScreen() {
               <Ionicons
                 name="lock-closed-outline"
                 size={22}
-                color="#7B8B8E"
+                color={palette.text.secondary}
                 style={styles.inputIcon}
               />
               <TextInput
                 placeholder="Constraseña"
-                placeholderTextColor="#7B8B8E"
+                placeholderTextColor={palette.text.secondary}
                 autoCapitalize="none"
                 keyboardType="email-address"
                 autoComplete="email"
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     height: 190,
   },
   textLogo: {
-    color: "gray",
+    color: palette.text.primary,
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "left",
@@ -143,21 +144,21 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   inputEmail: {
-    backgroundColor: "#fbfae5",
+    backgroundColor: palette.surface.input,
     borderTopLeftRadius: 22,
     borderTopRightRadius: 22,
     borderBottomWidth: 2,
-    borderBottomColor: "#c7c3c3",
+    borderBottomColor: palette.border.light,
     paddingLeft: 48,
   },
   inputPassword: {
-    backgroundColor: "#fbfae5",
+    backgroundColor: palette.surface.input,
     borderBottomLeftRadius: 22,
     borderBottomRightRadius: 22,
     paddingLeft: 48,
   },
   btn: {
-    backgroundColor: "#6d41b0",
+    backgroundColor: palette.brand.primary,
     borderRadius: 22,
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -165,18 +166,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnText: {
-    color: "#fff",
+    color: palette.text.inverse,
     fontSize: 14,
     fontWeight: "600",
   },
   btnSecondary: {
-    backgroundColor: "#51a018",
+    backgroundColor: palette.brand.secondary,
   },
   btnGoogle: {
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#fbfae5",
+    backgroundColor: palette.surface.input,
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
@@ -193,10 +194,10 @@ const styles = StyleSheet.create({
   separatorLine: {
     flex: 1,
     height: 1,
-    backgroundColor: "#999",
+    backgroundColor: palette.border.medium,
   },
   separatorText: {
-    color: "#666",
+    color: palette.text.muted,
     fontSize: 14,
     paddingHorizontal: 8,
   },
