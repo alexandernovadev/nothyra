@@ -29,41 +29,39 @@ export default function LoginScreen() {
         </Text>
 
         <View style={styles.form}>
-          {/* <Text style={styles.text}>
-            hola
-          </Text> */}
-
-          <View style={styles.inputWrapper}>
-            <Ionicons
-              name="mail-outline"
-              size={22}
-              color="#7B8B8E"
-              style={styles.inputIcon}
-            />
-            <TextInput
-              placeholder="Correo electrónico"
-              placeholderTextColor="#7B8B8E"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              autoComplete="email"
-              style={styles.inputEmail}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Ionicons
-              name="lock-closed-outline"
-              size={22}
-              color="#7B8B8E"
-              style={styles.inputIcon}
-            />
-            <TextInput
-              placeholder="Constraseña"
-              placeholderTextColor="#7B8B8E"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              autoComplete="email"
-              style={styles.inputPassword}
-            />
+          <View style={styles.inputsGroup}>
+            <View style={styles.inputWrapper}>
+              <Ionicons
+                name="mail-outline"
+                size={22}
+                color="#7B8B8E"
+                style={styles.inputIcon}
+              />
+              <TextInput
+                placeholder="Correo electrónico"
+                placeholderTextColor="#7B8B8E"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                autoComplete="email"
+                style={styles.inputEmail}
+              />
+            </View>
+            <View style={styles.inputWrapper}>
+              <Ionicons
+                name="lock-closed-outline"
+                size={22}
+                color="#7B8B8E"
+                style={styles.inputIcon}
+              />
+              <TextInput
+                placeholder="Constraseña"
+                placeholderTextColor="#7B8B8E"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                autoComplete="email"
+                style={styles.inputPassword}
+              />
+            </View>
           </View>
           <Pressable style={styles.btn}>
             <Text style={styles.btnText}>Iniciar Sesión</Text>
@@ -78,16 +76,18 @@ export default function LoginScreen() {
           </Pressable>
         </View>
       </View>
-      <Image
-        source={require("@/assets/images/nothyra/fondo1.png")}
-        style={styles.fondo}
-        resizeMode="stretch"
-      />
+
       <Image
         source={require("@/assets/images/nothyra/nothy2.png")}
-        style={[styles.layer, styles.fondo]}
+        style={[styles.layer]}
         resizeMode="stretch"
       />
+      <Image
+        source={require("@/assets/images/nothyra/hp.png")}
+        style={styles.fondo2}
+        resizeMode="stretch"
+      />
+
 
 
     </LinearGradient>
@@ -103,9 +103,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     height: "100%",
-    paddingLeft: 55,
-    paddingRight: 45,
-    paddingTop: 16,
+    paddingHorizontal: 50,
+    paddingTop: 32,
   },
   logoImage: {
     width: "100%",
@@ -117,9 +116,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "left",
     position: "relative",
-    top: -32,
+    top: -24,
   },
   form: {
+    width: "100%",
+    gap: 16,
+  },
+  inputsGroup: {
     width: "100%",
   },
   inputWrapper: {
@@ -152,7 +155,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     width: "100%",
     alignItems: "center",
-    marginTop: 16,
   },
   btnText: {
     color: "#fff",
@@ -161,13 +163,11 @@ const styles = StyleSheet.create({
   },
   btnSecondary: {
     backgroundColor: "#51a018",
-    marginTop: 16,
   },
   separator: {
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    marginTop: 20,
   },
   separatorLine: {
     flex: 1,
@@ -179,7 +179,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingHorizontal: 8,
   },
-  fondo: {},
+  fondo2: {
+    // backgroundColor:'red', 
+    position: "absolute",
+    width: '102%',
+    height: '90%',
+    top: 0,
+    left: 2, 
+    bottom: 0
+  },
   layer: {
     position: "absolute",
     bottom: 0,
