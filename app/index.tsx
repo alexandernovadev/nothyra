@@ -78,12 +78,12 @@ export default function LoginScreen() {
       </View>
 
       <Image
-        source={require("@/assets/images/nothyra/nothy2.png")}
+        source={require("@/assets/images/nothyra/nothyhd.png")}
         style={[styles.layer]}
         resizeMode="stretch"
       />
       <Image
-        source={require("@/assets/images/nothyra/hp.png")}
+        source={require("@/assets/images/nothyra/hphd.png")}
         style={styles.fondo2}
         resizeMode="stretch"
       />
@@ -182,10 +182,10 @@ const styles = StyleSheet.create({
   fondo2: {
     // backgroundColor:'red', 
     position: "absolute",
-    width: '102%',
+    width: '100%',
     height: '90%',
     top: 0,
-    left: 2, 
+    left: 0, 
     bottom: 0
   },
   layer: {
