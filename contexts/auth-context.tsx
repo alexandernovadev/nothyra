@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 type AuthContextType = {
   user: User | null;
@@ -33,8 +33,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const userRef = doc(db, 'users', currentUser.uid);
         const snap = await getDoc(userRef);
-        const data = snap.data() as { role?: 'admin' | 'user' } | undefined;
-        setRole(data?.role ?? 'user');
+        let nextRole: 'admin' | 'user' = 'user';
+
+        if (snap.exists()) {
+          const data = snap.data() as { role?: 'admin' | 'user' } | undefined;
+          nextRole = data?.role ?? 'user';
+        } else {
+          // Si el documento no existe (usuarios antiguos), lo creamos con rol por defecto "user"
+          await setDoc(
+            userRef,
+            {
+              uid: currentUser.uid,
+              email: currentUser.email,
+              displayName: currentUser.displayName ?? '',
+              role: 'user',
+              createdAt: serverTimestamp(),
+            },
+            { merge: true },
+          );
+        }
+
+        setRole(nextRole);
       } catch {
         // Si falla la carga del rol, asumimos usuario normal
         setRole('user');
