@@ -3,16 +3,15 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { palette } from '@/constants/palette';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarStyle: { backgroundColor: palette.brand.secondary },
+        tabBarActiveTintColor: palette.text.inverse,
+        tabBarInactiveTintColor: palette.text.inverseMuted,
         headerShown: false,
         tabBarButton: HapticTab,
       }}

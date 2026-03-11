@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     color: palette.semantic.error,
     fontSize: 14,
     textAlign: "center",
-    backgroundColor: "rgba(211, 47, 47, 0.15)",
+    backgroundColor: palette.semantic.errorMuted,
     padding: 10,
     borderRadius: 8,
   },

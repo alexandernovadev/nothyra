@@ -32,8 +32,8 @@ export default function MasScreen() {
           <ThemedText style={styles.rowSubtext}>{email ?? 'Editar perfil'}</ThemedText>
         </Pressable>
 
-        <Pressable style={[styles.row, styles.logoutRow]} onPress={handleLogout}>
-          <ThemedText type="defaultSemiBold" style={styles.logoutText}>
+        <Pressable style={styles.logoutBtn} onPress={handleLogout}>
+          <ThemedText type="defaultSemiBold" style={styles.logoutBtnText}>
             Cerrar sesión
           </ThemedText>
         </Pressable>
@@ -64,12 +64,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: palette.text.secondary,
   },
-  logoutRow: {
-    borderBottomWidth: 0,
-    marginTop: 8,
+  logoutBtn: {
+    width: '100%',
+    backgroundColor: palette.semantic.error,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 22,
+    alignItems: 'center',
+    marginTop: 16,
   },
-  logoutText: {
-    color: palette.semantic.error,
+  logoutBtnText: {
+    color: palette.text.inverse,
   },
   version: {
     marginTop: 32,
