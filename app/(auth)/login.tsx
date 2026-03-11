@@ -1,19 +1,21 @@
 import { palette, authGradient } from "@/constants/palette";
 import { FormField } from "@/components/ui/form-field";
 import { Btn } from "@/components/ui/btn";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
   Image,
+  Platform,
   StyleSheet,
   Text,
   View
 } from "react-native";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 import { auth } from "@/lib/firebase";
 import { loginSchema, type LoginFormData } from "@/lib/forms";
@@ -37,6 +39,37 @@ export default function LoginScreen() {
     resolver: zodResolver(loginSchema),
     defaultValues,
   });
+
+  const handleGoogleSignIn = async () => {
+    if (Platform.OS === "web") return;
+    setLoading(true);
+    setServerError("");
+
+    try {
+      if (Platform.OS === "android") {
+        await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      }
+      const result = await GoogleSignin.signIn();
+      if (result.type !== "success" || !result.data) {
+        if (result.type === "cancelled") return;
+        throw new Error("No se pudo iniciar sesión con Google.");
+      }
+
+      const { idToken } = await GoogleSignin.getTokens();
+      if (!idToken) {
+        throw new Error("No se obtuvo el token de Google. Revisa la configuración.");
+      }
+
+      const credential = GoogleAuthProvider.credential(idToken);
+      await signInWithCredential(auth, credential);
+      router.replace("/(tabs)");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Error al iniciar sesión con Google.";
+      setServerError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
@@ -125,13 +158,19 @@ export default function LoginScreen() {
           >
             <Text style={styles.btnText}>Crear cuenta nueva</Text>
           </Btn>
-          <Btn style={styles.btnGoogle} disabled={loading}>
-            <Image
-              source={require("@/assets/images/nothyra/google.png")}
-              style={styles.googleLogo}
-              resizeMode="contain"
-            />
-          </Btn>
+          {Platform.OS !== "web" && (
+            <Btn
+              style={styles.btnGoogle}
+              onPress={handleGoogleSignIn}
+              disabled={loading}
+            >
+              <Image
+                source={require("@/assets/images/nothyra/google.png")}
+                style={styles.googleLogo}
+                resizeMode="contain"
+              />
+            </Btn>
+          )}
         </View>
       </View>
 

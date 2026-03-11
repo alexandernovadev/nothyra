@@ -9,10 +9,12 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nova.nothyra"
     },
     "androidStatusBar": {
-      "hidden": true
+      "hidden": true,
+      "backgroundColor": "#ffffff"
     },
     "androidNavigationBar": {
       "visible": "immersive"
@@ -43,11 +45,18 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "30495d19-29e8-4cc7-96a1-a2a2a9c45109"
+      }
     }
   }
 }

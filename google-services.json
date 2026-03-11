@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "837500930931",
+    "firebase_url": "https://nothyra-d997e-default-rtdb.firebaseio.com",
     "project_id": "nothyra-d997e",
     "storage_bucket": "nothyra-d997e.firebasestorage.app"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "837500930931-67b06e2thc1qi21a7g6rn22ir1u20q66.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nova.nothyra",
+            "certificate_hash": "8b3ef8b1bcd24afb18eb9c1b0fb9a1a884fd20e0"
+          }
+        },
         {
           "client_id": "837500930931-054bsghc4lbmf1jkkj1ioak6agsssggc.apps.googleusercontent.com",
           "client_type": 3

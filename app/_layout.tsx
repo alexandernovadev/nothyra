@@ -1,4 +1,5 @@
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { setStatusBarHidden, StatusBar } from 'expo-status-bar';
@@ -7,6 +8,13 @@ import { ActivityIndicator, Platform, View } from 'react-native';
 import 'react-native-reanimated';
 
 import { AuthProvider, useAuth } from '@/contexts/auth-context';
+import { GOOGLE_WEB_CLIENT_ID } from '@/lib/google-signin';
+
+if (Platform.OS !== 'web') {
+  GoogleSignin.configure({
+    webClientId: GOOGLE_WEB_CLIENT_ID,
+  });
+}
 
 export const unstable_settings = {
   initialRouteName: '(auth)',
