@@ -18,6 +18,8 @@
       "visible": "immersive"
     },
     "android": {
+      "package": "com.nova.nothyra",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

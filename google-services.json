@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "837500930931",
+    "project_id": "nothyra-d997e",
+    "storage_bucket": "nothyra-d997e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837500930931:android:7870738c720e0703769306",
+        "android_client_info": {
+          "package_name": "com.nova.nothyra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837500930931-054bsghc4lbmf1jkkj1ioak6agsssggc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5DO03TzZnSfzw0m4qd-6591zBfOGuZiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837500930931-054bsghc4lbmf1jkkj1ioak6agsssggc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

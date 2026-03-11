@@ -1,9 +1,11 @@
 import { palette, authGradient } from "@/constants/palette";
 import { Ionicons } from "@expo/vector-icons";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   BackHandler,
   Image,
   Pressable,
@@ -13,17 +15,53 @@ import {
   View
 } from "react-native";
 
+import { auth } from "@/lib/firebase";
+
 export default function RegistroScreen() {
   const router = useRouter();
-
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
-      return true; // true = no permite ir atrás
-    });
+    const subscription = BackHandler.addEventListener("hardwareBackPress", () => true);
     return () => subscription.remove();
   }, []);
-    
+
+  const handleRegister = async () => {
+    if (!email.trim() || !password) {
+      setError("Ingresa correo y contraseña.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      await createUserWithEmailAndPassword(auth, email.trim(), password);
+      router.replace("/(tabs)");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Error al crear cuenta.";
+      if (message.includes("auth/email-already-in-use")) {
+        setError("Ya existe una cuenta con este correo.");
+      } else if (message.includes("auth/invalid-email")) {
+        setError("Correo electrónico no válido.");
+      } else if (message.includes("auth/weak-password")) {
+        setError("La contraseña debe tener al menos 6 caracteres.");
+      } else {
+        setError(message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <LinearGradient
       colors={authGradient}
@@ -40,6 +78,7 @@ export default function RegistroScreen() {
         </Text>
 
         <View style={styles.form}>
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
           <View style={styles.inputsGroup}>
             <View style={styles.inputWrapper}>
               <Ionicons
@@ -53,7 +92,10 @@ export default function RegistroScreen() {
                 placeholderTextColor={palette.text.secondary}
                 autoCapitalize="words"
                 autoComplete="name"
+                value={name}
+                onChangeText={(t) => { setName(t); setError(""); }}
                 style={styles.inputName}
+                editable={!loading}
               />
             </View>
             <View style={styles.inputWrapper}>
@@ -69,7 +111,10 @@ export default function RegistroScreen() {
                 autoCapitalize="none"
                 keyboardType="email-address"
                 autoComplete="email"
+                value={email}
+                onChangeText={(t) => { setEmail(t); setError(""); }}
                 style={styles.inputEmail}
+                editable={!loading}
               />
             </View>
             <View style={styles.inputWrapper}>
@@ -85,21 +130,33 @@ export default function RegistroScreen() {
                 autoCapitalize="none"
                 secureTextEntry
                 autoComplete="new-password"
+                value={password}
+                onChangeText={(t) => { setPassword(t); setError(""); }}
                 style={styles.inputPassword}
+                editable={!loading}
               />
             </View>
           </View>
-          <Pressable style={styles.btn}>
-            <Text style={styles.btnText}>Crear cuenta</Text>
+          <Pressable
+            style={[styles.btn, loading && styles.btnDisabled]}
+            onPress={handleRegister}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color={palette.text.inverse} size="small" />
+            ) : (
+              <Text style={styles.btnText}>Crear cuenta</Text>
+            )}
           </Pressable>
           <View style={styles.separator}>
             <View style={styles.separatorLine} />
-            <Text style={styles.separatorText}> ¿Ya tiene cuenta? </Text>
+            <Text style={styles.separatorText}> ¿Ya tienes cuenta? </Text>
             <View style={styles.separatorLine} />
           </View>
           <Pressable
             style={[styles.btn, styles.btnSecondary]}
-            onPress={() => router.push("/login")}
+            onPress={() => router.push("/(auth)/login")}
+            disabled={loading}
           >
             <Text style={styles.btnText}>Iniciar sesión</Text>
           </Pressable>
@@ -148,6 +205,14 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 16,
   },
+  errorText: {
+    color: palette.semantic.error,
+    fontSize: 14,
+    textAlign: "center",
+    backgroundColor: "rgba(211, 47, 47, 0.15)",
+    padding: 10,
+    borderRadius: 8,
+  },
   inputsGroup: {
     width: "100%",
   },
@@ -167,18 +232,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: palette.border.light,
     paddingLeft: 48,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: palette.text.primary,
   },
   inputEmail: {
     backgroundColor: palette.surface.input,
     borderBottomWidth: 2,
     borderBottomColor: palette.border.light,
     paddingLeft: 48,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: palette.text.primary,
   },
   inputPassword: {
     backgroundColor: palette.surface.input,
     borderBottomLeftRadius: 22,
     borderBottomRightRadius: 22,
     paddingLeft: 48,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: palette.text.primary,
   },
   btn: {
     backgroundColor: palette.brand.primary,
@@ -187,6 +261,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     width: "100%",
     alignItems: "center",
+  },
+  btnDisabled: {
+    opacity: 0.7,
   },
   btnText: {
     color: palette.text.inverse,

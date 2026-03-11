@@ -1,50 +1,43 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
-
-// Credenciales quemadas por ahora (Firebase después)
-const MOCK_EMAIL = 't@t.com';
-const MOCK_PASSWORD = 'mypass';
-
-type AuthState = {
-  isAuthenticated: boolean;
-  email: string | null;
-};
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { User, onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 type AuthContextType = {
+  user: User | null;
+  isLoading: boolean;
   isAuthenticated: boolean;
   email: string | null;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  logout: () => void;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<AuthState>({
-    isAuthenticated: false,
-    email: null,
-  });
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const login = useCallback(async (email: string, password: string) => {
-    // Validación quemada
-    if (email === MOCK_EMAIL && password === MOCK_PASSWORD) {
-      setState({ isAuthenticated: true, email });
-      return { success: true };
-    }
-    return { success: false, error: 'Email o contraseña incorrectos' };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setIsLoading(false);
+    });
+    return unsubscribe;
   }, []);
 
-  const logout = useCallback(() => {
-    setState({ isAuthenticated: false, email: null });
+  const logout = useCallback(async () => {
+    await firebaseSignOut(auth);
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: state.isAuthenticated,
-        email: state.email,
-        login,
+        user,
+        isLoading,
+        isAuthenticated: !!user,
+        email: user?.email ?? null,
         logout,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

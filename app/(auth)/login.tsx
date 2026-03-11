@@ -1,9 +1,11 @@
 import { palette, authGradient } from "@/constants/palette";
 import { Ionicons } from "@expo/vector-icons";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   StyleSheet,
@@ -12,9 +14,43 @@ import {
   View
 } from "react-native";
 
+import { auth } from "@/lib/firebase";
+
 export default function LoginScreen() {
   const router = useRouter();
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    if (!email.trim() || !password) {
+      setError("Ingresa correo y contraseña.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      await signInWithEmailAndPassword(auth, email.trim(), password);
+      router.replace("/(tabs)");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Error al iniciar sesión.";
+      if (message.includes("auth/invalid-credential") || message.includes("auth/wrong-password")) {
+        setError("Email o contraseña incorrectos.");
+      } else if (message.includes("auth/user-not-found")) {
+        setError("No existe una cuenta con este correo.");
+      } else if (message.includes("auth/invalid-email")) {
+        setError("Correo electrónico no válido.");
+      } else {
+        setError(message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <LinearGradient
       colors={authGradient}
@@ -31,6 +67,7 @@ export default function LoginScreen() {
         </Text>
 
         <View style={styles.form}>
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
           <View style={styles.inputsGroup}>
             <View style={styles.inputWrapper}>
               <Ionicons
@@ -45,7 +82,10 @@ export default function LoginScreen() {
                 autoCapitalize="none"
                 keyboardType="email-address"
                 autoComplete="email"
+                value={email}
+                onChangeText={(t) => { setEmail(t); setError(""); }}
                 style={styles.inputEmail}
+                editable={!loading}
               />
             </View>
             <View style={styles.inputWrapper}>
@@ -56,17 +96,28 @@ export default function LoginScreen() {
                 style={styles.inputIcon}
               />
               <TextInput
-                placeholder="Constraseña"
+                placeholder="Contraseña"
                 placeholderTextColor={palette.text.secondary}
                 autoCapitalize="none"
-                keyboardType="email-address"
-                autoComplete="email"
+                secureTextEntry
+                autoComplete="password"
+                value={password}
+                onChangeText={(t) => { setPassword(t); setError(""); }}
                 style={styles.inputPassword}
+                editable={!loading}
               />
             </View>
           </View>
-          <Pressable style={styles.btn}>
-            <Text style={styles.btnText}>Iniciar Sesión</Text>
+          <Pressable
+            style={[styles.btn, loading && styles.btnDisabled]}
+            onPress={handleLogin}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color={palette.text.inverse} size="small" />
+            ) : (
+              <Text style={styles.btnText}>Iniciar Sesión</Text>
+            )}
           </Pressable>
           <View style={styles.separator}>
             <View style={styles.separatorLine} />
@@ -75,11 +126,12 @@ export default function LoginScreen() {
           </View>
           <Pressable
             style={[styles.btn, styles.btnSecondary]}
-            onPress={() => router.push("/registro")}
+            onPress={() => router.push("/(auth)/registro")}
+            disabled={loading}
           >
             <Text style={styles.btnText}>Crear cuenta nueva</Text>
           </Pressable>
-          <Pressable style={styles.btnGoogle}>
+          <Pressable style={styles.btnGoogle} disabled={loading}>
             <Image
               source={require("@/assets/images/nothyra/google.png")}
               style={styles.googleLogo}
@@ -131,6 +183,14 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 16,
   },
+  errorText: {
+    color: palette.semantic.error,
+    fontSize: 14,
+    textAlign: "center",
+    backgroundColor: "rgba(211, 47, 47, 0.15)",
+    padding: 10,
+    borderRadius: 8,
+  },
   inputsGroup: {
     width: "100%",
   },
@@ -150,12 +210,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: palette.border.light,
     paddingLeft: 48,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: palette.text.primary,
   },
   inputPassword: {
     backgroundColor: palette.surface.input,
     borderBottomLeftRadius: 22,
     borderBottomRightRadius: 22,
     paddingLeft: 48,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: palette.text.primary,
   },
   btn: {
     backgroundColor: palette.brand.primary,
@@ -164,6 +230,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     width: "100%",
     alignItems: "center",
+  },
+  btnDisabled: {
+    opacity: 0.7,
   },
   btnText: {
     color: palette.text.inverse,
