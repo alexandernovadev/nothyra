@@ -1,8 +1,8 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
@@ -15,19 +15,41 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="sintomas"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Síntomas',
+          tabBarIcon: ({ color }) => <Ionicons name="medical" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="recordatorio"
+        options={{
+          title: 'Recordatorio',
+          tabBarIcon: ({ color }) => <Ionicons name="notifications" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="alimentacion"
+        options={{
+          title: 'Alimentación',
+          tabBarIcon: ({ color }) => <Ionicons name="restaurant" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="mas"
+        options={{
+          title: 'Más',
+          tabBarIcon: ({ color }) => <Ionicons name="ellipsis-horizontal" size={24} color={color} />,
         }}
       />
     </Tabs>

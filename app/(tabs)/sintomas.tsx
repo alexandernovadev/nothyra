@@ -1,29 +1,28 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { palette } from '@/constants/palette';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 /**
- * Home
- * - Información de enfermedades (genérico)
+ * Síntomas
+ * - Lista de los síntomas del usuario
+ * - Formulario para agregar síntomas
  */
-export default function HomeScreen() {
+export default function SintomasScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">Home</ThemedText>
+      <ThemedText type="title">Síntomas</ThemedText>
       <ThemedText style={styles.subtitle}>
-        Información de enfermedades
+        Lista de síntomas y formulario para agregar nuevos
       </ThemedText>
-      <ScrollView style={styles.scroll}>
-        <View style={styles.placeholder}>
-          <ThemedText style={styles.placeholderText}>
-            [Contenido genérico sobre enfermedades]
-          </ThemedText>
-          <ThemedText style={styles.placeholderText}>
-            Artículos, categorías, recursos de salud...
-          </ThemedText>
-        </View>
-      </ScrollView>
+      <View style={styles.placeholder}>
+        <ThemedText style={styles.placeholderText}>
+          [Lista de síntomas]
+        </ThemedText>
+        <ThemedText style={styles.placeholderText}>
+          [Formulario agregar síntoma]
+        </ThemedText>
+      </View>
     </ThemedView>
   );
 }
@@ -38,10 +37,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     color: palette.text.secondary,
   },
-  scroll: {
-    marginTop: 24,
-  },
   placeholder: {
+    marginTop: 24,
     padding: 16,
     backgroundColor: palette.surface.input,
     borderRadius: 12,
