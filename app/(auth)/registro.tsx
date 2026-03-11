@@ -139,6 +139,7 @@ export default function RegistroScreen() {
               icon="lock-closed-outline"
               placeholder="Contraseña"
               secureTextEntry
+              showTogglePassword
               autoComplete="new-password"
               variant="bottom"
               editable={!loading}

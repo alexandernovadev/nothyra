@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Controller, Control, FieldPath, FieldValues } from 'react-hook-form';
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
@@ -12,6 +12,8 @@ type FormFieldProps<T extends FieldValues> = {
   placeholder: string;
   error?: string;
   secureTextEntry?: boolean;
+  /** Muestra un icono de ojo para alternar visibilidad cuando secureTextEntry es true */
+  showTogglePassword?: boolean;
   editable?: boolean;
   /** Estilo del input: 'top' | 'middle' | 'bottom' para bordes redondeados */
   variant?: 'top' | 'middle' | 'bottom';
@@ -24,10 +26,14 @@ export function FormField<T extends FieldValues>({
   placeholder,
   error,
   secureTextEntry,
+  showTogglePassword,
   editable = true,
   variant = 'middle',
   ...rest
 }: FormFieldProps<T>) {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const inputRef = useRef<TextInput | null>(null);
+
   const inputStyle = [
     styles.input,
     variant === 'top' && styles.inputTop,
@@ -48,17 +54,31 @@ export function FormField<T extends FieldValues>({
             style={styles.icon}
           />
           <TextInput
+            ref={inputRef}
             placeholder={placeholder}
             placeholderTextColor={palette.text.secondary}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            secureTextEntry={secureTextEntry}
+            secureTextEntry={secureTextEntry && !isPasswordVisible}
             editable={editable}
             style={inputStyle}
             autoCapitalize="none"
             {...rest}
           />
+          {secureTextEntry && showTogglePassword && (
+            <Ionicons
+              name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+              size={20}
+              color={palette.text.secondary}
+              style={styles.toggleIcon}
+              onPress={() => {
+                setIsPasswordVisible((prev) => !prev);
+                // Mantener foco para que el teclado no cambie/desaparezca
+                inputRef.current?.focus();
+              }}
+            />
+          )}
         </View>
       )}
     />
@@ -78,9 +98,16 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: palette.surface.input,
     paddingLeft: 48,
+    paddingRight: 44,
     paddingVertical: 14,
     fontSize: 16,
     color: palette.text.primary,
+  },
+  toggleIcon: {
+    position: 'absolute',
+    right: 14,
+    top: 14,
+    zIndex: 1,
   },
   inputTop: {
     borderTopLeftRadius: 22,

@@ -130,6 +130,7 @@ export default function LoginScreen() {
               icon="lock-closed-outline"
               placeholder="Contraseña"
               secureTextEntry
+              showTogglePassword
               autoComplete="password"
               variant="bottom"
               editable={!loading}
