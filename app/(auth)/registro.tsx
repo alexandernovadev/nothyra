@@ -1,5 +1,5 @@
 import { palette, authGradient } from "@/constants/palette";
-import { Ionicons } from "@expo/vector-icons";
+import { FormField } from "@/components/ui/form-field";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -11,135 +11,118 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  TextInput,
   View
 } from "react-native";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { auth } from "@/lib/firebase";
+import { registroSchema, type RegistroFormData } from "@/lib/forms";
+
+const defaultValues: RegistroFormData = {
+  name: "",
+  email: "",
+  password: "",
+};
 
 export default function RegistroScreen() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<RegistroFormData>({
+    resolver: zodResolver(registroSchema),
+    defaultValues,
+  });
 
   useEffect(() => {
     const subscription = BackHandler.addEventListener("hardwareBackPress", () => true);
     return () => subscription.remove();
   }, []);
 
-  const handleRegister = async () => {
-    if (!email.trim() || !password) {
-      setError("Ingresa correo y contraseña.");
-      return;
-    }
-    if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
-      return;
-    }
-
+  const onSubmit = async (data: RegistroFormData) => {
     setLoading(true);
-    setError("");
+    setServerError("");
 
     try {
-      await createUserWithEmailAndPassword(auth, email.trim(), password);
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
       router.replace("/(tabs)");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Error al crear cuenta.";
       if (message.includes("auth/email-already-in-use")) {
-        setError("Ya existe una cuenta con este correo.");
+        setError("email", { message: "Ya existe una cuenta con este correo." });
       } else if (message.includes("auth/invalid-email")) {
-        setError("Correo electrónico no válido.");
+        setError("email", { message: "Correo electrónico no válido." });
       } else if (message.includes("auth/weak-password")) {
-        setError("La contraseña debe tener al menos 6 caracteres.");
+        setError("password", { message: "La contraseña debe tener al menos 6 caracteres." });
       } else {
-        setError(message);
+        setServerError(message);
       }
     } finally {
       setLoading(false);
     }
   };
 
+  const displayError =
+    errors.root?.message ??
+    serverError ??
+    errors.email?.message ??
+    errors.password?.message;
+
   return (
-    <LinearGradient
-      colors={authGradient}
-      style={styles.container}
-    >
+    <LinearGradient colors={authGradient} style={styles.container}>
       <View style={styles.textContainer}>
         <Image
           source={require("@/assets/images/nothyra/NothyraLogo.png")}
           resizeMode="contain"
           style={styles.logoImage}
         />
-        <Text style={styles.textLogo}>
-          Tu espacio saludable y divertido
-        </Text>
+        <Text style={styles.textLogo}>Tu espacio saludable y divertido</Text>
 
         <View style={styles.form}>
-          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+          {displayError ? (
+            <Text style={styles.errorText}>{displayError}</Text>
+          ) : null}
           <View style={styles.inputsGroup}>
-            <View style={styles.inputWrapper}>
-              <Ionicons
-                name="person-outline"
-                size={22}
-                color={palette.text.secondary}
-                style={styles.inputIcon}
-              />
-              <TextInput
-                placeholder="Nombre"
-                placeholderTextColor={palette.text.secondary}
-                autoCapitalize="words"
-                autoComplete="name"
-                value={name}
-                onChangeText={(t) => { setName(t); setError(""); }}
-                style={styles.inputName}
-                editable={!loading}
-              />
-            </View>
-            <View style={styles.inputWrapper}>
-              <Ionicons
-                name="mail-outline"
-                size={22}
-                color={palette.text.secondary}
-                style={styles.inputIcon}
-              />
-              <TextInput
-                placeholder="Correo electrónico"
-                placeholderTextColor={palette.text.secondary}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                autoComplete="email"
-                value={email}
-                onChangeText={(t) => { setEmail(t); setError(""); }}
-                style={styles.inputEmail}
-                editable={!loading}
-              />
-            </View>
-            <View style={styles.inputWrapper}>
-              <Ionicons
-                name="lock-closed-outline"
-                size={22}
-                color={palette.text.secondary}
-                style={styles.inputIcon}
-              />
-              <TextInput
-                placeholder="Contraseña"
-                placeholderTextColor={palette.text.secondary}
-                autoCapitalize="none"
-                secureTextEntry
-                autoComplete="new-password"
-                value={password}
-                onChangeText={(t) => { setPassword(t); setError(""); }}
-                style={styles.inputPassword}
-                editable={!loading}
-              />
-            </View>
+            <FormField<RegistroFormData>
+              control={control}
+              name="name"
+              icon="person-outline"
+              placeholder="Nombre"
+              autoCapitalize="words"
+              autoComplete="name"
+              variant="top"
+              editable={!loading}
+            />
+            <FormField<RegistroFormData>
+              control={control}
+              name="email"
+              icon="mail-outline"
+              placeholder="Correo electrónico"
+              keyboardType="email-address"
+              autoComplete="email"
+              variant="middle"
+              editable={!loading}
+            />
+            <FormField<RegistroFormData>
+              control={control}
+              name="password"
+              icon="lock-closed-outline"
+              placeholder="Contraseña"
+              secureTextEntry
+              autoComplete="new-password"
+              variant="bottom"
+              editable={!loading}
+            />
           </View>
           <Pressable
             style={[styles.btn, loading && styles.btnDisabled]}
-            onPress={handleRegister}
+            onPress={handleSubmit(onSubmit)}
             disabled={loading}
           >
             {loading ? (
@@ -165,7 +148,7 @@ export default function RegistroScreen() {
 
       <Image
         source={require("@/assets/images/nothyra/nothyhd.png")}
-        style={[styles.layer]}
+        style={styles.layer}
         resizeMode="stretch"
       />
       <Image
@@ -178,9 +161,7 @@ export default function RegistroScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
   textContainer: {
     position: "absolute",
     width: "100%",
@@ -189,10 +170,7 @@ const styles = StyleSheet.create({
     paddingTop: 32,
     zIndex: 10,
   },
-  logoImage: {
-    width: "100%",
-    height: 190,
-  },
+  logoImage: { width: "100%", height: 190 },
   textLogo: {
     color: palette.text.primary,
     fontSize: 16,
@@ -201,10 +179,7 @@ const styles = StyleSheet.create({
     position: "relative",
     top: -24,
   },
-  form: {
-    width: "100%",
-    gap: 16,
-  },
+  form: { width: "100%", gap: 16 },
   errorText: {
     color: palette.semantic.error,
     fontSize: 14,
@@ -213,47 +188,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
   },
-  inputsGroup: {
-    width: "100%",
-  },
-  inputWrapper: {
-    position: "relative",
-  },
-  inputIcon: {
-    position: "absolute",
-    left: 14,
-    top: 14,
-    zIndex: 1,
-  },
-  inputName: {
-    backgroundColor: palette.surface.input,
-    borderTopLeftRadius: 22,
-    borderTopRightRadius: 22,
-    borderBottomWidth: 2,
-    borderBottomColor: palette.border.light,
-    paddingLeft: 48,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: palette.text.primary,
-  },
-  inputEmail: {
-    backgroundColor: palette.surface.input,
-    borderBottomWidth: 2,
-    borderBottomColor: palette.border.light,
-    paddingLeft: 48,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: palette.text.primary,
-  },
-  inputPassword: {
-    backgroundColor: palette.surface.input,
-    borderBottomLeftRadius: 22,
-    borderBottomRightRadius: 22,
-    paddingLeft: 48,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: palette.text.primary,
-  },
+  inputsGroup: { width: "100%" },
   btn: {
     backgroundColor: palette.brand.primary,
     borderRadius: 22,
@@ -262,17 +197,13 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
-  btnDisabled: {
-    opacity: 0.7,
-  },
+  btnDisabled: { opacity: 0.7 },
   btnText: {
     color: palette.text.inverse,
     fontSize: 14,
     fontWeight: "600",
   },
-  btnSecondary: {
-    backgroundColor: palette.brand.secondary,
-  },
+  btnSecondary: { backgroundColor: palette.brand.secondary },
   separator: {
     flexDirection: "row",
     alignItems: "center",
