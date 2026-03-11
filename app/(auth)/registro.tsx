@@ -76,6 +76,7 @@ export default function RegistroScreen() {
 
       router.replace("/(tabs)");
     } catch (err: unknown) {
+      console.error('[Registro] Error:', err);
       const message = err instanceof Error ? err.message : "Error al crear cuenta.";
       if (message.includes("auth/email-already-in-use")) {
         setError("email", { message: "Ya existe una cuenta con este correo." });

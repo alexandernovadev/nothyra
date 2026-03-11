@@ -54,8 +54,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
 
         setRole(nextRole);
-      } catch {
-        // Si falla la carga del rol, asumimos usuario normal
+      } catch (err) {
+        // Log para depurar: Firestore puede fallar por reglas o conexión
+        console.error('[Auth] Firestore users/{uid}:', err);
         setRole('user');
       } finally {
         setIsLoading(false);
