@@ -1,12 +1,15 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 type AuthContextType = {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   email: string | null;
+  role: 'admin' | 'user' | null;
+  isAdmin: boolean;
   logout: () => Promise<void>;
 };
 
@@ -15,11 +18,29 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [role, setRole] = useState<'admin' | 'user' | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-      setIsLoading(false);
+
+      if (!currentUser) {
+        setRole(null);
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        const snap = await getDoc(userRef);
+        const data = snap.data() as { role?: 'admin' | 'user' } | undefined;
+        setRole(data?.role ?? 'user');
+      } catch {
+        // Si falla la carga del rol, asumimos usuario normal
+        setRole('user');
+      } finally {
+        setIsLoading(false);
+      }
     });
     return unsubscribe;
   }, []);
@@ -35,6 +56,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoading,
         isAuthenticated: !!user,
         email: user?.email ?? null,
+        role,
+        isAdmin: role === 'admin',
         logout,
       }}
     >

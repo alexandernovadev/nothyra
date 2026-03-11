@@ -1,9 +1,10 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Btn } from '@/components/ui/btn';
 import { useAuth } from '@/contexts/auth-context';
 import { palette } from '@/constants/palette';
 import { useRouter } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 /**
  * Más
@@ -24,19 +25,19 @@ export default function MasScreen() {
     <ThemedView style={styles.container}>
       <ThemedText type="title">Más</ThemedText>
       <ScrollView style={styles.scroll}>
-        <Pressable
+        <Btn
           style={styles.row}
           onPress={() => router.push('/(tabs)/mas/perfil')}
         >
           <ThemedText type="defaultSemiBold">Perfil</ThemedText>
           <ThemedText style={styles.rowSubtext}>{email ?? 'Editar perfil'}</ThemedText>
-        </Pressable>
+        </Btn>
 
-        <Pressable style={styles.logoutBtn} onPress={handleLogout}>
+        <Btn style={styles.logoutBtn} onPress={handleLogout}>
           <ThemedText type="defaultSemiBold" style={styles.logoutBtnText}>
             Cerrar sesión
           </ThemedText>
-        </Pressable>
+        </Btn>
 
         <ThemedText style={styles.version}>Versión 1.0.0</ThemedText>
       </ScrollView>

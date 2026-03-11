@@ -1,5 +1,6 @@
 import { palette, authGradient } from "@/constants/palette";
 import { FormField } from "@/components/ui/form-field";
+import { Btn } from "@/components/ui/btn";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -7,7 +8,6 @@ import React, { useState } from "react";
 import {
   ActivityIndicator,
   Image,
-  Pressable,
   StyleSheet,
   Text,
   View
@@ -102,7 +102,7 @@ export default function LoginScreen() {
               editable={!loading}
             />
           </View>
-          <Pressable
+          <Btn
             style={[styles.btn, loading && styles.btnDisabled]}
             onPress={handleSubmit(onSubmit)}
             disabled={loading}
@@ -112,26 +112,26 @@ export default function LoginScreen() {
             ) : (
               <Text style={styles.btnText}>Iniciar Sesión</Text>
             )}
-          </Pressable>
+          </Btn>
           <View style={styles.separator}>
             <View style={styles.separatorLine} />
             <Text style={styles.separatorText}> o </Text>
             <View style={styles.separatorLine} />
           </View>
-          <Pressable
+          <Btn
             style={[styles.btn, styles.btnSecondary]}
             onPress={() => router.push("/(auth)/registro")}
             disabled={loading}
           >
             <Text style={styles.btnText}>Crear cuenta nueva</Text>
-          </Pressable>
-          <Pressable style={styles.btnGoogle} disabled={loading}>
+          </Btn>
+          <Btn style={styles.btnGoogle} disabled={loading}>
             <Image
               source={require("@/assets/images/nothyra/google.png")}
               style={styles.googleLogo}
               resizeMode="contain"
             />
-          </Pressable>
+          </Btn>
         </View>
       </View>
 

@@ -1,13 +1,14 @@
 import { FormField } from '@/components/ui/form-field';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Btn } from '@/components/ui/btn';
 import { useAuth } from '@/contexts/auth-context';
 import { palette } from '@/constants/palette';
 import { perfilSchema, type PerfilFormData } from '@/lib/forms';
 import { useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 /**
  * Perfil - Formulario para editar perfil (nombre, email)
@@ -34,9 +35,9 @@ export default function PerfilScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <Pressable onPress={() => router.back()} style={styles.back}>
+      <Btn onPress={() => router.back()} style={styles.back}>
         <ThemedText type="link">← Volver</ThemedText>
-      </Pressable>
+      </Btn>
       <ThemedText type="title">Perfil</ThemedText>
       <ThemedText style={styles.subtitle}>Editar información personal</ThemedText>
 
@@ -62,7 +63,7 @@ export default function PerfilScreen() {
           <ThemedText style={styles.errorText}>{errors.root.message}</ThemedText>
         ) : null}
 
-        <Pressable
+        <Btn
           style={[styles.btn, !isDirty && styles.btnDisabled]}
           onPress={handleSubmit(onSubmit)}
           disabled={!isDirty}
@@ -70,7 +71,7 @@ export default function PerfilScreen() {
           <ThemedText type="defaultSemiBold" style={styles.btnText}>
             Guardar cambios
           </ThemedText>
-        </Pressable>
+        </Btn>
       </View>
     </ThemedView>
   );

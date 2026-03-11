@@ -1,6 +1,7 @@
 import { palette, authGradient } from "@/constants/palette";
 import { FormField } from "@/components/ui/form-field";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Btn } from "@/components/ui/btn";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -8,7 +9,6 @@ import {
   ActivityIndicator,
   BackHandler,
   Image,
-  Pressable,
   StyleSheet,
   Text,
   View
@@ -16,8 +16,9 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { registroSchema, type RegistroFormData } from "@/lib/forms";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const defaultValues: RegistroFormData = {
   name: "",
@@ -50,7 +51,29 @@ export default function RegistroScreen() {
     setServerError("");
 
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const cred = await createUserWithEmailAndPassword(auth, data.email, data.password);
+
+      // Actualizar displayName en Firebase Auth
+      if (cred.user && data.name) {
+        await updateProfile(cred.user, { displayName: data.name });
+      }
+
+      // Crear documento de usuario en Firestore con rol por defecto "user"
+      if (cred.user) {
+        const userRef = doc(db, "users", cred.user.uid);
+        await setDoc(
+          userRef,
+          {
+            uid: cred.user.uid,
+            email: cred.user.email,
+            displayName: data.name || cred.user.displayName || "",
+            role: "user",
+            createdAt: serverTimestamp(),
+          },
+          { merge: true },
+        );
+      }
+
       router.replace("/(tabs)");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Error al crear cuenta.";
@@ -120,7 +143,7 @@ export default function RegistroScreen() {
               editable={!loading}
             />
           </View>
-          <Pressable
+          <Btn
             style={[styles.btn, loading && styles.btnDisabled]}
             onPress={handleSubmit(onSubmit)}
             disabled={loading}
@@ -130,19 +153,19 @@ export default function RegistroScreen() {
             ) : (
               <Text style={styles.btnText}>Crear cuenta</Text>
             )}
-          </Pressable>
+          </Btn>
           <View style={styles.separator}>
             <View style={styles.separatorLine} />
             <Text style={styles.separatorText}> ¿Ya tienes cuenta? </Text>
             <View style={styles.separatorLine} />
           </View>
-          <Pressable
+          <Btn
             style={[styles.btn, styles.btnSecondary]}
             onPress={() => router.push("/(auth)/login")}
             disabled={loading}
           >
             <Text style={styles.btnText}>Iniciar sesión</Text>
-          </Pressable>
+          </Btn>
         </View>
       </View>
 
