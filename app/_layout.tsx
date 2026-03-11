@@ -29,7 +29,6 @@ function RootLayoutNav() {
     setStatusBarHidden(true, 'none');
     if (Platform.OS === 'android') {
       NavigationBar.setVisibilityAsync('hidden');
-      NavigationBar.setBehaviorAsync('inset-swipe');
     }
   }, []);
 
