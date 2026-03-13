@@ -15,8 +15,8 @@ type FormFieldProps<T extends FieldValues> = {
   /** Muestra un icono de ojo para alternar visibilidad cuando secureTextEntry es true */
   showTogglePassword?: boolean;
   editable?: boolean;
-  /** Estilo del input: 'top' | 'middle' | 'bottom' para bordes redondeados */
-  variant?: 'top' | 'middle' | 'bottom';
+  /** Estilo del input: 'top' | 'middle' | 'bottom' | 'single' para bordes redondeados */
+  variant?: 'top' | 'middle' | 'bottom' | 'single';
 } & Omit<TextInputProps, 'placeholder' | 'secureTextEntry' | 'editable'>;
 
 export function FormField<T extends FieldValues>({
@@ -39,6 +39,7 @@ export function FormField<T extends FieldValues>({
     variant === 'top' && styles.inputTop,
     variant === 'middle' && styles.inputMiddle,
     variant === 'bottom' && styles.inputBottom,
+    variant === 'single' && styles.inputSingle,
   ].filter(Boolean);
 
   return (
@@ -60,7 +61,6 @@ export function FormField<T extends FieldValues>({
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            keyboardType= 'default'
             secureTextEntry={secureTextEntry && !isPasswordVisible}
             editable={editable}
             style={[inputStyle,
@@ -127,5 +127,8 @@ const styles = StyleSheet.create({
   inputBottom: {
     borderBottomLeftRadius: 22,
     borderBottomRightRadius: 22,
+  },
+  inputSingle: {
+    borderRadius: 22,
   },
 });
