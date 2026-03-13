@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     padding: 32,
     gap: 16,
     overflow: 'hidden',
-    paddingTop: 60,
+    paddingTop: 30,
     paddingLeft: 48,
     paddingRight: 48,
     // backgroundColor:'red',
