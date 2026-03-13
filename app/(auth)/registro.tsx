@@ -93,9 +93,9 @@ export default function RegistroScreen() {
   };
 
   const displayError =
-    errors.root?.message ??
-    serverError ??
-    errors.email?.message ??
+    errors.root?.message ||
+    serverError ||
+    errors.email?.message ||
     errors.password?.message;
 
   return (
