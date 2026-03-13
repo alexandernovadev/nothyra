@@ -3,8 +3,11 @@ import { Btn } from '@/components/ui/btn';
 import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import { palette } from '@/constants/palette';
 import { useAuth } from '@/contexts/auth-context';
+import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
+const appVersion = Constants.expoConfig?.version ?? '1.0.0';
 
 function getInitials(displayName: string | null | undefined, email: string | null | undefined): string {
   if (displayName?.trim()) {
@@ -77,7 +80,7 @@ export default function MasScreen() {
             </ThemedText>
           </Btn>
 
-          <ThemedText style={styles.version}>Versión 1.0.0</ThemedText>
+          <ThemedText style={styles.version}>Versión {appVersion}</ThemedText>
         </ScrollView>
       </View>
     </MainLayout>
