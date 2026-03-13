@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { Controller, Control, FieldPath, FieldValues } from 'react-hook-form';
+import React, { useRef, useState } from 'react';
+import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form';
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 
 import { palette } from '@/constants/palette';
@@ -60,9 +60,12 @@ export function FormField<T extends FieldValues>({
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
+            keyboardType= 'default'
             secureTextEntry={secureTextEntry && !isPasswordVisible}
             editable={editable}
-            style={inputStyle}
+            style={[inputStyle,
+              name === 'password' && { paddingRight: 44 },
+            ]}
             autoCapitalize="none"
             {...rest}
           />
@@ -98,16 +101,18 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: palette.surface.input,
     paddingLeft: 48,
-    paddingRight: 44,
     paddingVertical: 14,
     fontSize: 16,
     color: palette.text.primary,
   },
   toggleIcon: {
     position: 'absolute',
-    right: 14,
-    top: 14,
+    right: 0,
+    top: 0,
     zIndex: 1,
+    paddingVertical: 16,
+    paddingHorizontal: 10,
+    paddingRight: 20,
   },
   inputTop: {
     borderTopLeftRadius: 22,

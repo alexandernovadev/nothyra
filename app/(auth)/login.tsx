@@ -97,7 +97,7 @@ export default function LoginScreen() {
     }
   };
 
-  const displayError = errors.root?.message ?? serverError ?? errors.email?.message ?? errors.password?.message;
+  const displayError = errors.root?.message|| serverError || errors.email?.message || errors.password?.message;
 
   return (
     <LinearGradient colors={mainGradient} style={styles.container}>
@@ -108,7 +108,6 @@ export default function LoginScreen() {
           style={styles.logoImage}
         />
         <Text style={styles.textLogo}>Tu espacio saludable y divertido</Text>
-
         <View style={styles.form}>
           {displayError ? (
             <Text style={styles.errorText}>{displayError}</Text>
