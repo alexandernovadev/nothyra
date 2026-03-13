@@ -1,13 +1,13 @@
-import { FormField } from '@/components/ui/form-field';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { Btn } from '@/components/ui/btn';
-import { useAuth } from '@/contexts/auth-context';
+import { FormField } from '@/components/ui/form-field';
+import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import { palette } from '@/constants/palette';
+import { useAuth } from '@/contexts/auth-context';
 import { perfilSchema, type PerfilFormData } from '@/lib/forms';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { StyleSheet, View } from 'react-native';
 
 /**
@@ -34,7 +34,8 @@ export default function PerfilScreen() {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <MainLayout>
+      <View style={styles.container}>
       <Btn onPress={() => router.back()} style={styles.back}>
         <ThemedText type="link">← Volver</ThemedText>
       </Btn>
@@ -73,15 +74,15 @@ export default function PerfilScreen() {
           </ThemedText>
         </Btn>
       </View>
-    </ThemedView>
+      </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    paddingTop: 60,
+
   },
   back: { marginBottom: 16 },
   subtitle: {

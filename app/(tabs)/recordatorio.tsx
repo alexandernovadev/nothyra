@@ -1,7 +1,7 @@
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import { palette } from '@/constants/palette';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 /**
  * Recordatorio (píldora)
@@ -10,32 +10,102 @@ import { StyleSheet, View } from 'react-native';
  */
 export default function RecordatorioScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">Recordatorio</ThemedText>
-      <ThemedText style={styles.subtitle}>
-        Recordatorios de píldoras y medicamentos
-      </ThemedText>
-      <View style={styles.placeholder}>
-        <ThemedText style={styles.placeholderText}>
-          [Lista de medicamentos]
+    <MainLayout>
+      <View style={styles.container}>
+        <ThemedText type="title">Recordatorio</ThemedText>
+        <ThemedText style={styles.subtitle}>
+          Recordatorios de píldoras y medicamentos
         </ThemedText>
-        <ThemedText style={styles.placeholderText}>
-          [Horarios y alertas]
-        </ThemedText>
-      </View>
-    </ThemedView>
+
+        <ScrollView style={styles.scroll}>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
+
+        </ScrollView>
+      </View> 
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    paddingTop: 60,
   },
   subtitle: {
-    marginTop: 8,
     color: palette.text.secondary,
+  },
+  scroll: {
+    zIndex: 9999,
   },
   placeholder: {
     marginTop: 24,

@@ -16,7 +16,7 @@ export const palette = {
 
   brand: {
     primary: "#6d41b0",
-    secondary: "#51a018",
+    secondary: "#299419",
     accent: "#a1e1e1",
     accentEnd: "#bce2d4",
   },
@@ -58,5 +58,8 @@ export const palette = {
   },
 } as const;
 
-/** Auth gradient colors [start, end] */
-export const authGradient = [palette.brand.accent, palette.brand.accentEnd] as const;
+/** Main gradient colors [start, end] */
+export const mainGradient = [
+  palette.brand.accent,
+  palette.brand.accentEnd,
+] as const;

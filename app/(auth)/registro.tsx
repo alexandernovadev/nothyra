@@ -1,10 +1,12 @@
-import { palette, authGradient } from "@/constants/palette";
-import { FormField } from "@/components/ui/form-field";
 import { Btn } from "@/components/ui/btn";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { FormField } from "@/components/ui/form-field";
+import { mainGradient, palette } from "@/constants/palette";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   ActivityIndicator,
   BackHandler,
@@ -13,8 +15,6 @@ import {
   Text,
   View
 } from "react-native";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { auth, db } from "@/lib/firebase";
 import { registroSchema, type RegistroFormData } from "@/lib/forms";
@@ -99,7 +99,7 @@ export default function RegistroScreen() {
     errors.password?.message;
 
   return (
-    <LinearGradient colors={authGradient} style={styles.container}>
+    <LinearGradient colors={mainGradient} style={styles.container}>
       <View style={styles.textContainer}>
         <Image
           source={require("@/assets/images/nothyra/NothyraLogo.png")}
@@ -256,6 +256,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: "25%",
+    height: "22%",
   },
 });

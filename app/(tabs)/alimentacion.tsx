@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import { palette } from '@/constants/palette';
 import { StyleSheet, View } from 'react-native';
 
@@ -10,7 +10,8 @@ import { StyleSheet, View } from 'react-native';
  */
 export default function AlimentacionScreen() {
   return (
-    <ThemedView style={styles.container}>
+    <MainLayout>
+      <View style={styles.container}>
       <ThemedText type="title">Plan de alimentación</ThemedText>
       <ThemedText style={styles.subtitle}>
         Tarjetas de comidas y formulario para agregar
@@ -23,15 +24,14 @@ export default function AlimentacionScreen() {
           [Formulario agregar comida/receta]
         </ThemedText>
       </View>
-    </ThemedView>
+      </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    paddingTop: 60,
   },
   subtitle: {
     marginTop: 8,

@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import { palette } from '@/constants/palette';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
@@ -9,7 +9,8 @@ import { ScrollView, StyleSheet, View } from 'react-native';
  */
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
+    <MainLayout>
+      <View style={styles.container}>
       <ThemedText type="title">Home</ThemedText>
       <ThemedText style={styles.subtitle}>
         Información de enfermedades
@@ -24,15 +25,14 @@ export default function HomeScreen() {
           </ThemedText>
         </View>
       </ScrollView>
-    </ThemedView>
+      </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    paddingTop: 60,
   },
   subtitle: {
     marginTop: 8,
