@@ -153,7 +153,7 @@ export default function LoginScreen() {
           </View>
           <Btn
             style={[styles.btn, styles.btnSecondary]}
-            onPress={() => router.push("/(auth)/registro")}
+            onPress={() => router.push("/(auth)/sign-up")}
             disabled={loading}
           >
             <Text style={styles.btnText}>Crear cuenta nueva</Text>

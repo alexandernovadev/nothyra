@@ -17,16 +17,16 @@ import {
 } from "react-native";
 
 import { auth, db } from "@/lib/firebase";
-import { registroSchema, type RegistroFormData } from "@/lib/forms";
+import { signUpSchema, type SignUpFormData } from "@/lib/forms";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
-const defaultValues: RegistroFormData = {
+const defaultValues: SignUpFormData = {
   name: "",
   email: "",
   password: "",
 };
 
-export default function RegistroScreen() {
+export default function SignUpScreen() {
   const router = useRouter();
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,8 +36,8 @@ export default function RegistroScreen() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<RegistroFormData>({
-    resolver: zodResolver(registroSchema),
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
     defaultValues,
   });
 
@@ -46,19 +46,17 @@ export default function RegistroScreen() {
     return () => subscription.remove();
   }, []);
 
-  const onSubmit = async (data: RegistroFormData) => {
+  const onSubmit = async (data: SignUpFormData) => {
     setLoading(true);
     setServerError("");
 
     try {
       const cred = await createUserWithEmailAndPassword(auth, data.email, data.password);
 
-      // Actualizar displayName en Firebase Auth
       if (cred.user && data.name) {
         await updateProfile(cred.user, { displayName: data.name });
       }
 
-      // Crear documento de usuario en Firestore con rol por defecto "user"
       if (cred.user) {
         const userRef = doc(db, "users", cred.user.uid);
         await setDoc(
@@ -76,7 +74,7 @@ export default function RegistroScreen() {
 
       router.replace("/(tabs)");
     } catch (err: unknown) {
-      console.error('[Registro] Error:', err);
+      console.error("[SignUp] Error:", err);
       const message = err instanceof Error ? err.message : "Error al crear cuenta.";
       if (message.includes("auth/email-already-in-use")) {
         setError("email", { message: "Ya existe una cuenta con este correo." });
@@ -113,7 +111,7 @@ export default function RegistroScreen() {
             <Text style={styles.errorText}>{displayError}</Text>
           ) : null}
           <View style={styles.inputsGroup}>
-            <FormField<RegistroFormData>
+            <FormField<SignUpFormData>
               control={control}
               name="name"
               icon="person-outline"
@@ -123,7 +121,7 @@ export default function RegistroScreen() {
               variant="top"
               editable={!loading}
             />
-            <FormField<RegistroFormData>
+            <FormField<SignUpFormData>
               control={control}
               name="email"
               icon="mail-outline"
@@ -133,7 +131,7 @@ export default function RegistroScreen() {
               variant="middle"
               editable={!loading}
             />
-            <FormField<RegistroFormData>
+            <FormField<SignUpFormData>
               control={control}
               name="password"
               icon="lock-closed-outline"

@@ -24,28 +24,28 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="sintomas"
+        name="symptoms"
         options={{
           title: 'Síntomas',
           tabBarIcon: ({ color }) => <Ionicons name="medical" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="recordatorio"
+        name="reminders"
         options={{
           title: 'Recordatorio',
           tabBarIcon: ({ color }) => <Ionicons name="notifications" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="alimentacion"
+        name="nutrition"
         options={{
           title: 'Alimentación',
           tabBarIcon: ({ color }) => <Ionicons name="restaurant" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="mas"
+        name="more"
         options={{
           title: 'Más',
           tabBarIcon: ({ color }) => <Ionicons name="ellipsis-horizontal" size={24} color={color} />,

@@ -1,17 +1,17 @@
 /**
  * Nothyra color palette.
- * Orden y jerarquía: usar siempre tokens, nunca colores quemados.
+ * Order: always use tokens, never hard-coded hex in components.
  *
- * 1. background  - Fondo principal de la app
- * 2. brand       - Identidad Nothyra
- * 3. surface     - Fondos de superficies (inputs, overlays)
- * 4. text        - Texto
- * 5. border      - Bordes
- * 6. semantic    - Estados (éxito, error, advertencia)
+ * 1. background — app base
+ * 2. brand      — Nothyra identity
+ * 3. surface    — inputs, overlays
+ * 4. text       — typography
+ * 5. border     — dividers
+ * 6. semantic   — success, error, warning, info
  */
 
 export const palette = {
-  /** Fondo principal de pantallas */
+  /** Primary screen background */
   background: "#ffffff",
 
   brand: {
@@ -31,7 +31,7 @@ export const palette = {
     secondary: "#7B8B8E",
     muted: "#666",
     inverse: "#fff",
-    /** Texto sobre fondos oscuros/brand (ej. tab bar inactivo) */
+    /** Text on dark / brand surfaces (e.g. inactive tab label) */
     inverseMuted: "rgba(255, 255, 255, 0.6)",
   },
 
@@ -43,14 +43,14 @@ export const palette = {
   semantic: {
     success: "#51a018",
     error: "#d32f2f",
-    /** Fondo suave para mensajes de error */
+    /** Soft fill for inline error messages */
     errorMuted: "rgba(211, 47, 47, 0.15)",
     warning: "#f5a623",
     info: "#0a7ea4",
   },
   /**
-   * Para app.json / Expo (no importable en JSON).
-   * Mantener en sync: adaptiveIconBg, splashBg = background
+   * Mirrors app.json / Expo config (not importable from JSON).
+   * Keep in sync: adaptiveIconBg, splashBg ≈ background
    */
   config: {
     adaptiveIconBg: "#E6F4FE",

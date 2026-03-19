@@ -1,10 +1,10 @@
 import { Stack } from 'expo-router';
 
-export default function MasLayout() {
+export default function MoreStackLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
-      <Stack.Screen name="perfil" />
+      <Stack.Screen name="profile" />
     </Stack>
   );
 }

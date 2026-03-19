@@ -25,12 +25,9 @@ function getInitials(displayName: string | null | undefined, email: string | nul
 }
 
 /**
- * Más
- * - Iniciales en círculo, nombre, email, rol
- * - Perfil => formulario editar perfil
- * - Botón logout
+ * More tab: avatar initials, name, email, role; link to profile; logout.
  */
-export default function MasScreen() {
+export default function MoreScreen() {
   const { logout, email, user, role } = useAuth();
   const router = useRouter();
   const displayName = user?.displayName ?? '';
@@ -67,7 +64,7 @@ export default function MasScreen() {
 
           <Btn
             style={styles.editBtn}
-            onPress={() => router.push('/(tabs)/mas/perfil')}
+            onPress={() => router.push('/(tabs)/more/profile')}
           >
             <ThemedText type="defaultSemiBold" style={styles.editBtnText}>
               Editar 

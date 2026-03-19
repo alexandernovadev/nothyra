@@ -5,7 +5,7 @@ import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import { palette } from '@/constants/palette';
 import { useAuth } from '@/contexts/auth-context';
 import { db } from '@/lib/firebase';
-import { perfilSchema, type PerfilFormData } from '@/lib/forms';
+import { profileSchema, type ProfileFormData } from '@/lib/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
 import { updateProfile } from 'firebase/auth';
@@ -15,9 +15,9 @@ import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 
 /**
- * Perfil - Formulario para editar perfil (nombre). Rol y email son solo lectura.
+ * Profile: edit display name. Role and email are read-only.
  */
-export default function PerfilScreen() {
+export default function ProfileScreen() {
   const { user, email, role } = useAuth();
   const router = useRouter();
   const [saveError, setSaveError] = useState('');
@@ -26,14 +26,14 @@ export default function PerfilScreen() {
     control,
     handleSubmit,
     formState: { errors, isDirty },
-  } = useForm<PerfilFormData>({
-    resolver: zodResolver(perfilSchema),
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
     defaultValues: {
       displayName: (user?.displayName as string) ?? '',
     },
   });
 
-  const onSubmit = async (data: PerfilFormData) => {
+  const onSubmit = async (data: ProfileFormData) => {
     if (!user) return;
     setSaveError('');
     try {
@@ -69,7 +69,7 @@ export default function PerfilScreen() {
         </View>
 
         <View style={styles.form}>
-          <FormField<PerfilFormData>
+          <FormField<ProfileFormData>
             control={control}
             name="displayName"
             icon="person-outline"

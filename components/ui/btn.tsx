@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Pressable,
   PressableProps,
+  PressableStateCallbackType,
   StyleProp,
   StyleSheet,
   ViewStyle,
@@ -11,32 +12,31 @@ import * as Haptics from 'expo-haptics';
 
 type BtnProps = PressableProps & {
   /**
-   * Si true, el botón ocupa el 100% del ancho disponible.
-   * Por defecto respeta el ancho que le dé el estilo externo.
+   * When true, the button stretches to full available width.
+   * Otherwise width comes from parent / `style`.
    */
   fullWidth?: boolean;
   /**
-   * Estilo adicional del contenedor.
-   * Se fusiona con el estilo base del botón.
+   * Extra container styles; merged with the base pressable style.
    */
-  style?: StyleProp<ViewStyle> | ((state: { pressed: boolean }) => StyleProp<ViewStyle>);
+  style?: StyleProp<ViewStyle> | ((state: PressableStateCallbackType) => StyleProp<ViewStyle>);
 };
 
 /**
- * Botón base reutilizable con haptic feedback.
- * No impone colores ni tipografía: el estilo visual se controla desde cada pantalla.
+ * Base pressable with light haptic on press-in.
+ * Visuals (colors, typography) are owned by each screen.
  */
 export function Btn({ fullWidth, style, onPressIn, disabled, ...rest }: BtnProps) {
   const handlePressIn: PressableProps['onPressIn'] = (event) => {
     if (!disabled && Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {
-        // Ignorar errores de haptics (por ejemplo en emuladores)
+        // Ignore haptics failures (e.g. simulators)
       });
     }
     onPressIn?.(event);
   };
 
-  const combinedStyle: BtnProps['style'] = (state) => {
+  const combinedStyle = (state: PressableStateCallbackType): StyleProp<ViewStyle> => {
     const baseStyles: StyleProp<ViewStyle>[] = [
       styles.base,
       fullWidth && styles.fullWidth,

@@ -4,11 +4,9 @@ import { palette } from '@/constants/palette';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 /**
- * Recordatorio (píldora)
- * - Recordatorios de medicamentos
- * - Horarios de toma
+ * Reminders tab: medications / pill schedules (placeholder).
  */
-export default function RecordatorioScreen() {
+export default function RemindersScreen() {
   return (
     <MainLayout>
       <View style={styles.container}>
@@ -18,6 +16,14 @@ export default function RecordatorioScreen() {
         </ThemedText>
 
         <ScrollView style={styles.scroll}>
+          <View style={styles.placeholder}>
+            <ThemedText style={styles.placeholderText}>
+              [Lista de medicamentos]
+            </ThemedText>
+            <ThemedText style={styles.placeholderText}>
+              [Horarios y alertas]
+            </ThemedText>
+          </View>
           <View style={styles.placeholder}>
             <ThemedText style={styles.placeholderText}>
               [Lista de medicamentos]

@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
 /**
- * Esquemas de validación para formularios de autenticación.
- * Orden: auth -> login, registro, etc.
+ * Auth form validation schemas (login, sign-up, etc.).
  */
 
 export const loginSchema = z.object({
@@ -16,7 +15,7 @@ export const loginSchema = z.object({
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
-export const registroSchema = z.object({
+export const signUpSchema = z.object({
   name: z.string().optional(),
   email: z
     .string()
@@ -28,4 +27,4 @@ export const registroSchema = z.object({
     .min(6, 'La contraseña debe tener al menos 6 caracteres'),
 });
 
-export type RegistroFormData = z.infer<typeof registroSchema>;
+export type SignUpFormData = z.infer<typeof signUpSchema>;

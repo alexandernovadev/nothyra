@@ -1,7 +1,6 @@
 /**
- * Form schemas - exportación centralizada.
- * Jerarquía: auth, perfil, ... (futuros: sintomas, alimentacion)
+ * Central export for form schemas (auth, profile, future domains).
  */
 
 export * from './auth';
-export * from './perfil';
+export * from './profile';

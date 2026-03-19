@@ -4,8 +4,7 @@ import { palette } from '@/constants/palette';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 /**
- * Home
- * - Información de enfermedades (genérico)
+ * Home tab: generic health info placeholder.
  */
 export default function HomeScreen() {
   return (

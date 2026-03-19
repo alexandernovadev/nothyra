@@ -4,24 +4,22 @@ import { palette } from '@/constants/palette';
 import { StyleSheet, View } from 'react-native';
 
 /**
- * Plan de alimentación
- * - Tarjetas de recetas/comidas
- * - Formulario para agregar
+ * Symptoms tab: list + add form (placeholder).
  */
-export default function AlimentacionScreen() {
+export default function SymptomsScreen() {
   return (
     <MainLayout>
       <View style={styles.container}>
-      <ThemedText type="title">Plan de alimentación</ThemedText>
+      <ThemedText type="title">Síntomas</ThemedText>
       <ThemedText style={styles.subtitle}>
-        Tarjetas de comidas y formulario para agregar
+        Lista de síntomas y formulario para agregar nuevos
       </ThemedText>
       <View style={styles.placeholder}>
         <ThemedText style={styles.placeholderText}>
-          [Tarjetas de recetas]
+          [Lista de síntomas]
         </ThemedText>
         <ThemedText style={styles.placeholderText}>
-          [Formulario agregar comida/receta]
+          [Formulario agregar síntoma]
         </ThemedText>
       </View>
       </View>
@@ -29,7 +27,7 @@ export default function AlimentacionScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({  
   container: {
     flex: 1,
   },
