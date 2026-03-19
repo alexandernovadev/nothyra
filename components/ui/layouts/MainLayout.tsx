@@ -16,11 +16,11 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         style={styles.layer}
         resizeMode="stretch"
       />
-      <Image
+      {/* <Image
         source={require("@/assets/images/nothyra/hdbordeshojas.png")}
         style={styles.fondo2}
         resizeMode="stretch"
-      />
+      /> */}
           <View style={styles.content}>
         {children}
       </View>
