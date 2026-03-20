@@ -23,10 +23,25 @@ export const ENERGY_LABELS_ES: Record<EnergyLevel, string> = {
   high: 'Alta',
 };
 
+/** Ionicons names for each energy level (chips, list cards). */
+export const ENERGY_LEVEL_ICONS: Record<EnergyLevel, string> = {
+  very_low: 'battery-dead-outline',
+  low: 'battery-half-outline',
+  normal: 'remove-outline',
+  high: 'flash-outline',
+};
+
 export const MOOD_LABELS_ES: Record<MoodLevel, string> = {
   depressed: 'Deprimido',
   normal: 'Normal',
   cheerful: 'Alegre',
+};
+
+/** Ionicons names for each mood (chips, list cards). */
+export const MOOD_LEVEL_ICONS: Record<MoodLevel, string> = {
+  depressed: 'sad-outline',
+  normal: 'ellipse-outline',
+  cheerful: 'happy-outline',
 };
 
 export const SYMPTOM_LABELS_ES: Record<SymptomId, string> = {

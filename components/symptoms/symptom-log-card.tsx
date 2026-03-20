@@ -2,13 +2,18 @@ import { ThemedText } from '@/components/themed-text';
 import type { EnergyLevel, MoodLevel, SymptomId } from '@/constants/symptom-log';
 import {
   ENERGY_LABELS_ES,
+  ENERGY_LEVEL_ICONS,
   formatCompactDateSpanish,
   MOOD_LABELS_ES,
+  MOOD_LEVEL_ICONS,
   SYMPTOM_LABELS_ES,
 } from '@/constants/symptom-log';
 import { palette } from '@/constants/palette';
 import { Ionicons } from '@expo/vector-icons';
+import type { ComponentProps } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+
+type IonName = ComponentProps<typeof Ionicons>['name'];
 
 const MAX_SYMPTOM_CHIPS = 4;
 const NOTES_PREVIEW_LINES = 2;
@@ -81,11 +86,19 @@ export function SymptomLogCard({
       <View style={styles.body}>
         <View style={styles.pillRow}>
           <View style={[styles.pill, styles.pillEnergy]}>
-            <Ionicons name="flash-outline" size={12} color={palette.brand.primary} />
+            <Ionicons
+              name={ENERGY_LEVEL_ICONS[energyLevel] as IonName}
+              size={12}
+              color={palette.brand.primary}
+            />
             <Text style={styles.pillText}>{ENERGY_LABELS_ES[energyLevel]}</Text>
           </View>
           <View style={[styles.pill, styles.pillMood]}>
-            <Ionicons name="happy-outline" size={12} color={palette.brand.secondary} />
+            <Ionicons
+              name={MOOD_LEVEL_ICONS[mood] as IonName}
+              size={12}
+              color={palette.brand.secondary}
+            />
             <Text style={styles.pillTextMood}>{MOOD_LABELS_ES[mood]}</Text>
           </View>
         </View>

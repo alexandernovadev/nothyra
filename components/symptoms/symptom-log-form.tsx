@@ -3,10 +3,12 @@ import { Btn } from '@/components/ui/btn';
 import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import {
   ENERGY_LABELS_ES,
+  ENERGY_LEVEL_ICONS,
   ENERGY_LEVELS,
   formatLongDateSpanish,
   getTodayDateKey,
   MOOD_LABELS_ES,
+  MOOD_LEVEL_ICONS,
   MOOD_LEVELS,
   SYMPTOM_IDS,
   SYMPTOM_LABELS_ES,
@@ -31,6 +33,7 @@ import {
   setDoc,
 } from 'firebase/firestore';
 import { Ionicons } from '@expo/vector-icons';
+import type { ComponentProps } from 'react';
 import { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -266,27 +269,45 @@ export function SymptomLogForm({ entryId, initialDateKey }: SymptomLogFormProps)
               </ThemedText>
             </View>
             <View style={styles.chipsRow}>
-              {ENERGY_LEVELS.map((level) => (
-                <Pressable
-                  key={level}
-                  onPress={() =>
-                    setValue('energyLevel', level, { shouldDirty: true })
-                  }
-                  style={[
-                    styles.chip,
-                    energyLevel === level && styles.chipSelectedEnergy,
-                  ]}
-                >
-                  <ThemedText
+              {ENERGY_LEVELS.map((level) => {
+                const selected = energyLevel === level;
+                return (
+                  <Pressable
+                    key={level}
+                    onPress={() =>
+                      setValue('energyLevel', level, { shouldDirty: true })
+                    }
                     style={[
-                      styles.chipText,
-                      energyLevel === level && styles.chipTextSelectedEnergy,
+                      styles.chip,
+                      selected && styles.chipSelectedEnergy,
                     ]}
                   >
-                    {ENERGY_LABELS_ES[level]}
-                  </ThemedText>
-                </Pressable>
-              ))}
+                    <View style={styles.chipInner}>
+                      <Ionicons
+                        name={
+                          ENERGY_LEVEL_ICONS[level] as ComponentProps<
+                            typeof Ionicons
+                          >['name']
+                        }
+                        size={14}
+                        color={
+                          selected
+                            ? palette.brand.primary
+                            : palette.text.secondary
+                        }
+                      />
+                      <ThemedText
+                        style={[
+                          styles.chipText,
+                          selected && styles.chipTextSelectedEnergy,
+                        ]}
+                      >
+                        {ENERGY_LABELS_ES[level]}
+                      </ThemedText>
+                    </View>
+                  </Pressable>
+                );
+              })}
             </View>
           </View>
           {errors.energyLevel ? (
@@ -307,22 +328,40 @@ export function SymptomLogForm({ entryId, initialDateKey }: SymptomLogFormProps)
               </ThemedText>
             </View>
             <View style={styles.chipsRow}>
-              {MOOD_LEVELS.map((m) => (
-                <Pressable
-                  key={m}
-                  onPress={() => setValue('mood', m, { shouldDirty: true })}
-                  style={[styles.chip, mood === m && styles.chipSelectedMood]}
-                >
-                  <ThemedText
-                    style={[
-                      styles.chipText,
-                      mood === m && styles.chipTextSelectedMood,
-                    ]}
+              {MOOD_LEVELS.map((m) => {
+                const selected = mood === m;
+                return (
+                  <Pressable
+                    key={m}
+                    onPress={() => setValue('mood', m, { shouldDirty: true })}
+                    style={[styles.chip, selected && styles.chipSelectedMood]}
                   >
-                    {MOOD_LABELS_ES[m]}
-                  </ThemedText>
-                </Pressable>
-              ))}
+                    <View style={styles.chipInner}>
+                      <Ionicons
+                        name={
+                          MOOD_LEVEL_ICONS[m] as ComponentProps<
+                            typeof Ionicons
+                          >['name']
+                        }
+                        size={14}
+                        color={
+                          selected
+                            ? palette.brand.secondary
+                            : palette.text.secondary
+                        }
+                      />
+                      <ThemedText
+                        style={[
+                          styles.chipText,
+                          selected && styles.chipTextSelectedMood,
+                        ]}
+                      >
+                        {MOOD_LABELS_ES[m]}
+                      </ThemedText>
+                    </View>
+                  </Pressable>
+                );
+              })}
             </View>
           </View>
           {errors.mood ? (
@@ -541,6 +580,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 6,
+  },
+  chipInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
   chip: {
     paddingVertical: 6,
