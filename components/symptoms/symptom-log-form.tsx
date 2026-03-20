@@ -1,5 +1,6 @@
 import { ThemedText } from '@/components/themed-text';
 import { Btn } from '@/components/ui/btn';
+import { FormField } from '@/components/ui/form-field';
 import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import {
   ENERGY_LABELS_ES,
@@ -34,16 +35,18 @@ import {
 } from 'firebase/firestore';
 import { Ionicons } from '@expo/vector-icons';
 import type { ComponentProps } from 'react';
-import { useCallback, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useCallback, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
-  TextInput,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export type SymptomLogFormProps = {
   /** Firestore document id when editing an existing log */
@@ -55,6 +58,8 @@ export type SymptomLogFormProps = {
 export function SymptomLogForm({ entryId, initialDateKey }: SymptomLogFormProps) {
   const { user } = useAuth();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const scrollRef = useRef<ScrollView>(null);
   const [loadError, setLoadError] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -152,6 +157,13 @@ export function SymptomLogForm({ entryId, initialDateKey }: SymptomLogFormProps)
     }, [loadData]),
   );
 
+  const scrollNotesIntoViewAndroid = useCallback(() => {
+    if (Platform.OS !== 'android') return;
+    const scroll = () => scrollRef.current?.scrollToEnd({ animated: true });
+    requestAnimationFrame(scroll);
+    setTimeout(scroll, 280);
+  }, []);
+
   const toggleSymptom = (id: SymptomId) => {
     const next = symptoms.includes(id)
       ? symptoms.filter((s) => s !== id)
@@ -215,22 +227,33 @@ export function SymptomLogForm({ entryId, initialDateKey }: SymptomLogFormProps)
 
   return (
     <MainLayout>
-      <View style={styles.root}>
-        <View style={styles.header}>
-          <Btn onPress={() => router.back()} style={styles.back}>
-            <ThemedText type="link">← Volver</ThemedText>
-          </Btn>
-          <ThemedText type="title" style={styles.headerTitle}>
-            Registro de síntomas
-          </ThemedText>
-        </View>
+      <KeyboardAvoidingView
+        style={styles.keyboardRoot}
+        behavior="padding"
+        enabled={Platform.OS === 'android'}
+        keyboardVerticalOffset={insets.top}
+      >
+        <View style={styles.root}>
+          <View style={styles.header}>
+            <Btn onPress={() => router.back()} style={styles.back}>
+              <ThemedText type="link">← Volver</ThemedText>
+            </Btn>
+            <ThemedText type="title" style={styles.headerTitle}>
+              Registro de síntomas
+            </ThemedText>
+          </View>
 
-        <ScrollView
-          style={styles.scroll}
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
+          <ScrollView
+            ref={scrollRef}
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode={
+              Platform.OS === 'ios' ? 'interactive' : 'on-drag'
+            }
+            automaticallyAdjustKeyboardInsets={Platform.OS === 'ios'}
+            showsVerticalScrollIndicator={false}
+          >
           <ThemedText type="subtitle" style={styles.headline}>
             {isEditMode
               ? 'Editar registro'
@@ -402,30 +425,19 @@ export function SymptomLogForm({ entryId, initialDateKey }: SymptomLogFormProps)
 
           <View style={styles.blockNotes}>
             <View style={styles.sectionHeaderRow}>
-              <Ionicons
-                name="chatbox-ellipses-outline"
-                size={16}
-                color={palette.semantic.info}
-              />
               <ThemedText style={styles.sectionTitleNotes}>
                 Notas adicionales
               </ThemedText>
             </View>
-            <Controller
+            <FormField<SymptomLogFormData>
               control={control}
               name="notes"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  placeholder="¿Algo más que quieras registrar?"
-                  placeholderTextColor={palette.text.secondary}
-                  multiline
-                  style={styles.notesInput}
-                  textAlignVertical="top"
-                />
-              )}
+              icon="chatbox-ellipses-outline"
+              placeholder="¿Algo más que quieras registrar?"
+              multiline
+              variant="single"
+              onFocus={scrollNotesIntoViewAndroid}
+              style={{ minHeight: 96 }}
             />
           </View>
           {errors.notes ? (
@@ -449,13 +461,19 @@ export function SymptomLogForm({ entryId, initialDateKey }: SymptomLogFormProps)
               </ThemedText>
             )}
           </Btn>
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </View>
+      </KeyboardAvoidingView>
     </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
+  keyboardRoot: {
+    flex: 1,
+    width: '100%',
+    alignSelf: 'stretch',
+  },
   root: {
     flex: 1,
     width: '100%',
@@ -478,6 +496,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingTop: 4,
     paddingBottom: 28,
+    flexGrow: 1,
   },
   centered: {
     flex: 1,
@@ -638,18 +657,6 @@ const styles = StyleSheet.create({
   checkLabel: {
     flex: 1,
     fontSize: 14,
-    color: palette.text.primary,
-  },
-  notesInput: {
-    minHeight: 80,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
-    borderWidth: 1,
-    borderColor: palette.semantic.infoInputBorder,
-    fontSize: 15,
-    lineHeight: 20,
     color: palette.text.primary,
   },
   errorText: {

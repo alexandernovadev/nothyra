@@ -20,6 +20,7 @@
       "visible": "immersive"
     },
     "android": {
+      "softwareKeyboardLayoutMode": "resize",
       "package": "com.nova.nothyra",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {

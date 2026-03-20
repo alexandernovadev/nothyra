@@ -3,6 +3,11 @@ import React, { useRef, useState } from 'react';
 import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form';
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 
+import {
+  FORM_INPUT_ICON_LEFT,
+  FORM_INPUT_ICON_TOP,
+  formInputStyles,
+} from '@/constants/form-input';
 import { palette } from '@/constants/palette';
 
 type FormFieldProps<T extends FieldValues> = {
@@ -24,7 +29,7 @@ export function FormField<T extends FieldValues>({
   name,
   icon,
   placeholder,
-  error,
+  error: _error,
   secureTextEntry,
   showTogglePassword,
   editable = true,
@@ -34,12 +39,18 @@ export function FormField<T extends FieldValues>({
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const inputRef = useRef<TextInput | null>(null);
 
+  const {
+    style: styleProp,
+    multiline,
+    ...inputRest
+  } = rest;
+
   const inputStyle = [
-    styles.input,
-    variant === 'top' && styles.inputTop,
-    variant === 'middle' && styles.inputMiddle,
-    variant === 'bottom' && styles.inputBottom,
-    variant === 'single' && styles.inputSingle,
+    formInputStyles.input,
+    variant === 'top' && formInputStyles.inputTop,
+    variant === 'middle' && formInputStyles.inputMiddle,
+    variant === 'bottom' && formInputStyles.inputBottom,
+    variant === 'single' && formInputStyles.inputSingle,
   ].filter(Boolean);
 
   return (
@@ -52,7 +63,10 @@ export function FormField<T extends FieldValues>({
             name={icon}
             size={22}
             color={palette.text.secondary}
-            style={styles.icon}
+            style={[
+              styles.icon,
+              multiline && styles.iconMultiline,
+            ]}
           />
           <TextInput
             ref={inputRef}
@@ -63,11 +77,15 @@ export function FormField<T extends FieldValues>({
             onBlur={onBlur}
             secureTextEntry={secureTextEntry && !isPasswordVisible}
             editable={editable}
-            style={[inputStyle,
+            multiline={multiline}
+            textAlignVertical={multiline ? 'top' : undefined}
+            style={[
+              inputStyle,
               name === 'password' && { paddingRight: 44 },
+              styleProp,
             ]}
             autoCapitalize="none"
-            {...rest}
+            {...inputRest}
           />
           {secureTextEntry && showTogglePassword && (
             <Ionicons
@@ -77,7 +95,6 @@ export function FormField<T extends FieldValues>({
               style={styles.toggleIcon}
               onPress={() => {
                 setIsPasswordVisible((prev) => !prev);
-                // Mantener foco para que el teclado no cambie/desaparezca
                 inputRef.current?.focus();
               }}
             />
@@ -94,16 +111,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    left: 14,
-    top: 14,
+    left: FORM_INPUT_ICON_LEFT,
+    top: FORM_INPUT_ICON_TOP,
     zIndex: 1,
   },
-  input: {
-    backgroundColor: palette.surface.input,
-    paddingLeft: 48,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: palette.text.primary,
+  iconMultiline: {
+    top: FORM_INPUT_ICON_TOP + 2,
   },
   toggleIcon: {
     position: 'absolute',
@@ -113,22 +126,5 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 10,
     paddingRight: 20,
-  },
-  inputTop: {
-    borderTopLeftRadius: 22,
-    borderTopRightRadius: 22,
-    borderBottomWidth: 2,
-    borderBottomColor: palette.border.light,
-  },
-  inputMiddle: {
-    borderBottomWidth: 2,
-    borderBottomColor: palette.border.light,
-  },
-  inputBottom: {
-    borderBottomLeftRadius: 22,
-    borderBottomRightRadius: 22,
-  },
-  inputSingle: {
-    borderRadius: 22,
   },
 });
