@@ -4,4 +4,5 @@
 
 export * from './auth';
 export * from './profile';
+export * from './recipe';
 export * from './symptom-log';

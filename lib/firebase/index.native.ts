@@ -1,1 +1,1 @@
-export { app, auth, db } from './config.native';
+export { app, auth, db, storage } from './config.native';

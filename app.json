@@ -45,7 +45,14 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "La app usa tu galería para la foto de la receta.",
+          "cameraPermission": "La app puede usar la cámara para la foto de la receta."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

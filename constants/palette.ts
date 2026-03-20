@@ -34,6 +34,8 @@ export const palette = {
     /** Panels sobre gradiente (p. ej. lista de síntomas en el formulario) */
     panelTranslucent: "rgba(255, 255, 255, 0.5)",
     panelTranslucentBorder: "rgba(109, 65, 176, 0.18)",
+    /** Cuerpo completo del formulario (p. ej. recetas) sobre el gradiente */
+    formSheet: "rgba(255, 255, 255, 0.82)",
     /** Checkbox vacío sobre panel translúcido */
     checkboxIdle: "rgba(255, 255, 255, 0.72)",
   },
