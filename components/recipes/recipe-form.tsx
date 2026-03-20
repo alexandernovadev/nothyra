@@ -36,6 +36,7 @@ import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -103,9 +104,22 @@ export function RecipeForm({ mode, recipeId, initialValues }: RecipeFormProps) {
       return;
     }
     try {
+      // Solo request*: con import() dinámico, getMediaLibraryPermissionsAsync a veces no existe en el namespace (Metro).
       const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (!perm.granted) {
-        Alert.alert('Permiso', 'Necesitamos acceso a la galería para la foto.');
+        Alert.alert(
+          'Permiso de fotos',
+          'Activa el acceso a la galería en los ajustes del sistema para elegir una imagen.',
+          [
+            { text: 'Cancelar', style: 'cancel' },
+            {
+              text: 'Abrir ajustes',
+              onPress: () => {
+                Linking.openSettings().catch(() => {});
+              },
+            },
+          ],
+        );
         return;
       }
       const res = await ImagePicker.launchImageLibraryAsync({
