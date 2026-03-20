@@ -562,9 +562,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 12,
-    backgroundColor: '#fff',
+    backgroundColor: palette.surface.panelTranslucent,
     borderWidth: 1,
-    borderColor: palette.border.light,
+    borderColor: palette.surface.panelTranslucentBorder,
   },
   blockNotes: {
     marginTop: 8,
@@ -648,7 +648,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 2,
     borderColor: palette.border.medium,
-    backgroundColor: '#fff',
+    backgroundColor: palette.surface.checkboxIdle,
   },
   checkboxOn: {
     backgroundColor: palette.brand.secondary,

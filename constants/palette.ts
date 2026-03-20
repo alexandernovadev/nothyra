@@ -31,6 +31,11 @@ export const palette = {
   surface: {
     input: "#fbfae5",
     overlay: "#c7c3c3",
+    /** Panels sobre gradiente (p. ej. lista de síntomas en el formulario) */
+    panelTranslucent: "rgba(255, 255, 255, 0.5)",
+    panelTranslucentBorder: "rgba(109, 65, 176, 0.18)",
+    /** Checkbox vacío sobre panel translúcido */
+    checkboxIdle: "rgba(255, 255, 255, 0.72)",
   },
 
   text: {
