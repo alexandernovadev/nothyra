@@ -91,6 +91,7 @@ export default function RecipeDetailScreen() {
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
+            <View style={styles.contentSheet}>
             {recipe.imageUrl ? (
               <Image
                 source={{ uri: recipe.imageUrl }}
@@ -154,6 +155,7 @@ export default function RecipeDetailScreen() {
                 </ThemedText>
               </Btn>
             ) : null}
+            </View>
           </ScrollView>
         )}
       </View>
@@ -167,7 +169,15 @@ const styles = StyleSheet.create({
   loader: { marginTop: 32 },
   error: { marginTop: 16, color: palette.semantic.error },
   scroll: { flex: 1 },
-  scrollContent: { paddingBottom: 32 },
+  scrollContent: { paddingBottom: 32, paddingTop: 4 },
+  contentSheet: {
+    borderRadius: 16,
+    padding: 14,
+    backgroundColor: palette.surface.formSheet,
+    borderWidth: 1,
+    borderColor: palette.surface.panelTranslucentBorder,
+    overflow: 'hidden',
+  },
   hero: {
     width: '100%',
     height: 200,
