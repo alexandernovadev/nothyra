@@ -6,16 +6,19 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   ActivityIndicator,
   Image,
+  KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { auth } from "@/lib/firebase";
 import { loginSchema, type LoginFormData } from "@/lib/forms";
@@ -27,8 +30,17 @@ const defaultValues: LoginFormData = {
 
 export default function LoginScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const scrollRef = useRef<ScrollView>(null);
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const scrollFieldIntoViewAndroid = useCallback(() => {
+    if (Platform.OS !== "android") return;
+    const scroll = () => scrollRef.current?.scrollToEnd({ animated: true });
+    requestAnimationFrame(scroll);
+    setTimeout(scroll, 280);
+  }, []);
 
   const {
     control,
@@ -101,102 +113,128 @@ export default function LoginScreen() {
 
   return (
     <LinearGradient colors={mainGradient} style={styles.container}>
-      <View style={styles.textContainer}>
-        <Image
-          source={require("@/assets/images/nothyra/NothyraLogo.png")}
-          resizeMode="contain"
-          style={styles.logoImage}
-        />
-        <Text style={styles.textLogo}>Tu espacio saludable y divertido</Text>
-        <View style={styles.form}>
-          {displayError ? (
-            <Text style={styles.errorText}>{displayError}</Text>
-          ) : null}
-          <View style={styles.inputsGroup}>
-            <FormField<LoginFormData>
-              control={control}
-              name="email"
-              icon="mail-outline"
-              placeholder="Correo electrónico"
-              keyboardType="email-address"
-              autoComplete="email"
-              variant="top"
-              editable={!loading}
-            />
-            <FormField<LoginFormData>
-              control={control}
-              name="password"
-              icon="lock-closed-outline"
-              placeholder="Contraseña"
-              secureTextEntry
-              showTogglePassword
-              autoComplete="password"
-              variant="bottom"
-              editable={!loading}
-            />
-          </View>
-          <Btn
-            style={[styles.btn, loading && styles.btnDisabled]}
-            onPress={handleSubmit(onSubmit)}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color={palette.text.inverse} size="small" />
-            ) : (
-              <Text style={styles.btnText}>Iniciar Sesión</Text>
-            )}
-          </Btn>
-          <View style={styles.separator}>
-            <View style={styles.separatorLine} />
-            <Text style={styles.separatorText}> o </Text>
-            <View style={styles.separatorLine} />
-          </View>
-          <Btn
-            style={[styles.btn, styles.btnSecondary]}
-            onPress={() => router.push("/(auth)/sign-up")}
-            disabled={loading}
-          >
-            <Text style={styles.btnText}>Crear cuenta nueva</Text>
-          </Btn>
-          {Platform.OS !== "web" && (
+      <KeyboardAvoidingView
+        style={styles.keyboardRoot}
+        behavior="padding"
+        enabled={Platform.OS === "android"}
+        keyboardVerticalOffset={insets.top}
+      >
+        <ScrollView
+          ref={scrollRef}
+          style={styles.scroll}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingTop: Math.max(insets.top, 24) + 8 },
+          ]}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode={
+            Platform.OS === "ios" ? "interactive" : "on-drag"
+          }
+          automaticallyAdjustKeyboardInsets={Platform.OS === "ios"}
+          showsVerticalScrollIndicator={false}
+        >
+          <Image
+            source={require("@/assets/images/nothyra/NothyraLogo.png")}
+            resizeMode="contain"
+            style={styles.logoImage}
+          />
+          <Text style={styles.textLogo}>Tu espacio saludable y divertido</Text>
+          <View style={styles.form}>
+            {displayError ? (
+              <Text style={styles.errorText}>{displayError}</Text>
+            ) : null}
+            <View style={styles.inputsGroup}>
+              <FormField<LoginFormData>
+                control={control}
+                name="email"
+                icon="mail-outline"
+                placeholder="Correo electrónico"
+                keyboardType="email-address"
+                autoComplete="email"
+                variant="top"
+                editable={!loading}
+                onFocus={scrollFieldIntoViewAndroid}
+              />
+              <FormField<LoginFormData>
+                control={control}
+                name="password"
+                icon="lock-closed-outline"
+                placeholder="Contraseña"
+                secureTextEntry
+                showTogglePassword
+                autoComplete="password"
+                variant="bottom"
+                editable={!loading}
+                onFocus={scrollFieldIntoViewAndroid}
+              />
+            </View>
             <Btn
-              style={styles.btnGoogle}
-              onPress={handleGoogleSignIn}
+              style={[styles.btn, loading && styles.btnDisabled]}
+              onPress={handleSubmit(onSubmit)}
               disabled={loading}
             >
-              <Image
-                source={require("@/assets/images/nothyra/google.png")}
-                style={styles.googleLogo}
-                resizeMode="contain"
-              />
+              {loading ? (
+                <ActivityIndicator color={palette.text.inverse} size="small" />
+              ) : (
+                <Text style={styles.btnText}>Iniciar Sesión</Text>
+              )}
             </Btn>
-          )}
-        </View>
-      </View>
+            <View style={styles.separator}>
+              <View style={styles.separatorLine} />
+              <Text style={styles.separatorText}> o </Text>
+              <View style={styles.separatorLine} />
+            </View>
+            <Btn
+              style={[styles.btn, styles.btnSecondary]}
+              onPress={() => router.push("/(auth)/sign-up")}
+              disabled={loading}
+            >
+              <Text style={styles.btnText}>Crear cuenta nueva</Text>
+            </Btn>
+            {Platform.OS !== "web" && (
+              <Btn
+                style={styles.btnGoogle}
+                onPress={handleGoogleSignIn}
+                disabled={loading}
+              >
+                <Image
+                  source={require("@/assets/images/nothyra/google.png")}
+                  style={styles.googleLogo}
+                  resizeMode="contain"
+                />
+              </Btn>
+            )}
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
-      <Image
-        source={require("@/assets/images/nothyra/nothyhd.png")}
-        style={styles.layer}
-        resizeMode="stretch"
-      />
-      <Image
-        source={require("@/assets/images/nothyra/hphd.png")}
-        style={styles.fondo2}
-        resizeMode="stretch"
-      />
+      <View style={styles.decorLayer} pointerEvents="none">
+        <Image
+          source={require("@/assets/images/nothyra/nothyhd.png")}
+          style={styles.layer}
+          resizeMode="stretch"
+        />
+        <Image
+          source={require("@/assets/images/nothyra/hphd.png")}
+          style={styles.fondo2}
+          resizeMode="stretch"
+        />
+      </View>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  textContainer: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    paddingHorizontal: 50,
-    paddingTop: 32,
+  keyboardRoot: {
+    flex: 1,
     zIndex: 10,
+  },
+  scroll: { flex: 1 },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: 50,
+    paddingBottom: 40,
   },
   logoImage: { width: "100%", height: 190 },
   textLogo: {
@@ -256,6 +294,10 @@ const styles = StyleSheet.create({
     color: palette.text.muted,
     fontSize: 14,
     paddingHorizontal: 8,
+  },
+  decorLayer: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 0,
   },
   fondo2: {
     position: "absolute",
