@@ -34,10 +34,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 32,
     gap: 16,
-    overflow: 'hidden',
     paddingTop: 30,
-    paddingLeft: 48,
-    paddingRight: 48,
+    paddingLeft: 24,
+    paddingRight: 24,
     // backgroundColor:'red',
   },
   fondo2: {
