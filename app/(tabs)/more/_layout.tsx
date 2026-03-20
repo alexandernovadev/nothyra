@@ -6,6 +6,7 @@ export default function MoreStackLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="profile" />
       <Stack.Screen name="recipes" />
+      <Stack.Screen name="blog" />
     </Stack>
   );
 }

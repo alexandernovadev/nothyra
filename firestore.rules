@@ -41,6 +41,17 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Blog: misma política que recetas
+    match /blogPosts/{postId} {
+      allow read: if isSignedIn() && (
+        resource.data.status == 'published' || isAdmin()
+      );
+      allow create: if isAdmin()
+        && request.resource.data.createdBy == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

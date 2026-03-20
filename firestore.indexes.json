@@ -9,6 +9,14 @@
       ]
     },
     {
+      "collectionGroup": "blogPosts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "updatedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "symptomLogs",
       "queryScope": "COLLECTION_GROUP",
       "fields": [
