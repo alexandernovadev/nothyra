@@ -115,65 +115,69 @@ export default function MoreScreen() {
             </Pressable>
           </View>
 
-          <View style={styles.card}>
-            <Pressable
-              onPress={() => router.push('/(tabs)/more/recipes')}
-              style={({ pressed }) => [styles.rowPress, pressed && styles.rowPressed]}
-              accessibilityRole="button"
-              accessibilityLabel="Recetas"
-            >
-              <View style={styles.rowIconWrap}>
-                <Ionicons
-                  name="restaurant-outline"
-                  size={22}
-                  color={palette.brand.secondary}
-                />
+          {role === 'admin' && (
+            <>
+              <View style={styles.card}>
+                <Pressable
+                  onPress={() => router.push('/(tabs)/more/recipes')}
+                  style={({ pressed }) => [styles.rowPress, pressed && styles.rowPressed]}
+                  accessibilityRole="button"
+                  accessibilityLabel="Recetas"
+                >
+                  <View style={styles.rowIconWrap}>
+                    <Ionicons
+                      name="restaurant-outline"
+                      size={22}
+                      color={palette.brand.secondary}
+                    />
+                  </View>
+                  <View style={styles.rowBody}>
+                    <ThemedText type="defaultSemiBold" style={styles.rowTitle}>
+                      Recetas
+                    </ThemedText>
+                    <ThemedText style={styles.rowSubtitle}>
+                      Platos publicados por el equipo
+                    </ThemedText>
+                  </View>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={20}
+                    color={palette.text.muted}
+                  />
+                </Pressable>
               </View>
-              <View style={styles.rowBody}>
-                <ThemedText type="defaultSemiBold" style={styles.rowTitle}>
-                  Recetas
-                </ThemedText>
-                <ThemedText style={styles.rowSubtitle}>
-                  Platos publicados por el equipo
-                </ThemedText>
-              </View>
-              <Ionicons
-                name="chevron-forward"
-                size={20}
-                color={palette.text.muted}
-              />
-            </Pressable>
-          </View>
 
-          <View style={styles.card}>
-            <Pressable
-              onPress={() => router.push('/(tabs)/more/blog')}
-              style={({ pressed }) => [styles.rowPress, pressed && styles.rowPressed]}
-              accessibilityRole="button"
-              accessibilityLabel="Blog de salud"
-            >
-              <View style={styles.rowIconWrap}>
-                <Ionicons
-                  name="newspaper-outline"
-                  size={22}
-                  color={palette.brand.primary}
-                />
+              <View style={styles.card}>
+                <Pressable
+                  onPress={() => router.push('/(tabs)/more/blog')}
+                  style={({ pressed }) => [styles.rowPress, pressed && styles.rowPressed]}
+                  accessibilityRole="button"
+                  accessibilityLabel="Blog de salud"
+                >
+                  <View style={styles.rowIconWrap}>
+                    <Ionicons
+                      name="newspaper-outline"
+                      size={22}
+                      color={palette.brand.primary}
+                    />
+                  </View>
+                  <View style={styles.rowBody}>
+                    <ThemedText type="defaultSemiBold" style={styles.rowTitle}>
+                      Blog de salud
+                    </ThemedText>
+                    <ThemedText style={styles.rowSubtitle}>
+                      Artículos y consejos del equipo
+                    </ThemedText>
+                  </View>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={20}
+                    color={palette.text.muted}
+                  />
+                </Pressable>
               </View>
-              <View style={styles.rowBody}>
-                <ThemedText type="defaultSemiBold" style={styles.rowTitle}>
-                  Blog de salud
-                </ThemedText>
-                <ThemedText style={styles.rowSubtitle}>
-                  Artículos y consejos del equipo
-                </ThemedText>
-              </View>
-              <Ionicons
-                name="chevron-forward"
-                size={20}
-                color={palette.text.muted}
-              />
-            </Pressable>
-          </View>
+            </>
+          )}
 
           <View style={styles.card}>
             <Btn style={styles.logoutBtn} onPress={handleLogout}>

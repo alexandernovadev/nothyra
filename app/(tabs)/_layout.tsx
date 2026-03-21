@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
@@ -46,6 +46,12 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="more"
+        listeners={{
+          tabPress: () => {
+            // Pop del stack anidado (recetas, blog, perfil…) hasta la raíz del tab Más
+            router.dismissTo('/(tabs)/more');
+          },
+        }}
         options={{
           title: 'Más',
           tabBarIcon: ({ color }) => <Ionicons name="ellipsis-horizontal" size={24} color={color} />,
