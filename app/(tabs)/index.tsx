@@ -27,6 +27,7 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   View,
@@ -55,6 +56,7 @@ export default function HomeScreen() {
   const [recipes, setRecipes] = useState<HomeRecipePreview[]>([]);
   const [posts, setPosts] = useState<HomeBlogPreview[]>([]);
   const [loadingFeed, setLoadingFeed] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [feedError, setFeedError] = useState('');
 
   const displayName =
@@ -127,6 +129,16 @@ export default function HomeScreen() {
     loadFeed();
   }, [authLoading, loadFeed]);
 
+  const onRefresh = useCallback(async () => {
+    if (authLoading) return;
+    setRefreshing(true);
+    try {
+      await loadFeed();
+    } finally {
+      setRefreshing(false);
+    }
+  }, [authLoading, loadFeed]);
+
   const goRecipe = (id: string) => {
     router.push({
       pathname: '/(tabs)/recipes/[recipeId]',
@@ -156,6 +168,13 @@ export default function HomeScreen() {
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={palette.brand.primary}
+            />
+          }
         >
           {authLoading || loadingFeed ? (
             <ActivityIndicator
