@@ -3,9 +3,13 @@ import { Btn } from '@/components/ui/btn';
 import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import { palette } from '@/constants/palette';
 import { useAuth } from '@/contexts/auth-context';
+import blogSeed from '@/data/blog.json';
 import recipesSeed from '@/data/recipes.json';
+import symptomSeed from '@/data/syntom.json';
+import { BLOG_POSTS_COLLECTION, type BlogPostDoc } from '@/lib/blog/firestore';
 import { db } from '@/lib/firebase';
 import { RECIPES_COLLECTION, type RecipeDoc } from '@/lib/recipes/firestore';
+import { SYMPTOM_LOGS_COLLECTION, type SymptomLogFirestoreDoc } from '@/lib/symptom-log/firestore';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
@@ -37,6 +41,8 @@ export default function MoreScreen() {
   const { logout, email, user, role } = useAuth();
   const router = useRouter();
   const [seedingRecipes, setSeedingRecipes] = useState(false);
+  const [seedingBlog, setSeedingBlog] = useState(false);
+  const [seedingSymptoms, setSeedingSymptoms] = useState(false);
   const displayName = user?.displayName ?? '';
   const initials = getInitials(displayName, email);
   const roleLabel = role === 'admin' ? 'Administrador' : 'Usuario';
@@ -47,7 +53,7 @@ export default function MoreScreen() {
   };
 
   const handleSeedRecipes = () => {
-    if (seedingRecipes || !user?.uid) return;
+    if (seedingRecipes || seedingBlog || seedingSymptoms || !user?.uid) return;
 
     Alert.alert(
       'Cargar recetas base',
@@ -60,9 +66,7 @@ export default function MoreScreen() {
             setSeedingRecipes(true);
             try {
               let inserted = 0;
-              const rows = recipesSeed as Array<
-                Omit<RecipeDoc, 'createdAt' | 'updatedAt' | 'createdBy'>
-              >;
+              const rows = recipesSeed as Omit<RecipeDoc, 'createdAt' | 'updatedAt' | 'createdBy'>[];
 
               for (const recipe of rows) {
                 await addDoc(collection(db, RECIPES_COLLECTION), {
@@ -80,6 +84,96 @@ export default function MoreScreen() {
               Alert.alert('Error', 'No se pudieron cargar las recetas.');
             } finally {
               setSeedingRecipes(false);
+            }
+          },
+        },
+      ],
+    );
+  };
+
+  const handleSeedBlog = () => {
+    if (seedingRecipes || seedingBlog || seedingSymptoms || !user?.uid) return;
+
+    Alert.alert(
+      'Cargar artículos base',
+      `Se cargarán ${blogSeed.length} artículos en Firestore.`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Cargar',
+          onPress: async () => {
+            setSeedingBlog(true);
+            try {
+              let inserted = 0;
+              const rows = blogSeed as Omit<BlogPostDoc, 'createdAt' | 'updatedAt' | 'createdBy'>[];
+
+              for (const post of rows) {
+                await addDoc(collection(db, BLOG_POSTS_COLLECTION), {
+                  title: post.title,
+                  excerpt: post.excerpt,
+                  coverImageUrl: post.coverImageUrl,
+                  author: post.author,
+                  content: post.content,
+                  tags: post.tags,
+                  status: post.status,
+                  createdBy: user.uid,
+                  createdAt: serverTimestamp(),
+                  updatedAt: serverTimestamp(),
+                });
+                inserted += 1;
+              }
+
+              Alert.alert('Listo', `Se cargaron ${inserted} artículos.`);
+            } catch (error) {
+              console.error('[SeedBlog]', error);
+              Alert.alert('Error', 'No se pudieron cargar los artículos.');
+            } finally {
+              setSeedingBlog(false);
+            }
+          },
+        },
+      ],
+    );
+  };
+
+  const handleSeedSymptoms = () => {
+    if (seedingRecipes || seedingBlog || seedingSymptoms || !user?.uid) return;
+
+    Alert.alert(
+      'Cargar síntomas base',
+      `Se cargarán ${symptomSeed.length} registros para tu usuario actual.`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Cargar',
+          onPress: async () => {
+            setSeedingSymptoms(true);
+            try {
+              let inserted = 0;
+              const rows = symptomSeed as Array<
+                Omit<SymptomLogFirestoreDoc, 'userId' | 'createdAt' | 'updatedAt'>
+              >;
+
+              for (const row of rows) {
+                await addDoc(collection(db, SYMPTOM_LOGS_COLLECTION), {
+                  userId: user.uid,
+                  dateKey: row.dateKey,
+                  energyLevel: row.energyLevel,
+                  mood: row.mood,
+                  symptoms: row.symptoms,
+                  notes: row.notes,
+                  createdAt: serverTimestamp(),
+                  updatedAt: serverTimestamp(),
+                });
+                inserted += 1;
+              }
+
+              Alert.alert('Listo', `Se cargaron ${inserted} registros de síntomas.`);
+            } catch (error) {
+              console.error('[SeedSymptoms]', error);
+              Alert.alert('Error', 'No se pudieron cargar los síntomas.');
+            } finally {
+              setSeedingSymptoms(false);
             }
           },
         },
@@ -224,11 +318,11 @@ export default function MoreScreen() {
                 </Pressable>
               </View>
 
-              <View style={styles.card}>
+              {/* <View style={styles.card}>
                 <Btn
                   style={styles.seedBtn}
                   onPress={handleSeedRecipes}
-                  disabled={seedingRecipes}
+                  disabled={seedingRecipes || seedingBlog || seedingSymptoms}
                 >
                   <View style={styles.seedBtnInner}>
                     <Ionicons
@@ -238,6 +332,44 @@ export default function MoreScreen() {
                     />
                     <ThemedText type="defaultSemiBold" style={styles.seedBtnText}>
                       {seedingRecipes ? 'Cargando recetas...' : 'Cargar recetas base'}
+                    </ThemedText>
+                  </View>
+                </Btn>
+              </View> */}
+
+              {/* <View style={styles.card}>
+                <Btn
+                  style={styles.seedBlogBtn}
+                  onPress={handleSeedBlog}
+                  disabled={seedingRecipes || seedingBlog || seedingSymptoms}
+                >
+                  <View style={styles.seedBtnInner}>
+                    <Ionicons
+                      name="newspaper-outline"
+                      size={20}
+                      color={palette.text.inverse}
+                    />
+                    <ThemedText type="defaultSemiBold" style={styles.seedBtnText}>
+                      {seedingBlog ? 'Cargando artículos...' : 'Cargar artículos base'}
+                    </ThemedText>
+                  </View>
+                </Btn>
+              </View> */}
+
+              <View style={styles.card}>
+                <Btn
+                  style={styles.seedSymptomsBtn}
+                  onPress={handleSeedSymptoms}
+                  disabled={seedingRecipes || seedingBlog || seedingSymptoms}
+                >
+                  <View style={styles.seedBtnInner}>
+                    <Ionicons
+                      name="pulse-outline"
+                      size={20}
+                      color={palette.text.inverse}
+                    />
+                    <ThemedText type="defaultSemiBold" style={styles.seedBtnText}>
+                      {seedingSymptoms ? 'Cargando síntomas...' : 'Cargar síntomas base'}
                     </ThemedText>
                   </View>
                 </Btn>
@@ -448,6 +580,24 @@ const styles = StyleSheet.create({
   seedBtn: {
     width: '100%',
     backgroundColor: palette.brand.primary,
+    borderRadius: 0,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  seedBlogBtn: {
+    width: '100%',
+    backgroundColor: palette.brand.secondary,
+    borderRadius: 0,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  seedSymptomsBtn: {
+    width: '100%',
+    backgroundColor: '#6A4C93',
     borderRadius: 0,
     paddingVertical: 14,
     paddingHorizontal: 16,

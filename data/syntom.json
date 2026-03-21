@@ -1,0 +1,56 @@
+[
+  {
+    "userId": "user_001",
+    "dateKey": "2026-03-15",
+    "energyLevel": "low",
+    "mood": "depressed",
+    "symptoms": ["extreme_fatigue", "cold_sensitivity", "depression"],
+    "notes": "Día con poca energía desde la mañana. Sensación constante de frío incluso en ambientes cálidos. Dificultad para mantener la motivación durante el trabajo.",
+    "createdAt": "2026-03-15T08:30:00Z",
+    "updatedAt": "2026-03-15T08:30:00Z"
+  },
+  {
+    "userId": "user_001",
+    "dateKey": "2026-03-16",
+    "energyLevel": "normal",
+    "mood": "normal",
+    "symptoms": ["dry_skin", "difficulty_concentrating"],
+    "notes": "Energía estable durante el día, aunque con momentos de distracción en tareas largas. Piel más seca de lo habitual, especialmente en manos y rostro.",
+    "createdAt": "2026-03-16T09:10:00Z",
+    "updatedAt": "2026-03-16T09:10:00Z"
+  },
+  {
+    "userId": "user_001",
+    "dateKey": "2026-03-17",
+    "energyLevel": "very_low",
+    "mood": "depressed",
+    "symptoms": [
+      "extreme_fatigue",
+      "sleep_problems",
+      "difficulty_concentrating"
+    ],
+    "notes": "Fatiga intensa desde la mañana, con dificultad para levantarse. Sueño poco reparador durante la noche anterior. Problemas marcados de concentración en actividades cotidianas.",
+    "createdAt": "2026-03-17T07:50:00Z",
+    "updatedAt": "2026-03-17T07:50:00Z"
+  },
+  {
+    "userId": "user_001",
+    "dateKey": "2026-03-18",
+    "energyLevel": "high",
+    "mood": "cheerful",
+    "symptoms": ["heat_sensitivity"],
+    "notes": "Día con buena energía general y estado de ánimo positivo. Se percibe mayor sensibilidad al calor durante la tarde, especialmente al realizar actividad física.",
+    "createdAt": "2026-03-18T18:20:00Z",
+    "updatedAt": "2026-03-18T18:20:00Z"
+  },
+  {
+    "userId": "user_001",
+    "dateKey": "2026-03-19",
+    "energyLevel": "low",
+    "mood": "normal",
+    "symptoms": ["anxiety", "sleep_problems"],
+    "notes": "Ligera ansiedad durante el día, especialmente en situaciones de estrés. Dificultad para conciliar el sueño por la noche. Energía general baja pero funcional.",
+    "createdAt": "2026-03-19T22:00:00Z",
+    "updatedAt": "2026-03-19T22:00:00Z"
+  }
+]
