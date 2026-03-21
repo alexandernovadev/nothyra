@@ -57,6 +57,18 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <Ionicons name="ellipsis-horizontal" size={24} color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="recipes"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="blog"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

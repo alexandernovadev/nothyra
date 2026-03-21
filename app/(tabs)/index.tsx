@@ -129,14 +129,14 @@ export default function HomeScreen() {
 
   const goRecipe = (id: string) => {
     router.push({
-      pathname: '/(tabs)/more/recipes/[recipeId]',
+      pathname: '/(tabs)/recipes/[recipeId]',
       params: { recipeId: id },
     });
   };
 
   const goBlog = (id: string) => {
     router.push({
-      pathname: '/(tabs)/more/blog/[postId]',
+      pathname: '/(tabs)/blog/[postId]',
       params: { postId: id },
     });
   };
@@ -176,7 +176,7 @@ export default function HomeScreen() {
                   Recetas recientes
                 </ThemedText>
                 <Pressable
-                  onPress={() => router.push('/(tabs)/more/recipes')}
+                  onPress={() => router.push('/(tabs)/recipes')}
                   hitSlop={8}
                 >
                   <ThemedText type="link" style={styles.sectionLink}>
@@ -203,7 +203,7 @@ export default function HomeScreen() {
                   Artículos de salud
                 </ThemedText>
                 <Pressable
-                  onPress={() => router.push('/(tabs)/more/blog')}
+                  onPress={() => router.push('/(tabs)/blog')}
                   hitSlop={8}
                 >
                   <ThemedText type="link" style={styles.sectionLink}>
