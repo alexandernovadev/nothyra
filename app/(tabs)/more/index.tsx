@@ -3,10 +3,15 @@ import { Btn } from '@/components/ui/btn';
 import { MainLayout } from '@/components/ui/layouts/MainLayout';
 import { palette } from '@/constants/palette';
 import { useAuth } from '@/contexts/auth-context';
+import recipesSeed from '@/data/recipes.json';
+import { db } from '@/lib/firebase';
+import { RECIPES_COLLECTION, type RecipeDoc } from '@/lib/recipes/firestore';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useState } from 'react';
+import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const appVersion = Constants.expoConfig?.version ?? '1.0.0';
 
@@ -31,6 +36,7 @@ function getInitials(displayName: string | null | undefined, email: string | nul
 export default function MoreScreen() {
   const { logout, email, user, role } = useAuth();
   const router = useRouter();
+  const [seedingRecipes, setSeedingRecipes] = useState(false);
   const displayName = user?.displayName ?? '';
   const initials = getInitials(displayName, email);
   const roleLabel = role === 'admin' ? 'Administrador' : 'Usuario';
@@ -38,6 +44,47 @@ export default function MoreScreen() {
   const handleLogout = async () => {
     await logout();
     router.replace('/(auth)/login');
+  };
+
+  const handleSeedRecipes = () => {
+    if (seedingRecipes || !user?.uid) return;
+
+    Alert.alert(
+      'Cargar recetas base',
+      `Se cargarán ${recipesSeed.length} recetas en Firestore.`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Cargar',
+          onPress: async () => {
+            setSeedingRecipes(true);
+            try {
+              let inserted = 0;
+              const rows = recipesSeed as Array<
+                Omit<RecipeDoc, 'createdAt' | 'updatedAt' | 'createdBy'>
+              >;
+
+              for (const recipe of rows) {
+                await addDoc(collection(db, RECIPES_COLLECTION), {
+                  ...recipe,
+                  createdBy: user.uid,
+                  createdAt: serverTimestamp(),
+                  updatedAt: serverTimestamp(),
+                });
+                inserted += 1;
+              }
+
+              Alert.alert('Listo', `Se cargaron ${inserted} recetas.`);
+            } catch (error) {
+              console.error('[SeedRecipes]', error);
+              Alert.alert('Error', 'No se pudieron cargar las recetas.');
+            } finally {
+              setSeedingRecipes(false);
+            }
+          },
+        },
+      ],
+    );
   };
 
   return (
@@ -175,6 +222,25 @@ export default function MoreScreen() {
                     color={palette.text.muted}
                   />
                 </Pressable>
+              </View>
+
+              <View style={styles.card}>
+                <Btn
+                  style={styles.seedBtn}
+                  onPress={handleSeedRecipes}
+                  disabled={seedingRecipes}
+                >
+                  <View style={styles.seedBtnInner}>
+                    <Ionicons
+                      name="cloud-upload-outline"
+                      size={20}
+                      color={palette.text.inverse}
+                    />
+                    <ThemedText type="defaultSemiBold" style={styles.seedBtnText}>
+                      {seedingRecipes ? 'Cargando recetas...' : 'Cargar recetas base'}
+                    </ThemedText>
+                  </View>
+                </Btn>
               </View>
             </>
           )}
@@ -378,6 +444,24 @@ const styles = StyleSheet.create({
   logoutBtnText: {
     color: palette.text.inverse,
     fontSize: 16,
+  },
+  seedBtn: {
+    width: '100%',
+    backgroundColor: palette.brand.primary,
+    borderRadius: 0,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  seedBtnInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  seedBtnText: {
+    color: palette.text.inverse,
+    fontSize: 15,
   },
   versionBlock: {
     flexDirection: 'row',

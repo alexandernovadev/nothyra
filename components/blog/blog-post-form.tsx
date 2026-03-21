@@ -11,7 +11,6 @@ import {
   blogPostToFirestorePayload,
   blogPostToFirestoreUpdatePayload,
 } from '@/lib/blog/firestore';
-import { uploadBlogCoverFromUri } from '@/lib/blog/storage-cover';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -21,15 +20,12 @@ import {
   doc,
   serverTimestamp,
   setDoc,
-  updateDoc,
 } from 'firebase/firestore';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   ActivityIndicator,
-  Alert,
   KeyboardAvoidingView,
-  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -60,7 +56,6 @@ export function BlogPostForm({ mode, postId, initialValues }: BlogPostFormProps)
   const router = useRouter();
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
-  const [pickedUri, setPickedUri] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
 
@@ -80,83 +75,21 @@ export function BlogPostForm({ mode, postId, initialValues }: BlogPostFormProps)
   const coverImageUrl = watch('coverImageUrl');
   const status = watch('status');
 
-  const pickImage = async () => {
-    let ImagePicker: typeof import('expo-image-picker');
-    try {
-      ImagePicker = await import('expo-image-picker');
-    } catch {
-      Alert.alert(
-        'Galería no disponible',
-        'El cliente de desarrollo no incluye el módulo de imágenes. Ejecuta de nuevo: npx expo run:ios o npx expo run:android (o un build EAS) y vuelve a abrir la app.',
-      );
-      return;
-    }
-    try {
-      const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (!perm.granted) {
-        Alert.alert(
-          'Permiso de fotos',
-          'Activa el acceso a la galería en los ajustes del sistema para elegir una imagen.',
-          [
-            { text: 'Cancelar', style: 'cancel' },
-            {
-              text: 'Abrir ajustes',
-              onPress: () => {
-                Linking.openSettings().catch(() => {});
-              },
-            },
-          ],
-        );
-        return;
-      }
-      const res = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ['images'],
-        quality: 0.85,
-      });
-      if (!res.canceled && res.assets[0]?.uri) {
-        setPickedUri(res.assets[0].uri);
-      }
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      if (msg.includes('ExponentImagePicker') || msg.includes('native module')) {
-        Alert.alert(
-          'Galería no disponible',
-          'Reconstruye la app nativa (npx expo run:ios / run:android) para incluir expo-image-picker.',
-        );
-        return;
-      }
-      throw e;
-    }
-  };
-
-  const clearPickedImage = () => {
-    setPickedUri(null);
-  };
-
   const submitPost = async (data: BlogPostFormData, uid: string) => {
     const base = blogPostToFirestorePayload(data, uid);
 
     if (mode === 'create') {
-      const docRef = await addDoc(collection(db, BLOG_POSTS_COLLECTION), {
+      await addDoc(collection(db, BLOG_POSTS_COLLECTION), {
         ...base,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
-      if (pickedUri) {
-        const url = await uploadBlogCoverFromUri(docRef.id, pickedUri);
-        await updateDoc(docRef, { coverImageUrl: url });
-      }
     } else if (postId) {
       const updatePayload = blogPostToFirestoreUpdatePayload(data);
-      let finalUrl = updatePayload.coverImageUrl;
-      if (pickedUri) {
-        finalUrl = await uploadBlogCoverFromUri(postId, pickedUri);
-      }
       await setDoc(
         doc(db, BLOG_POSTS_COLLECTION, postId),
         {
           ...updatePayload,
-          coverImageUrl: finalUrl,
           updatedAt: serverTimestamp(),
         },
         { merge: true },
@@ -183,7 +116,7 @@ export function BlogPostForm({ mode, postId, initialValues }: BlogPostFormProps)
     }
   };
 
-  const displayImage = pickedUri ?? (coverImageUrl || null);
+  const displayImage = coverImageUrl || null;
 
   return (
     <MainLayout>
@@ -276,6 +209,22 @@ export function BlogPostForm({ mode, postId, initialValues }: BlogPostFormProps)
               ) : null}
 
               <ThemedText style={styles.label}>Imagen de portada</ThemedText>
+              <Controller
+                control={control}
+                name="coverImageUrl"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder="https://..."
+                    placeholderTextColor={palette.text.secondary}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                )}
+              />
               <View style={styles.imageRow}>
                 {displayImage ? (
                   <Image
@@ -288,18 +237,6 @@ export function BlogPostForm({ mode, postId, initialValues }: BlogPostFormProps)
                     <ThemedText style={styles.previewHint}>Sin imagen</ThemedText>
                   </View>
                 )}
-                <View style={styles.imageBtns}>
-                  <Btn style={styles.pickBtn} onPress={pickImage}>
-                    <ThemedText type="defaultSemiBold" style={styles.pickBtnText}>
-                      Elegir foto
-                    </ThemedText>
-                  </Btn>
-                  {pickedUri ? (
-                    <Btn style={styles.clearImgBtn} onPress={clearPickedImage}>
-                      <ThemedText style={styles.clearImgText}>Quitar nueva</ThemedText>
-                    </Btn>
-                  ) : null}
-                </View>
               </View>
 
               <ThemedText style={styles.label}>Contenido (párrafos)</ThemedText>
@@ -483,7 +420,7 @@ const styles = StyleSheet.create({
   textarea: { minHeight: 88, paddingTop: 12 },
   errorSmall: { color: palette.semantic.error, fontSize: 12, marginTop: 4 },
   errorText: { color: palette.semantic.error, marginTop: 8 },
-  imageRow: { flexDirection: 'row', gap: 12, alignItems: 'center', marginTop: 4 },
+  imageRow: { marginTop: 8, alignItems: 'flex-start' },
   preview: {
     width: 100,
     height: 100,
@@ -492,19 +429,6 @@ const styles = StyleSheet.create({
   },
   previewEmpty: { justifyContent: 'center', alignItems: 'center' },
   previewHint: { fontSize: 11, color: palette.text.muted },
-  imageBtns: { flex: 1, gap: 8 },
-  pickBtn: {
-    backgroundColor: palette.brand.primary,
-    borderRadius: 12,
-    paddingVertical: 10,
-  },
-  pickBtnText: { color: palette.text.inverse, textAlign: 'center' },
-  clearImgBtn: {
-    backgroundColor: palette.surface.overlay,
-    borderRadius: 12,
-    paddingVertical: 8,
-  },
-  clearImgText: { color: palette.text.primary, textAlign: 'center', fontSize: 13 },
   chipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4 },
   chip: {
     paddingVertical: 8,

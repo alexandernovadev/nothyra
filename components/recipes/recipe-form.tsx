@@ -18,7 +18,6 @@ import {
   recipeToFirestorePayload,
   recipeToFirestoreUpdatePayload,
 } from '@/lib/recipes/firestore';
-import { uploadRecipeCoverFromUri } from '@/lib/recipes/storage-image';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -28,15 +27,12 @@ import {
   doc,
   serverTimestamp,
   setDoc,
-  updateDoc,
 } from 'firebase/firestore';
 import { useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import {
   ActivityIndicator,
-  Alert,
   KeyboardAvoidingView,
-  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -71,7 +67,6 @@ export function RecipeForm({ mode, recipeId, initialValues }: RecipeFormProps) {
   const router = useRouter();
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
-  const [pickedUri, setPickedUri] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
 
@@ -92,84 +87,21 @@ export function RecipeForm({ mode, recipeId, initialValues }: RecipeFormProps) {
   const imageUrl = watch('imageUrl');
   const status = watch('status');
 
-  const pickImage = async () => {
-    let ImagePicker: typeof import('expo-image-picker');
-    try {
-      ImagePicker = await import('expo-image-picker');
-    } catch {
-      Alert.alert(
-        'Galería no disponible',
-        'El cliente de desarrollo no incluye el módulo de imágenes. Ejecuta de nuevo: npx expo run:ios o npx expo run:android (o un build EAS) y vuelve a abrir la app.',
-      );
-      return;
-    }
-    try {
-      // Solo request*: con import() dinámico, getMediaLibraryPermissionsAsync a veces no existe en el namespace (Metro).
-      const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (!perm.granted) {
-        Alert.alert(
-          'Permiso de fotos',
-          'Activa el acceso a la galería en los ajustes del sistema para elegir una imagen.',
-          [
-            { text: 'Cancelar', style: 'cancel' },
-            {
-              text: 'Abrir ajustes',
-              onPress: () => {
-                Linking.openSettings().catch(() => {});
-              },
-            },
-          ],
-        );
-        return;
-      }
-      const res = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ['images'],
-        quality: 0.85,
-      });
-      if (!res.canceled && res.assets[0]?.uri) {
-        setPickedUri(res.assets[0].uri);
-      }
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      if (msg.includes('ExponentImagePicker') || msg.includes('native module')) {
-        Alert.alert(
-          'Galería no disponible',
-          'Reconstruye la app nativa (npx expo run:ios / run:android) para incluir expo-image-picker.',
-        );
-        return;
-      }
-      throw e;
-    }
-  };
-
-  const clearPickedImage = () => {
-    setPickedUri(null);
-  };
-
   const submitRecipe = async (data: RecipeFormData, uid: string) => {
     const base = recipeToFirestorePayload(data, uid);
 
     if (mode === 'create') {
-      const docRef = await addDoc(collection(db, RECIPES_COLLECTION), {
+      await addDoc(collection(db, RECIPES_COLLECTION), {
         ...base,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
-      if (pickedUri) {
-        const url = await uploadRecipeCoverFromUri(docRef.id, pickedUri);
-        await updateDoc(docRef, { imageUrl: url });
-      }
     } else if (recipeId) {
       const updatePayload = recipeToFirestoreUpdatePayload(data);
-      let finalUrl = updatePayload.imageUrl;
-      if (pickedUri) {
-        finalUrl = await uploadRecipeCoverFromUri(recipeId, pickedUri);
-      }
       await setDoc(
         doc(db, RECIPES_COLLECTION, recipeId),
         {
           ...updatePayload,
-          imageUrl: finalUrl,
           updatedAt: serverTimestamp(),
         },
         { merge: true },
@@ -196,7 +128,7 @@ export function RecipeForm({ mode, recipeId, initialValues }: RecipeFormProps) {
     }
   };
 
-  const displayImage = pickedUri ?? (imageUrl || null);
+  const displayImage = imageUrl || null;
 
   return (
     <MainLayout>
@@ -267,6 +199,22 @@ export function RecipeForm({ mode, recipeId, initialValues }: RecipeFormProps) {
           />
 
           <ThemedText style={styles.label}>Imagen</ThemedText>
+          <Controller
+            control={control}
+            name="imageUrl"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.input}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="https://..."
+                placeholderTextColor={palette.text.secondary}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            )}
+          />
           <View style={styles.imageRow}>
             {displayImage ? (
               <Image
@@ -279,18 +227,6 @@ export function RecipeForm({ mode, recipeId, initialValues }: RecipeFormProps) {
                 <ThemedText style={styles.previewHint}>Sin imagen</ThemedText>
               </View>
             )}
-            <View style={styles.imageBtns}>
-              <Btn style={styles.pickBtn} onPress={pickImage}>
-                <ThemedText type="defaultSemiBold" style={styles.pickBtnText}>
-                  Elegir foto
-                </ThemedText>
-              </Btn>
-              {pickedUri ? (
-                <Btn style={styles.clearImgBtn} onPress={clearPickedImage}>
-                  <ThemedText style={styles.clearImgText}>Quitar nueva</ThemedText>
-                </Btn>
-              ) : null}
-            </View>
           </View>
 
           <ThemedText style={styles.label}>Categoría</ThemedText>
@@ -612,7 +548,7 @@ const styles = StyleSheet.create({
   textarea: { minHeight: 88, paddingTop: 12 },
   errorSmall: { color: palette.semantic.error, fontSize: 12, marginTop: 4 },
   errorText: { color: palette.semantic.error, marginTop: 8 },
-  imageRow: { flexDirection: 'row', gap: 12, alignItems: 'center', marginTop: 4 },
+  imageRow: { marginTop: 8, alignItems: 'flex-start' },
   preview: {
     width: 100,
     height: 100,
@@ -621,19 +557,6 @@ const styles = StyleSheet.create({
   },
   previewEmpty: { justifyContent: 'center', alignItems: 'center' },
   previewHint: { fontSize: 11, color: palette.text.muted },
-  imageBtns: { flex: 1, gap: 8 },
-  pickBtn: {
-    backgroundColor: palette.brand.primary,
-    borderRadius: 12,
-    paddingVertical: 10,
-  },
-  pickBtnText: { color: palette.text.inverse, textAlign: 'center' },
-  clearImgBtn: {
-    backgroundColor: palette.surface.overlay,
-    borderRadius: 12,
-    paddingVertical: 8,
-  },
-  clearImgText: { color: palette.text.primary, textAlign: 'center', fontSize: 13 },
   chipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4 },
   chip: {
     paddingVertical: 8,

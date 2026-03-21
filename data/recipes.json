@@ -1,0 +1,144 @@
+[
+  {
+    "title": "Pollo a la plancha con quinoa y vegetales",
+    "description": "Plato balanceado ideal para personas con diabetes, que combina proteína magra, carbohidratos complejos de bajo índice glucémico y fibra. La quinoa aporta energía sostenida mientras los vegetales favorecen la digestión y el control glucémico.",
+    "imageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1774053421/09c50212-4d07-489a-a06c-d9ba49253076_rfnfzm.jpg",
+    "category": "lunch",
+    "prepTime": 40,
+    "servings": 2,
+    "difficulty": "medium",
+    "ingredients": [
+      { "name": "pechuga de pollo", "quantity": "2 unidades (150 g cada una)" },
+      { "name": "quinoa cruda", "quantity": "1 taza" },
+      { "name": "agua", "quantity": "2 tazas" },
+      { "name": "brócoli", "quantity": "1 taza" },
+      { "name": "zanahoria", "quantity": "1 unidad" },
+      { "name": "aceite de oliva", "quantity": "2 cucharadas" },
+      { "name": "ajo picado", "quantity": "1 diente" },
+      { "name": "sal y pimienta", "quantity": "al gusto" }
+    ],
+    "steps": [
+      "Lavar la quinoa bajo agua corriente para eliminar saponinas que pueden generar sabor amargo.",
+      "Cocinar la quinoa en una olla con el agua durante 15 minutos o hasta que absorba el líquido. Dejar reposar tapada.",
+      "Sazonar las pechugas de pollo con sal, pimienta y ajo picado.",
+      "Calentar una sartén con una cucharada de aceite de oliva y cocinar el pollo a fuego medio durante 6–7 minutos por lado hasta que esté bien cocido.",
+      "Cortar los vegetales en piezas uniformes y saltearlos con el resto del aceite de oliva durante 5–7 minutos.",
+      "Servir el pollo acompañado de quinoa y vegetales, distribuyendo de forma equilibrada en el plato."
+    ],
+    "tags": [
+      "diabetes",
+      "bajo indice glucemico",
+      "proteina magra",
+      "comida balanceada"
+    ],
+    "status": "published"
+  },
+  {
+    "title": "Crema de calabacín sin crema",
+    "description": "Sopa ligera, baja en calorías y carbohidratos, ideal para personas con diabetes. Su textura cremosa se logra sin necesidad de lácteos, lo que la hace más digestiva y adecuada para una alimentación saludable.",
+    "imageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1774053485/4a9391f2-ce90-4996-9a35-4543b0685cfb_zkt8hb.jpg",
+    "category": "dinner",
+    "prepTime": 30,
+    "servings": 3,
+    "difficulty": "easy",
+    "ingredients": [
+      { "name": "calabacines", "quantity": "3 unidades" },
+      { "name": "cebolla", "quantity": "1/2 unidad" },
+      { "name": "ajo", "quantity": "1 diente" },
+      { "name": "caldo de verduras", "quantity": "3 tazas" },
+      { "name": "aceite de oliva", "quantity": "1 cucharada" },
+      { "name": "sal y pimienta", "quantity": "al gusto" }
+    ],
+    "steps": [
+      "Lavar y cortar los calabacines en rodajas sin retirar la piel para conservar la fibra.",
+      "Picar finamente la cebolla y el ajo.",
+      "Calentar el aceite de oliva en una olla y sofreír la cebolla y el ajo hasta que estén transparentes.",
+      "Agregar el calabacín y cocinar durante 5 minutos removiendo ocasionalmente.",
+      "Incorporar el caldo de verduras y cocinar a fuego medio durante 15 minutos.",
+      "Procesar la mezcla con una licuadora hasta obtener una textura suave y homogénea.",
+      "Ajustar sal y pimienta antes de servir caliente."
+    ],
+    "tags": ["diabetes", "sopa saludable", "bajo en calorias", "vegetariano"],
+    "status": "published"
+  },
+  {
+    "title": "Tostadas integrales con aguacate y huevo",
+    "description": "Desayuno funcional que aporta grasas saludables, fibra y proteína. Ayuda a mantener la saciedad y evita picos de glucosa, siendo una excelente opción para iniciar el día.",
+    "imageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1774053531/9608846d-6499-487e-a8b2-e27eb22479a8_pvhjaa.jpg",
+    "category": "breakfast",
+    "prepTime": 15,
+    "servings": 1,
+    "difficulty": "easy",
+    "ingredients": [
+      { "name": "pan integral", "quantity": "2 rebanadas" },
+      { "name": "aguacate", "quantity": "1/2 unidad" },
+      { "name": "huevo", "quantity": "1 unidad" },
+      { "name": "limón", "quantity": "1 cucharadita" },
+      { "name": "sal y pimienta", "quantity": "al gusto" }
+    ],
+    "steps": [
+      "Tostar las rebanadas de pan integral hasta que estén crujientes.",
+      "Machacar el aguacate en un recipiente y añadir jugo de limón, sal y pimienta.",
+      "Cocinar el huevo en agua (pochado) o a la plancha según preferencia.",
+      "Untar el aguacate sobre el pan tostado de manera uniforme.",
+      "Colocar el huevo encima de las tostadas.",
+      "Servir inmediatamente para mantener la textura adecuada."
+    ],
+    "tags": ["diabetes", "desayuno saludable", "grasas saludables", "fibra"],
+    "status": "published"
+  },
+  {
+    "title": "Ensalada de lentejas con vegetales",
+    "description": "Receta rica en fibra y proteína vegetal, ideal para el control glucémico. Las lentejas tienen un índice glucémico bajo y proporcionan saciedad prolongada.",
+    "imageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1774053582/200faf2f-cfa9-4f68-b5d4-fe327d7042f4_nxlbm4.jpg",
+    "category": "lunch",
+    "prepTime": 35,
+    "servings": 3,
+    "difficulty": "medium",
+    "ingredients": [
+      { "name": "lentejas cocidas", "quantity": "2 tazas" },
+      { "name": "tomate", "quantity": "1 unidad" },
+      { "name": "pepino", "quantity": "1/2 unidad" },
+      { "name": "cebolla morada", "quantity": "1/4 unidad" },
+      { "name": "aceite de oliva", "quantity": "2 cucharadas" },
+      { "name": "vinagre", "quantity": "1 cucharada" },
+      { "name": "sal y pimienta", "quantity": "al gusto" }
+    ],
+    "steps": [
+      "Cocinar las lentejas previamente hasta que estén tiernas pero firmes.",
+      "Dejar enfriar completamente antes de utilizarlas en la ensalada.",
+      "Cortar el tomate, pepino y cebolla en cubos pequeños.",
+      "Mezclar las lentejas con los vegetales en un recipiente amplio.",
+      "Preparar un aderezo con aceite de oliva, vinagre, sal y pimienta.",
+      "Incorporar el aderezo a la ensalada y mezclar bien.",
+      "Refrigerar por 10 minutos antes de servir para mejorar el sabor."
+    ],
+    "tags": ["diabetes", "fibra", "proteina vegetal", "bajo indice glucemico"],
+    "status": "published"
+  },
+  {
+    "title": "Manzana asada con canela y nueces",
+    "description": "Postre saludable sin azúcares añadidos, adecuado para personas con diabetes. La canela puede ayudar a mejorar la sensibilidad a la insulina y las nueces aportan grasas saludables.",
+    "imageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1774053625/bb50e41c-ca9b-49c8-806d-8945e0358798_r2icpw.jpg",
+    "category": "dessert",
+    "prepTime": 25,
+    "servings": 2,
+    "difficulty": "easy",
+    "ingredients": [
+      { "name": "manzanas", "quantity": "2 unidades" },
+      { "name": "canela en polvo", "quantity": "1 cucharadita" },
+      { "name": "nueces picadas", "quantity": "2 cucharadas" },
+      { "name": "esencia de vainilla", "quantity": "1/2 cucharadita" }
+    ],
+    "steps": [
+      "Precalentar el horno a 180°C.",
+      "Lavar las manzanas y retirar el corazón con cuidado.",
+      "Colocar las manzanas en una bandeja apta para horno.",
+      "Rellenar el centro con nueces, canela y esencia de vainilla.",
+      "Hornear durante 20 minutos hasta que estén suaves.",
+      "Dejar enfriar ligeramente antes de servir."
+    ],
+    "tags": ["diabetes", "postre saludable", "sin azucar añadida", "facil"],
+    "status": "published"
+  }
+]
