@@ -22,6 +22,10 @@
     "android": {
       "softwareKeyboardLayoutMode": "resize",
       "package": "com.nova.nothyra",
+      "permissions": [
+        "POST_NOTIFICATIONS",
+        "VIBRATE"
+      ],
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -46,6 +50,7 @@
         }
       ],
       "@react-native-google-signin/google-signin",
+      "expo-notifications",
       [
         "expo-image-picker",
         {

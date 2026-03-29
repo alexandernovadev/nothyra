@@ -58,7 +58,7 @@ export async function scheduleReminderNotification(input: {
 
   return Notifications.scheduleNotificationAsync({
     content: {
-      title: 'Recordatorio',
+      title: 'Hola, Nothyra te recuerda !',
       body: input.label,
       sound: 'default',
     },
