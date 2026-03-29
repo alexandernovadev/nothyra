@@ -30,6 +30,13 @@ service cloud.firestore {
       allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
     }
 
+    // Recordatorios (dueño)
+    match /reminders/{reminderId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
     // Recetas: lectura publicada para cualquier usuario autenticado; borradores y escritura solo admin
     match /recipes/{recipeId} {
       allow read: if isSignedIn() && (
