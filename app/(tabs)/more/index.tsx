@@ -150,9 +150,7 @@ export default function MoreScreen() {
             setSeedingSymptoms(true);
             try {
               let inserted = 0;
-              const rows = symptomSeed as Array<
-                Omit<SymptomLogFirestoreDoc, 'userId' | 'createdAt' | 'updatedAt'>
-              >;
+              const rows = symptomSeed as Omit<SymptomLogFirestoreDoc, 'userId' | 'createdAt' | 'updatedAt'>[];
 
               for (const row of rows) {
                 await addDoc(collection(db, SYMPTOM_LOGS_COLLECTION), {
@@ -356,7 +354,7 @@ export default function MoreScreen() {
                 </Btn>
               </View> */}
 
-              <View style={styles.card}>
+              {/* <View style={styles.card}>
                 <Btn
                   style={styles.seedSymptomsBtn}
                   onPress={handleSeedSymptoms}
@@ -373,7 +371,7 @@ export default function MoreScreen() {
                     </ThemedText>
                   </View>
                 </Btn>
-              </View>
+              </View> */}
             </>
           )}
 

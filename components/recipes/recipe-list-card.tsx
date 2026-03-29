@@ -54,7 +54,7 @@ export function RecipeListCard({ recipe, onOpenDetail, onOpenSummary }: Props) {
       <View style={styles.summaryBtnWrap}>
         <Btn fullWidth style={styles.summaryBtn} onPress={onOpenSummary}>
           <ThemedText type="defaultSemiBold" style={styles.summaryBtnText}>
-            Resumen
+            Ver más
           </ThemedText>
         </Btn>
       </View>
