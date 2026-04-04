@@ -1,3 +1,4 @@
+import { AuthVersionFooter } from "@/components/auth/auth-version-footer";
 import { Btn } from "@/components/ui/btn";
 import { FormField } from "@/components/ui/form-field";
 import { mainGradient, palette } from "@/constants/palette";
@@ -202,6 +203,7 @@ export default function SignUpScreen() {
               <Text style={styles.btnText}>Iniciar sesión</Text>
             </Btn>
           </View>
+          <AuthVersionFooter />
         </ScrollView>
       </KeyboardAvoidingView>
 
@@ -231,14 +233,14 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 50,
-    paddingBottom: 40,
+    paddingBottom: 12,
   },
   logoImage: { width: "100%", height: 190 },
   textLogo: {
     color: palette.text.primary,
     fontSize: 16,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     position: "relative",
     top: -24,
   },

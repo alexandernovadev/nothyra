@@ -1,11 +1,16 @@
+import { AuthVersionFooter } from "@/components/auth/auth-version-footer";
 import { Btn } from "@/components/ui/btn";
 import { FormField } from "@/components/ui/form-field";
 import { mainGradient, palette } from "@/constants/palette";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import React, { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -53,11 +58,20 @@ export default function LoginScreen() {
   });
 
   const handleGoogleSignIn = async () => {
-    if (Platform.OS === "web") return;
     setLoading(true);
     setServerError("");
 
     try {
+      if (Platform.OS === "web") {
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider);
+        router.replace("/(tabs)");
+        return;
+      }
+
+      // Native-only: avoid static import so web bundles don't pull the native module.
+      const { GoogleSignin } = require("@react-native-google-signin/google-signin");
+
       if (Platform.OS === "android") {
         await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
       }
@@ -76,6 +90,16 @@ export default function LoginScreen() {
       await signInWithCredential(auth, credential);
       router.replace("/(tabs)");
     } catch (err: unknown) {
+      const code =
+        err && typeof err === "object" && "code" in err
+          ? String((err as { code?: string }).code)
+          : "";
+      if (
+        code === "auth/popup-closed-by-user" ||
+        code === "auth/cancelled-popup-request"
+      ) {
+        return;
+      }
       const message = err instanceof Error ? err.message : "Error al iniciar sesión con Google.";
       setServerError(message);
     } finally {
@@ -191,20 +215,19 @@ export default function LoginScreen() {
             >
               <Text style={styles.btnText}>Crear cuenta nueva</Text>
             </Btn>
-            {Platform.OS !== "web" && (
-              <Btn
-                style={styles.btnGoogle}
-                onPress={handleGoogleSignIn}
-                disabled={loading}
-              >
-                <Image
-                  source={require("@/assets/images/nothyra/google.png")}
-                  style={styles.googleLogo}
-                  resizeMode="contain"
-                />
-              </Btn>
-            )}
+            <Btn
+              style={styles.btnGoogle}
+              onPress={handleGoogleSignIn}
+              disabled={loading}
+            >
+              <Image
+                source={require("@/assets/images/nothyra/google.png")}
+                style={styles.googleLogo}
+                resizeMode="contain"
+              />
+            </Btn>
           </View>
+          <AuthVersionFooter />
         </ScrollView>
       </KeyboardAvoidingView>
 
@@ -234,14 +257,14 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 50,
-    paddingBottom: 40,
+    paddingBottom: 12,
   },
   logoImage: { width: "100%", height: 190 },
   textLogo: {
     color: palette.text.primary,
     fontSize: 16,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     position: "relative",
     top: -24,
   },

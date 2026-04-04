@@ -7,17 +7,17 @@ import blogSeed from '@/data/blog.json';
 import recipesSeed from '@/data/recipes.json';
 import symptomSeed from '@/data/syntom.json';
 import { BLOG_POSTS_COLLECTION, type BlogPostDoc } from '@/lib/blog/firestore';
+import { getAppVersion } from '@/lib/app-version';
 import { db } from '@/lib/firebase';
 import { RECIPES_COLLECTION, type RecipeDoc } from '@/lib/recipes/firestore';
 import { SYMPTOM_LOGS_COLLECTION, type SymptomLogFirestoreDoc } from '@/lib/symptom-log/firestore';
 import { Ionicons } from '@expo/vector-icons';
-import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-const appVersion = Constants.expoConfig?.version ?? '1.0.0';
+const appVersion = getAppVersion();
 
 function getInitials(displayName: string | null | undefined, email: string | null | undefined): string {
   if (displayName?.trim()) {
@@ -390,14 +390,16 @@ export default function MoreScreen() {
             </Btn>
           </View>
 
-          <View style={styles.versionBlock}>
-            <Ionicons
-              name="information-circle-outline"
-              size={16}
-              color={palette.text.muted}
-            />
-            <ThemedText style={styles.version}>Versión {appVersion}</ThemedText>
-          </View>
+          {appVersion ? (
+            <View style={styles.versionBlock}>
+              <Ionicons
+                name="information-circle-outline"
+                size={16}
+                color={palette.text.muted}
+              />
+              <ThemedText style={styles.version}>Versión {appVersion}</ThemedText>
+            </View>
+          ) : null}
         </ScrollView>
       </View>
     </MainLayout>
