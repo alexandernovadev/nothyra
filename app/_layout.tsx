@@ -64,10 +64,10 @@ function RootLayoutNav() {
       >
         <View
           style={{
-            minWidth: 600,
-            height: "100vh",
+            flex: 1,
+            width: "100%",
             maxWidth: 600,
-            overflow: "hidden",
+            alignSelf: "center",
           }}
         >
           <ThemeProvider value={DefaultTheme}>
