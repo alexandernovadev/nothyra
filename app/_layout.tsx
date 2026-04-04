@@ -52,20 +52,41 @@ function RootLayoutNav() {
     );
   }
 
-  return (
-    <ThemeProvider value={DefaultTheme}>
-      <Stack
-        screenOptions={{
-          animation: 'none',
-        }}
-      >
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar hidden />
-    </ThemeProvider>
-  );
+  if (Platform.OS === 'web') {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f0f0f0' }}>
+        <View style={{ width: 375, height: '100vh', maxWidth: 400, overflow: 'hidden' }}>
+          <ThemeProvider value={DefaultTheme}>
+            <Stack
+              screenOptions={{
+                animation: 'none',
+              }}
+            >
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+            </Stack>
+            <StatusBar hidden />
+          </ThemeProvider>
+        </View>
+      </View>
+    );
+  } else {
+    return (
+      <ThemeProvider value={DefaultTheme}>
+        <Stack
+          screenOptions={{
+            animation: 'none',
+          }}
+        >
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        </Stack>
+        <StatusBar hidden />
+      </ThemeProvider>
+    );
+  }
 }
 
 export default function RootLayout() {
