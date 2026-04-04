@@ -1,3 +1,4 @@
+import { ExternalLink } from '@/components/external-link';
 import { ThemedText } from '@/components/themed-text';
 import { Btn } from '@/components/ui/btn';
 import { MainLayout } from '@/components/ui/layouts/MainLayout';
@@ -18,6 +19,8 @@ import { useState } from 'react';
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const appVersion = getAppVersion();
+
+const DEVELOPER_URL = 'https://github.com/alexandernovadev';
 
 function getInitials(displayName: string | null | undefined, email: string | null | undefined): string {
   if (displayName?.trim()) {
@@ -390,16 +393,22 @@ export default function MoreScreen() {
             </Btn>
           </View>
 
-          {appVersion ? (
-            <View style={styles.versionBlock}>
-              <Ionicons
-                name="information-circle-outline"
-                size={16}
-                color={palette.text.muted}
-              />
-              <ThemedText style={styles.version}>Versión {appVersion}</ThemedText>
-            </View>
-          ) : null}
+          <View style={styles.footerMeta}>
+            {appVersion ? (
+              <View style={styles.versionRow}>
+                <Ionicons
+                  name="information-circle-outline"
+                  size={16}
+                  color={palette.text.muted}
+                />
+                <ThemedText style={styles.version}>Versión {appVersion}</ThemedText>
+              </View>
+            ) : null}
+            <ExternalLink href={DEVELOPER_URL} style={styles.footerLinkWrap}>
+              <ThemedText style={styles.footerLink}>{DEVELOPER_URL}</ThemedText>
+            </ExternalLink>
+            <ThemedText style={styles.footerCopyright}>© NovaAlex Labs</ThemedText>
+          </View>
         </ScrollView>
       </View>
     </MainLayout>
@@ -613,15 +622,34 @@ const styles = StyleSheet.create({
     color: palette.text.inverse,
     fontSize: 15,
   },
-  versionBlock: {
+  footerMeta: {
+    alignItems: 'center',
+    marginTop: 20,
+    gap: 10,
+    paddingHorizontal: 8,
+  },
+  versionRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    marginTop: 20,
   },
   version: {
     fontSize: 13,
     color: palette.text.muted,
+  },
+  footerLinkWrap: {
+    maxWidth: '100%',
+  },
+  footerLink: {
+    fontSize: 12,
+    color: palette.brand.primary,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+  },
+  footerCopyright: {
+    fontSize: 11,
+    color: palette.text.muted,
+    textAlign: 'center',
   },
 });
