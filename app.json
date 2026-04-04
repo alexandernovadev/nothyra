@@ -2,7 +2,7 @@
   "expo": {
     "name": "nothyra",
     "slug": "nothyra",
-    "version": "2.0.3",
+    "version": "2.7.7",
     "orientation": "portrait",
     "icon": "./assets/images/AppIcons/Assets.xcassets/AppIcon.appiconset/1024.png",
     "scheme": "nothyra",
