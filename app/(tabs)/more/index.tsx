@@ -1,28 +1,42 @@
-import { ExternalLink } from '@/components/external-link';
-import { ThemedText } from '@/components/themed-text';
-import { Btn } from '@/components/ui/btn';
-import { MainLayout } from '@/components/ui/layouts/MainLayout';
-import { palette } from '@/constants/palette';
-import { useAuth } from '@/contexts/auth-context';
-import blogSeed from '@/data/blog.json';
-import recipesSeed from '@/data/recipes.json';
-import symptomSeed from '@/data/syntom.json';
-import { BLOG_POSTS_COLLECTION, type BlogPostDoc } from '@/lib/blog/firestore';
-import { getAppVersion } from '@/lib/app-version';
-import { db } from '@/lib/firebase';
-import { RECIPES_COLLECTION, type RecipeDoc } from '@/lib/recipes/firestore';
-import { SYMPTOM_LOGS_COLLECTION, type SymptomLogFirestoreDoc } from '@/lib/symptom-log/firestore';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { useState } from 'react';
-import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ExternalLink } from "@/components/external-link";
+import { ThemedText } from "@/components/themed-text";
+import { Btn } from "@/components/ui/btn";
+import { MainLayout } from "@/components/ui/layouts/MainLayout";
+import { palette } from "@/constants/palette";
+import { useAuth } from "@/contexts/auth-context";
+import blogSeed from "@/data/blog.json";
+import recipesSeed from "@/data/recipes.json";
+import symptomSeed from "@/data/syntom.json";
+import { getAppVersion } from "@/lib/app-version";
+import { BLOG_POSTS_COLLECTION, type BlogPostDoc } from "@/lib/blog/firestore";
+import { db } from "@/lib/firebase";
+import { RECIPES_COLLECTION, type RecipeDoc } from "@/lib/recipes/firestore";
+import {
+  SYMPTOM_LOGS_COLLECTION,
+  type SymptomLogFirestoreDoc,
+} from "@/lib/symptom-log/firestore";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useState } from "react";
+import {
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 const appVersion = getAppVersion();
 
-const DEVELOPER_URL = 'https://github.com/alexandernovadev';
+const DEVELOPER_URL = "https://github.com/alexandernovadev";
 
-function getInitials(displayName: string | null | undefined, email: string | null | undefined): string {
+function getInitials(
+  displayName: string | null | undefined,
+  email: string | null | undefined,
+): string {
   if (displayName?.trim()) {
     const parts = displayName.trim().split(/\s+/);
     if (parts.length >= 2) {
@@ -32,9 +46,9 @@ function getInitials(displayName: string | null | undefined, email: string | nul
   }
   if (email) {
     const letter = email[0];
-    return letter ? letter.toUpperCase() : '?';
+    return letter ? letter.toUpperCase() : "?";
   }
-  return '?';
+  return "?";
 }
 
 /**
@@ -46,140 +60,173 @@ export default function MoreScreen() {
   const [seedingRecipes, setSeedingRecipes] = useState(false);
   const [seedingBlog, setSeedingBlog] = useState(false);
   const [seedingSymptoms, setSeedingSymptoms] = useState(false);
-  const displayName = user?.displayName ?? '';
+  const displayName = user?.displayName ?? "";
   const initials = getInitials(displayName, email);
-  const roleLabel = role === 'admin' ? 'Administrador' : 'Usuario';
+  const roleLabel = role === "admin" ? "Administrador" : "Usuario";
 
   const handleLogout = async () => {
     await logout();
-    router.replace('/(auth)/login');
+    router.replace("/(auth)/login");
   };
 
-  const handleSeedRecipes = () => {
+  const handleSeedRecipes = async () => {
     if (seedingRecipes || seedingBlog || seedingSymptoms || !user?.uid) return;
 
-    Alert.alert(
-      'Cargar recetas base',
-      `Se cargarán ${recipesSeed.length} recetas en Firestore.`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Cargar',
-          onPress: async () => {
-            setSeedingRecipes(true);
-            try {
-              let inserted = 0;
-              const rows = recipesSeed as Omit<RecipeDoc, 'createdAt' | 'updatedAt' | 'createdBy'>[];
+    const ok =
+      Platform.OS === "web"
+        ? window.confirm(
+            `Cargar recetas base\n\nSe cargarán ${recipesSeed.length} recetas en Firestore.`,
+          )
+        : await new Promise<boolean>((resolve) =>
+            Alert.alert(
+              "Cargar recetas base",
+              `Se cargarán ${recipesSeed.length} recetas en Firestore.`,
+              [
+                { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+                { text: "Cargar", onPress: () => resolve(true) },
+              ],
+            ),
+          );
 
-              for (const recipe of rows) {
-                await addDoc(collection(db, RECIPES_COLLECTION), {
-                  ...recipe,
-                  createdBy: user.uid,
-                  createdAt: serverTimestamp(),
-                  updatedAt: serverTimestamp(),
-                });
-                inserted += 1;
-              }
+    if (!ok) return;
 
-              Alert.alert('Listo', `Se cargaron ${inserted} recetas.`);
-            } catch (error) {
-              console.error('[SeedRecipes]', error);
-              Alert.alert('Error', 'No se pudieron cargar las recetas.');
-            } finally {
-              setSeedingRecipes(false);
-            }
-          },
-        },
-      ],
-    );
+    setSeedingRecipes(true);
+    try {
+      let inserted = 0;
+      const rows = recipesSeed as Omit<
+        RecipeDoc,
+        "createdAt" | "updatedAt" | "createdBy"
+      >[];
+
+      for (const recipe of rows) {
+        await addDoc(collection(db, RECIPES_COLLECTION), {
+          ...recipe,
+          createdBy: user.uid,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+        inserted += 1;
+      }
+
+      if (Platform.OS === "web") window.alert(`Se cargaron ${inserted} recetas.`);
+      else Alert.alert("Listo", `Se cargaron ${inserted} recetas.`);
+    } catch (error) {
+      console.error("[SeedRecipes]", error);
+      if (Platform.OS === "web") window.alert("No se pudieron cargar las recetas.");
+      else Alert.alert("Error", "No se pudieron cargar las recetas.");
+    } finally {
+      setSeedingRecipes(false);
+    }
   };
 
-  const handleSeedBlog = () => {
+  const handleSeedBlog = async () => {
     if (seedingRecipes || seedingBlog || seedingSymptoms || !user?.uid) return;
 
-    Alert.alert(
-      'Cargar artículos base',
-      `Se cargarán ${blogSeed.length} artículos en Firestore.`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Cargar',
-          onPress: async () => {
-            setSeedingBlog(true);
-            try {
-              let inserted = 0;
-              const rows = blogSeed as Omit<BlogPostDoc, 'createdAt' | 'updatedAt' | 'createdBy'>[];
+    const ok =
+      Platform.OS === "web"
+        ? window.confirm(
+            `Cargar artículos base\n\nSe cargarán ${blogSeed.length} artículos en Firestore.`,
+          )
+        : await new Promise<boolean>((resolve) =>
+            Alert.alert(
+              "Cargar artículos base",
+              `Se cargarán ${blogSeed.length} artículos en Firestore.`,
+              [
+                { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+                { text: "Cargar", onPress: () => resolve(true) },
+              ],
+            ),
+          );
 
-              for (const post of rows) {
-                await addDoc(collection(db, BLOG_POSTS_COLLECTION), {
-                  title: post.title,
-                  excerpt: post.excerpt,
-                  coverImageUrl: post.coverImageUrl,
-                  author: post.author,
-                  content: post.content,
-                  tags: post.tags,
-                  status: post.status,
-                  createdBy: user.uid,
-                  createdAt: serverTimestamp(),
-                  updatedAt: serverTimestamp(),
-                });
-                inserted += 1;
-              }
+    if (!ok) return;
 
-              Alert.alert('Listo', `Se cargaron ${inserted} artículos.`);
-            } catch (error) {
-              console.error('[SeedBlog]', error);
-              Alert.alert('Error', 'No se pudieron cargar los artículos.');
-            } finally {
-              setSeedingBlog(false);
-            }
-          },
-        },
-      ],
-    );
+    setSeedingBlog(true);
+    try {
+      let inserted = 0;
+      const rows = blogSeed as Omit<
+        BlogPostDoc,
+        "createdAt" | "updatedAt" | "createdBy"
+      >[];
+
+      for (const post of rows) {
+        await addDoc(collection(db, BLOG_POSTS_COLLECTION), {
+          title: post.title,
+          excerpt: post.excerpt,
+          coverImageUrl: post.coverImageUrl,
+          author: post.author,
+          content: post.content,
+          tags: post.tags,
+          status: post.status,
+          createdBy: user.uid,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+        inserted += 1;
+      }
+
+      if (Platform.OS === "web") window.alert(`Se cargaron ${inserted} artículos.`);
+      else Alert.alert("Listo", `Se cargaron ${inserted} artículos.`);
+    } catch (error) {
+      console.error("[SeedBlog]", error);
+      if (Platform.OS === "web") window.alert("No se pudieron cargar los artículos.");
+      else Alert.alert("Error", "No se pudieron cargar los artículos.");
+    } finally {
+      setSeedingBlog(false);
+    }
   };
 
-  const handleSeedSymptoms = () => {
+  const handleSeedSymptoms = async () => {
     if (seedingRecipes || seedingBlog || seedingSymptoms || !user?.uid) return;
 
-    Alert.alert(
-      'Cargar síntomas base',
-      `Se cargarán ${symptomSeed.length} registros para tu usuario actual.`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Cargar',
-          onPress: async () => {
-            setSeedingSymptoms(true);
-            try {
-              let inserted = 0;
-              const rows = symptomSeed as Omit<SymptomLogFirestoreDoc, 'userId' | 'createdAt' | 'updatedAt'>[];
+    const ok =
+      Platform.OS === "web"
+        ? window.confirm(
+            `Cargar síntomas base\n\nSe cargarán ${symptomSeed.length} registros para tu usuario actual.`,
+          )
+        : await new Promise<boolean>((resolve) =>
+            Alert.alert(
+              "Cargar síntomas base",
+              `Se cargarán ${symptomSeed.length} registros para tu usuario actual.`,
+              [
+                { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+                { text: "Cargar", onPress: () => resolve(true) },
+              ],
+            ),
+          );
 
-              for (const row of rows) {
-                await addDoc(collection(db, SYMPTOM_LOGS_COLLECTION), {
-                  userId: user.uid,
-                  dateKey: row.dateKey,
-                  energyLevel: row.energyLevel,
-                  mood: row.mood,
-                  symptoms: row.symptoms,
-                  notes: row.notes,
-                  createdAt: serverTimestamp(),
-                  updatedAt: serverTimestamp(),
-                });
-                inserted += 1;
-              }
+    if (!ok) return;
 
-              Alert.alert('Listo', `Se cargaron ${inserted} registros de síntomas.`);
-            } catch (error) {
-              console.error('[SeedSymptoms]', error);
-              Alert.alert('Error', 'No se pudieron cargar los síntomas.');
-            } finally {
-              setSeedingSymptoms(false);
-            }
-          },
-        },
-      ],
-    );
+    setSeedingSymptoms(true);
+    try {
+      let inserted = 0;
+      const rows = symptomSeed as Omit<
+        SymptomLogFirestoreDoc,
+        "userId" | "createdAt" | "updatedAt"
+      >[];
+
+      for (const row of rows) {
+        await addDoc(collection(db, SYMPTOM_LOGS_COLLECTION), {
+          userId: user.uid,
+          dateKey: row.dateKey,
+          energyLevel: row.energyLevel,
+          mood: row.mood,
+          symptoms: row.symptoms,
+          notes: row.notes,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+        inserted += 1;
+      }
+
+      if (Platform.OS === "web") window.alert(`Se cargaron ${inserted} registros de síntomas.`);
+      else Alert.alert("Listo", `Se cargaron ${inserted} registros de síntomas.`);
+    } catch (error) {
+      console.error("[SeedSymptoms]", error);
+      if (Platform.OS === "web") window.alert("No se pudieron cargar los síntomas.");
+      else Alert.alert("Error", "No se pudieron cargar los síntomas.");
+    } finally {
+      setSeedingSymptoms(false);
+    }
   };
 
   return (
@@ -206,7 +253,7 @@ export default function MoreScreen() {
               </View>
               <View style={styles.heroTextCol}>
                 <ThemedText type="defaultSemiBold" style={styles.profileName}>
-                  {displayName || 'Sin nombre'}
+                  {displayName || "Sin nombre"}
                 </ThemedText>
                 {email ? (
                   <ThemedText style={styles.profileEmail} numberOfLines={2}>
@@ -229,8 +276,11 @@ export default function MoreScreen() {
 
           <View style={styles.card}>
             <Pressable
-              onPress={() => router.push('/(tabs)/more/profile')}
-              style={({ pressed }) => [styles.rowPress, pressed && styles.rowPressed]}
+              onPress={() => router.push("/(tabs)/more/profile")}
+              style={({ pressed }) => [
+                styles.rowPress,
+                pressed && styles.rowPressed,
+              ]}
               accessibilityRole="button"
               accessibilityLabel="Editar perfil"
             >
@@ -257,12 +307,15 @@ export default function MoreScreen() {
             </Pressable>
           </View>
 
-          {role === 'admin' && (
+          {role === "admin" && (
             <>
               <View style={styles.card}>
                 <Pressable
-                  onPress={() => router.push('/(tabs)/more/recipes')}
-                  style={({ pressed }) => [styles.rowPress, pressed && styles.rowPressed]}
+                  onPress={() => router.push("/(tabs)/more/recipes")}
+                  style={({ pressed }) => [
+                    styles.rowPress,
+                    pressed && styles.rowPressed,
+                  ]}
                   accessibilityRole="button"
                   accessibilityLabel="Recetas"
                 >
@@ -291,8 +344,11 @@ export default function MoreScreen() {
 
               <View style={styles.card}>
                 <Pressable
-                  onPress={() => router.push('/(tabs)/more/blog')}
-                  style={({ pressed }) => [styles.rowPress, pressed && styles.rowPressed]}
+                  onPress={() => router.push("/(tabs)/more/blog")}
+                  style={({ pressed }) => [
+                    styles.rowPress,
+                    pressed && styles.rowPressed,
+                  ]}
                   accessibilityRole="button"
                   accessibilityLabel="Blog de salud"
                 >
@@ -331,8 +387,13 @@ export default function MoreScreen() {
                       size={20}
                       color={palette.text.inverse}
                     />
-                    <ThemedText type="defaultSemiBold" style={styles.seedBtnText}>
-                      {seedingRecipes ? 'Cargando recetas...' : 'Cargar recetas base'}
+                    <ThemedText
+                      type="defaultSemiBold"
+                      style={styles.seedBtnText}
+                    >
+                      {seedingRecipes
+                        ? "Cargando recetas..."
+                        : "Cargar recetas base"}
                     </ThemedText>
                   </View>
                 </Btn>
@@ -350,8 +411,13 @@ export default function MoreScreen() {
                       size={20}
                       color={palette.text.inverse}
                     />
-                    <ThemedText type="defaultSemiBold" style={styles.seedBtnText}>
-                      {seedingBlog ? 'Cargando artículos...' : 'Cargar artículos base'}
+                    <ThemedText
+                      type="defaultSemiBold"
+                      style={styles.seedBtnText}
+                    >
+                      {seedingBlog
+                        ? "Cargando artículos..."
+                        : "Cargar artículos base"}
                     </ThemedText>
                   </View>
                 </Btn>
@@ -369,8 +435,13 @@ export default function MoreScreen() {
                       size={20}
                       color={palette.text.inverse}
                     />
-                    <ThemedText type="defaultSemiBold" style={styles.seedBtnText}>
-                      {seedingSymptoms ? 'Cargando síntomas...' : 'Cargar síntomas base'}
+                    <ThemedText
+                      type="defaultSemiBold"
+                      style={styles.seedBtnText}
+                    >
+                      {seedingSymptoms
+                        ? "Cargando síntomas..."
+                        : "Cargar síntomas base"}
                     </ThemedText>
                   </View>
                 </Btn>
@@ -401,13 +472,17 @@ export default function MoreScreen() {
                   size={16}
                   color={palette.text.muted}
                 />
-                <ThemedText style={styles.version}>Versión {appVersion}</ThemedText>
+                <ThemedText style={styles.version}>
+                  Versión {appVersion}
+                </ThemedText>
               </View>
             ) : null}
             <ExternalLink href={DEVELOPER_URL} style={styles.footerLinkWrap}>
               <ThemedText style={styles.footerLink}>{DEVELOPER_URL}</ThemedText>
             </ExternalLink>
-            <ThemedText style={styles.footerCopyright}>© NovaAlex Labs</ThemedText>
+            <ThemedText style={styles.footerCopyright}>
+              © NovaAlex Labs
+            </ThemedText>
           </View>
         </ScrollView>
       </View>
@@ -418,8 +493,8 @@ export default function MoreScreen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    width: '100%',
-    alignSelf: 'stretch',
+    width: "100%",
+    alignSelf: "stretch",
   },
   screenTitle: {
     marginBottom: 4,
@@ -439,14 +514,14 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     borderRadius: 14,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: palette.border.light,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginBottom: 20,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: "#000",
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.06,
         shadowRadius: 6,
@@ -461,8 +536,8 @@ const styles = StyleSheet.create({
     opacity: 0.85,
   },
   heroInner: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 14,
     paddingHorizontal: 14,
     gap: 14,
@@ -472,13 +547,13 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 32,
     backgroundColor: palette.brand.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   initialsText: {
     color: palette.text.inverse,
     fontSize: 22,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   heroTextCol: {
     flex: 1,
@@ -494,10 +569,10 @@ const styles = StyleSheet.create({
     color: palette.text.secondary,
   },
   rolePill: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginTop: 10,
     paddingVertical: 4,
     paddingHorizontal: 10,
@@ -508,27 +583,27 @@ const styles = StyleSheet.create({
   },
   rolePillText: {
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: "700",
     color: palette.brand.secondary,
   },
   sectionLabel: {
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: "700",
     color: palette.text.secondary,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     letterSpacing: 0.5,
     marginBottom: 8,
   },
   card: {
     borderRadius: 14,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: palette.border.light,
     marginBottom: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: "#000",
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.05,
         shadowRadius: 4,
@@ -538,8 +613,8 @@ const styles = StyleSheet.create({
     }),
   },
   rowPress: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 14,
     paddingHorizontal: 12,
     gap: 10,
@@ -552,8 +627,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 12,
     backgroundColor: palette.brand.primaryMuted,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   rowBody: {
     flex: 1,
@@ -569,17 +644,17 @@ const styles = StyleSheet.create({
     color: palette.text.muted,
   },
   logoutBtn: {
-    width: '100%',
+    width: "100%",
     backgroundColor: palette.semantic.error,
     borderRadius: 0,
     paddingVertical: 16,
     paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   logoutInner: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   logoutBtnText: {
@@ -587,35 +662,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   seedBtn: {
-    width: '100%',
+    width: "100%",
     backgroundColor: palette.brand.primary,
     borderRadius: 0,
     paddingVertical: 14,
     paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   seedBlogBtn: {
-    width: '100%',
+    width: "100%",
     backgroundColor: palette.brand.secondary,
     borderRadius: 0,
     paddingVertical: 14,
     paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   seedSymptomsBtn: {
-    width: '100%',
-    backgroundColor: '#6A4C93',
+    width: "100%",
+    backgroundColor: "#6A4C93",
     borderRadius: 0,
     paddingVertical: 14,
     paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   seedBtnInner: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   seedBtnText: {
@@ -623,15 +698,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   footerMeta: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 20,
     gap: 10,
     paddingHorizontal: 8,
   },
   versionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 6,
   },
   version: {
@@ -639,17 +714,17 @@ const styles = StyleSheet.create({
     color: palette.text.muted,
   },
   footerLinkWrap: {
-    maxWidth: '100%',
+    maxWidth: "100%",
   },
   footerLink: {
     fontSize: 12,
     color: palette.brand.primary,
-    textAlign: 'center',
-    textDecorationLine: 'underline',
+    textAlign: "center",
+    textDecorationLine: "underline",
   },
   footerCopyright: {
     fontSize: 11,
     color: palette.text.muted,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
