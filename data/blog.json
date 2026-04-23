@@ -97,7 +97,7 @@
   {
     "title": "El estrés crónico y su impacto en la tiroides",
     "excerpt": "Descubre por qué el estrés sostenido en el tiempo puede desestabilizar las hormonas tiroideas y cómo la alimentación puede ayudar a mitigarlo.",
-    "coverImageUrl": "PENDIENTE",
+    "coverImageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1776959325/Gemini_Generated_Image_awfgvaawfgvaawfg_da7koq.png",
     "author": "Equipo Nutrición",
     "content": [
       "El estrés crónico activa el eje hipotálamo-hipófisis-suprarrenal, lo que eleva los niveles de cortisol. Este estado sostenido puede interferir directamente con la función de la glándula tiroides.",
@@ -108,7 +108,14 @@
       "Reducir el consumo de cafeína en exceso y de azúcares refinados contribuye a evitar picos de cortisol innecesarios durante el día.",
       "Gestionar el estrés a través de hábitos como el sueño reparador, la actividad física moderada y una alimentación antiinflamatoria forma una base sólida para proteger la tiroides a largo plazo."
     ],
-    "tags": ["tiroides", "estres", "cortisol", "hormonas", "salud mental", "nutricion"],
+    "tags": [
+      "tiroides",
+      "estres",
+      "cortisol",
+      "hormonas",
+      "salud mental",
+      "nutricion"
+    ],
     "status": "published",
     "createdBy": "system",
     "createdAt": "2026-04-01T00:00:00Z",
@@ -117,7 +124,7 @@
   {
     "title": "Hipotiroidismo e hipertiroidismo: diferencias clave y cómo influye la dieta",
     "excerpt": "Aprende a distinguir entre hipotiroidismo e hipertiroidismo, qué ocurre en cada caso y qué ajustes alimenticios pueden marcar la diferencia.",
-    "coverImageUrl": "PENDIENTE",
+    "coverImageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1776959414/Gemini_Generated_Image_yuxxpgyuxxpgyuxx_wqx0rb.png",
     "author": "Equipo Nutrición",
     "content": [
       "La tiroides puede fallar en dos direcciones opuestas: produciendo pocas hormonas (hipotiroidismo) o demasiadas (hipertiroidismo). Aunque ambas condiciones afectan el mismo órgano, sus síntomas y necesidades nutricionales son muy distintos.",
@@ -127,7 +134,14 @@
       "En ambas condiciones, la inflamación juega un papel relevante. Una dieta rica en antioxidantes —frutas, verduras de colores variados, aceite de oliva, pescados grasos— ayuda a proteger el tejido tiroideo y reduce la carga inmunológica.",
       "Es fundamental recordar que la dieta es un apoyo, no un reemplazo del tratamiento médico. Cualquier ajuste nutricional debe coordinarse con el profesional de salud que lleva el seguimiento del paciente."
     ],
-    "tags": ["tiroides", "hipotiroidismo", "hipertiroidismo", "hormonas", "nutricion", "dieta"],
+    "tags": [
+      "tiroides",
+      "hipotiroidismo",
+      "hipertiroidismo",
+      "hormonas",
+      "nutricion",
+      "dieta"
+    ],
     "status": "published",
     "createdBy": "system",
     "createdAt": "2026-04-05T00:00:00Z",
@@ -136,7 +150,7 @@
   {
     "title": "El papel del hierro en la salud tiroidea",
     "excerpt": "El hierro no solo previene la anemia: también es esencial para que la tiroides produzca hormonas correctamente. Descubre cuánto influye y cómo asegurarte de obtenerlo.",
-    "coverImageUrl": "PENDIENTE",
+    "coverImageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1776959518/Gemini_Generated_Image_v8v3u5v8v3u5v8v3_o96rpr.png",
     "author": "Equipo Nutrición",
     "content": [
       "Pocas personas asocian el hierro directamente con la tiroides, pero este mineral cumple un rol crítico: la enzima tiroperoxidasa (TPO), responsable de sintetizar las hormonas tiroideas T3 y T4, depende del hierro para funcionar correctamente.",
@@ -147,7 +161,14 @@
       "Por el contrario, el calcio, el té negro y el café consumidos al mismo tiempo que los alimentos ricos en hierro pueden inhibir su absorción. Se recomienda separar estas bebidas al menos una hora de las comidas principales si existe riesgo de déficit.",
       "Antes de suplementar con hierro, siempre consultar con un profesional de salud, ya que el exceso también puede ser perjudicial para el organismo."
     ],
-    "tags": ["tiroides", "hierro", "nutricion", "hormonas", "hipotiroidismo", "minerales"],
+    "tags": [
+      "tiroides",
+      "hierro",
+      "nutricion",
+      "hormonas",
+      "hipotiroidismo",
+      "minerales"
+    ],
     "status": "published",
     "createdBy": "system",
     "createdAt": "2026-04-10T00:00:00Z",
@@ -156,7 +177,7 @@
   {
     "title": "Cómo interpretar tus resultados de tiroides: TSH, T3 y T4",
     "excerpt": "Entender tus análisis de sangre te permite participar más activamente en el cuidado de tu salud. Aquí explicamos qué significa cada valor tiroideo.",
-    "coverImageUrl": "PENDIENTE",
+    "coverImageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1776959580/Gemini_Generated_Image_x5h2k7x5h2k7x5h2_kbqopk.png",
     "author": "Equipo Nutrición",
     "content": [
       "Recibir un análisis de sangre con valores de TSH, T3 y T4 puede resultar confuso si no se conoce qué mide cada uno. Comprender su significado ayuda a dialogar mejor con el médico y a tomar decisiones informadas.",
@@ -167,7 +188,15 @@
       "Los anticuerpos tiroideos (Anti-TPO y Anti-tiroglobulina) no miden hormona sino actividad autoinmune. Su elevación indica que el sistema inmune está atacando la tiroides, como ocurre en la enfermedad de Hashimoto o Graves.",
       "Recuerda que un solo valor fuera de rango no es suficiente para un diagnóstico. El médico siempre evaluará el conjunto de resultados junto con los síntomas clínicos antes de tomar cualquier decisión terapéutica."
     ],
-    "tags": ["tiroides", "analisis clinicos", "TSH", "T3", "T4", "salud", "educacion"],
+    "tags": [
+      "tiroides",
+      "analisis clinicos",
+      "TSH",
+      "T3",
+      "T4",
+      "salud",
+      "educacion"
+    ],
     "status": "published",
     "createdBy": "system",
     "createdAt": "2026-04-15T00:00:00Z",
@@ -176,7 +205,7 @@
   {
     "title": "Selenio y tiroides: el mineral que pocas veces mencionan",
     "excerpt": "El selenio es uno de los micronutrientes más importantes para la salud tiroidea, pero también uno de los más olvidados en la dieta. Aquí te explicamos por qué es tan valioso.",
-    "coverImageUrl": "PENDIENTE",
+    "coverImageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1776959628/Gemini_Generated_Image_vy2ktrvy2ktrvy2k_ztpwmr.png",
     "author": "Equipo Nutrición",
     "content": [
       "La tiroides es el órgano del cuerpo con mayor concentración de selenio por gramo de tejido. Este mineral no es un capricho nutricional: es absolutamente necesario para que las enzimas tiroideas funcionen y para proteger la glándula del daño oxidativo.",
@@ -187,7 +216,15 @@
       "Otras buenas fuentes son el atún, las sardinas, el salmón, los camarones, los huevos, las semillas de girasol y los cereales integrales cultivados en suelos ricos en este mineral.",
       "La deficiencia de selenio es más común en zonas con suelos pobres en este mineral. Si sospechas un déficit, consulta con tu médico antes de iniciar cualquier suplemento."
     ],
-    "tags": ["tiroides", "selenio", "nutricion", "minerales", "hashimoto", "hormonas", "prevencion"],
+    "tags": [
+      "tiroides",
+      "selenio",
+      "nutricion",
+      "minerales",
+      "hashimoto",
+      "hormonas",
+      "prevencion"
+    ],
     "status": "published",
     "createdBy": "system",
     "createdAt": "2026-04-20T00:00:00Z",

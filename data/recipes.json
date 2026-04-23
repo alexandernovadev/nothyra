@@ -261,8 +261,8 @@
   {
     "title": "Tortilla de claras con champiñones y pimiento rojo",
     "description": "Desayuno o cena proteica y muy baja en carbohidratos, ideal para el control glucémico. Las claras de huevo aportan proteína pura sin grasa saturada, mientras que los champiñones y el pimiento rojo añaden fibra, vitamina C y antioxidantes.",
-    "imageUrl": "PENDIENTE",
-    "category": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1776959132/Gemini_Generated_Image_c2n6nlc2n6nlc2n6_rzvl8w.png",
+    "imageUrl": "https://res.cloudinary.com/dkd41s4tt/image/upload/v1776959132/Gemini_Generated_Image_c2n6nlc2n6nlc2n6_rzvl8w.png",
+    "category": "breakfast",
     "prepTime": 15,
     "servings": 1,
     "difficulty": "easy",
