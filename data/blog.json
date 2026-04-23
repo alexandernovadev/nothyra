@@ -93,5 +93,104 @@
     "createdBy": "system",
     "createdAt": "2026-03-20T00:00:00Z",
     "updatedAt": "2026-03-20T00:00:00Z"
+  },
+  {
+    "title": "El estrés crónico y su impacto en la tiroides",
+    "excerpt": "Descubre por qué el estrés sostenido en el tiempo puede desestabilizar las hormonas tiroideas y cómo la alimentación puede ayudar a mitigarlo.",
+    "coverImageUrl": "PENDIENTE",
+    "author": "Equipo Nutrición",
+    "content": [
+      "El estrés crónico activa el eje hipotálamo-hipófisis-suprarrenal, lo que eleva los niveles de cortisol. Este estado sostenido puede interferir directamente con la función de la glándula tiroides.",
+      "Cuando el cortisol se mantiene elevado durante semanas o meses, el cuerpo puede inhibir la conversión de T4 (hormona tiroidea inactiva) en T3 (forma activa), lo que genera síntomas similares al hipotiroidismo aunque los análisis muestren valores 'normales'.",
+      "Algunos síntomas que pueden aparecer son fatiga persistente, dificultad para concentrarse, cambios de peso sin causa aparente y sensación de frío constante.",
+      "Desde la nutrición, es posible apoyar la respuesta al estrés incorporando alimentos ricos en magnesio como hojas verdes, semillas de calabaza y legumbres, ya que este mineral participa en más de 300 reacciones enzimáticas incluidas las relacionadas con el sistema nervioso.",
+      "La vitamina C, presente en pimientos, kiwi y cítricos, también ayuda a regular la secreción de cortisol y protege el tejido tiroideo del daño oxidativo.",
+      "Reducir el consumo de cafeína en exceso y de azúcares refinados contribuye a evitar picos de cortisol innecesarios durante el día.",
+      "Gestionar el estrés a través de hábitos como el sueño reparador, la actividad física moderada y una alimentación antiinflamatoria forma una base sólida para proteger la tiroides a largo plazo."
+    ],
+    "tags": ["tiroides", "estres", "cortisol", "hormonas", "salud mental", "nutricion"],
+    "status": "published",
+    "createdBy": "system",
+    "createdAt": "2026-04-01T00:00:00Z",
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "title": "Hipotiroidismo e hipertiroidismo: diferencias clave y cómo influye la dieta",
+    "excerpt": "Aprende a distinguir entre hipotiroidismo e hipertiroidismo, qué ocurre en cada caso y qué ajustes alimenticios pueden marcar la diferencia.",
+    "coverImageUrl": "PENDIENTE",
+    "author": "Equipo Nutrición",
+    "content": [
+      "La tiroides puede fallar en dos direcciones opuestas: produciendo pocas hormonas (hipotiroidismo) o demasiadas (hipertiroidismo). Aunque ambas condiciones afectan el mismo órgano, sus síntomas y necesidades nutricionales son muy distintos.",
+      "El hipotiroidismo se caracteriza por un metabolismo lento. Quienes lo padecen suelen experimentar fatiga, aumento de peso, estreñimiento, piel seca y sensación de frío. En la dieta conviene priorizar alimentos ricos en yodo, selenio y zinc, y evitar el consumo excesivo de alimentos bociógenos crudos como la col, el brócoli o la soja en grandes cantidades.",
+      "El hipertiroidismo, en cambio, acelera el metabolismo. Provoca pérdida de peso involuntaria, palpitaciones, ansiedad, insomnio y sensación de calor. En este caso se deben evitar los alimentos ricos en yodo en exceso (como el alga nori o la sal marina en grandes dosis) porque pueden estimular aún más la producción hormonal.",
+      "En el hipertiroidismo también es importante aumentar el aporte calórico y proteico para compensar el alto gasto energético. Las legumbres, el huevo, el pollo y los lácteos bajos en grasa son buenas fuentes.",
+      "En ambas condiciones, la inflamación juega un papel relevante. Una dieta rica en antioxidantes —frutas, verduras de colores variados, aceite de oliva, pescados grasos— ayuda a proteger el tejido tiroideo y reduce la carga inmunológica.",
+      "Es fundamental recordar que la dieta es un apoyo, no un reemplazo del tratamiento médico. Cualquier ajuste nutricional debe coordinarse con el profesional de salud que lleva el seguimiento del paciente."
+    ],
+    "tags": ["tiroides", "hipotiroidismo", "hipertiroidismo", "hormonas", "nutricion", "dieta"],
+    "status": "published",
+    "createdBy": "system",
+    "createdAt": "2026-04-05T00:00:00Z",
+    "updatedAt": "2026-04-05T00:00:00Z"
+  },
+  {
+    "title": "El papel del hierro en la salud tiroidea",
+    "excerpt": "El hierro no solo previene la anemia: también es esencial para que la tiroides produzca hormonas correctamente. Descubre cuánto influye y cómo asegurarte de obtenerlo.",
+    "coverImageUrl": "PENDIENTE",
+    "author": "Equipo Nutrición",
+    "content": [
+      "Pocas personas asocian el hierro directamente con la tiroides, pero este mineral cumple un rol crítico: la enzima tiroperoxidasa (TPO), responsable de sintetizar las hormonas tiroideas T3 y T4, depende del hierro para funcionar correctamente.",
+      "Cuando los niveles de hierro son bajos —incluso sin llegar a una anemia clínica—, la actividad de la TPO disminuye y la producción hormonal se ve afectada. Esto puede derivar en síntomas de hipotiroidismo funcional: cansancio, cabello débil, dificultad para concentrarse.",
+      "La deficiencia de hierro también puede reducir la respuesta al tratamiento con levotiroxina en personas con hipotiroidismo diagnosticado, lo que lleva a ajustes de dosis que podrían evitarse corrigiendo el déficit mineral.",
+      "Las mejores fuentes de hierro hemo (alta biodisponibilidad) son las carnes rojas magras, el hígado, el pollo y el pescado. Las fuentes vegetales como las lentejas, los garbanzos, la espinaca y las semillas de calabaza aportan hierro no hemo, cuya absorción mejora significativamente al combinarlo con vitamina C.",
+      "Un truco práctico: agregar jugo de limón a una ensalada de lentejas o tomar un cítrico junto con el desayuno rico en legumbres puede duplicar la absorción del hierro vegetal.",
+      "Por el contrario, el calcio, el té negro y el café consumidos al mismo tiempo que los alimentos ricos en hierro pueden inhibir su absorción. Se recomienda separar estas bebidas al menos una hora de las comidas principales si existe riesgo de déficit.",
+      "Antes de suplementar con hierro, siempre consultar con un profesional de salud, ya que el exceso también puede ser perjudicial para el organismo."
+    ],
+    "tags": ["tiroides", "hierro", "nutricion", "hormonas", "hipotiroidismo", "minerales"],
+    "status": "published",
+    "createdBy": "system",
+    "createdAt": "2026-04-10T00:00:00Z",
+    "updatedAt": "2026-04-10T00:00:00Z"
+  },
+  {
+    "title": "Cómo interpretar tus resultados de tiroides: TSH, T3 y T4",
+    "excerpt": "Entender tus análisis de sangre te permite participar más activamente en el cuidado de tu salud. Aquí explicamos qué significa cada valor tiroideo.",
+    "coverImageUrl": "PENDIENTE",
+    "author": "Equipo Nutrición",
+    "content": [
+      "Recibir un análisis de sangre con valores de TSH, T3 y T4 puede resultar confuso si no se conoce qué mide cada uno. Comprender su significado ayuda a dialogar mejor con el médico y a tomar decisiones informadas.",
+      "La TSH (hormona estimulante de la tiroides) es producida por la hipófisis y actúa como una señal que le indica a la tiroides cuántas hormonas debe fabricar. Un valor alto de TSH indica que la hipófisis 'está pidiendo más', lo que generalmente señala que la tiroides está trabajando poco (hipotiroidismo). Un valor bajo sugiere lo contrario.",
+      "Los valores de referencia habituales de la TSH oscilan entre 0,4 y 4,0 mUI/L, aunque algunos especialistas consideran óptimo el rango de 1,0 a 2,5 mUI/L para personas con síntomas. Cada laboratorio puede tener sus propios rangos.",
+      "La T4 libre (FT4) es la hormona que produce directamente la tiroides. En el torrente sanguíneo, viaja principalmente unida a proteínas transportadoras; solo la fracción libre es activa. Valores bajos de T4 libre junto con TSH alta confirman hipotiroidismo.",
+      "La T3 libre (FT3) es la forma activa y más potente. El cuerpo convierte T4 en T3 principalmente en el hígado y los tejidos periféricos. Algunas personas tienen TSH y T4 normales pero T3 baja, lo que puede explicar síntomas persistentes a pesar de análisis 'dentro del rango'.",
+      "Los anticuerpos tiroideos (Anti-TPO y Anti-tiroglobulina) no miden hormona sino actividad autoinmune. Su elevación indica que el sistema inmune está atacando la tiroides, como ocurre en la enfermedad de Hashimoto o Graves.",
+      "Recuerda que un solo valor fuera de rango no es suficiente para un diagnóstico. El médico siempre evaluará el conjunto de resultados junto con los síntomas clínicos antes de tomar cualquier decisión terapéutica."
+    ],
+    "tags": ["tiroides", "analisis clinicos", "TSH", "T3", "T4", "salud", "educacion"],
+    "status": "published",
+    "createdBy": "system",
+    "createdAt": "2026-04-15T00:00:00Z",
+    "updatedAt": "2026-04-15T00:00:00Z"
+  },
+  {
+    "title": "Selenio y tiroides: el mineral que pocas veces mencionan",
+    "excerpt": "El selenio es uno de los micronutrientes más importantes para la salud tiroidea, pero también uno de los más olvidados en la dieta. Aquí te explicamos por qué es tan valioso.",
+    "coverImageUrl": "PENDIENTE",
+    "author": "Equipo Nutrición",
+    "content": [
+      "La tiroides es el órgano del cuerpo con mayor concentración de selenio por gramo de tejido. Este mineral no es un capricho nutricional: es absolutamente necesario para que las enzimas tiroideas funcionen y para proteger la glándula del daño oxidativo.",
+      "El selenio es un componente esencial de las selenoproteínas, entre ellas las yodotironina desyodasas, que son las enzimas encargadas de convertir la T4 inactiva en T3 activa —la forma hormonal que el cuerpo realmente puede utilizar—.",
+      "Además, la glutatión peroxidasa, otra selenoproteína clave, protege las células tiroideas del peróxido de hidrógeno generado durante la síntesis hormonal. Sin suficiente selenio, este proceso puede dañar el tejido tiroideo y contribuir a enfermedades autoinmunes como Hashimoto.",
+      "Estudios clínicos han demostrado que la suplementación con selenio en personas con tiroiditis de Hashimoto puede reducir los niveles de anticuerpos Anti-TPO y mejorar el bienestar general, aunque siempre bajo supervisión médica.",
+      "La fuente alimentaria más potente de selenio son las nueces de Brasil: con solo 1 o 2 unidades al día se cubre el requerimiento diario de aproximadamente 55 microgramos para adultos. Sin embargo, consumir más de 5 al día de forma habitual puede generar toxicidad por selenio (selenosis).",
+      "Otras buenas fuentes son el atún, las sardinas, el salmón, los camarones, los huevos, las semillas de girasol y los cereales integrales cultivados en suelos ricos en este mineral.",
+      "La deficiencia de selenio es más común en zonas con suelos pobres en este mineral. Si sospechas un déficit, consulta con tu médico antes de iniciar cualquier suplemento."
+    ],
+    "tags": ["tiroides", "selenio", "nutricion", "minerales", "hashimoto", "hormonas", "prevencion"],
+    "status": "published",
+    "createdBy": "system",
+    "createdAt": "2026-04-20T00:00:00Z",
+    "updatedAt": "2026-04-20T00:00:00Z"
   }
 ]

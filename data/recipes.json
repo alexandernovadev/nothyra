@@ -140,5 +140,154 @@
     ],
     "tags": ["diabetes", "postre saludable", "sin azucar añadida", "facil"],
     "status": "published"
+  },
+  {
+    "title": "Avena nocturna con chía y arándanos",
+    "description": "Desayuno preparado la noche anterior, ideal para personas con diabetes tipo 2. La avena en frío libera glucosa lentamente, la chía aporta fibra soluble que regula la absorción de carbohidratos, y los arándanos son ricos en antioxidantes con bajo índice glucémico.",
+    "imageUrl": "PENDIENTE",
+    "category": "breakfast",
+    "prepTime": 10,
+    "servings": 1,
+    "difficulty": "easy",
+    "ingredients": [
+      { "name": "avena en hojuelas (sin cocinar)", "quantity": "1/2 taza" },
+      { "name": "leche descremada o bebida de almendra sin azúcar", "quantity": "3/4 taza" },
+      { "name": "semillas de chía", "quantity": "1 cucharada" },
+      { "name": "arándanos frescos o congelados", "quantity": "1/3 taza" },
+      { "name": "extracto de vainilla", "quantity": "1/4 cucharadita" },
+      { "name": "canela en polvo", "quantity": "1 pizca" }
+    ],
+    "steps": [
+      "En un frasco o recipiente con tapa, mezclar la avena, la leche y las semillas de chía.",
+      "Añadir la vainilla y la canela, revolver bien para integrar.",
+      "Tapar el recipiente y refrigerar durante toda la noche (mínimo 6 horas).",
+      "Por la mañana, verificar la consistencia; si está muy espesa, agregar un poco más de leche y revolver.",
+      "Incorporar los arándanos por encima justo antes de consumir para conservar su textura.",
+      "Servir frío directamente desde el refrigerador."
+    ],
+    "tags": ["diabetes", "desayuno saludable", "bajo indice glucemico", "fibra", "sin coccion"],
+    "status": "published"
+  },
+  {
+    "title": "Salmón al horno con espárragos y limón",
+    "description": "Cena rica en omega-3 y proteína de alta calidad, perfecta para personas con diabetes. El salmón favorece la sensibilidad a la insulina y reduce la inflamación, mientras que los espárragos son bajos en carbohidratos y ricos en vitaminas del grupo B.",
+    "imageUrl": "PENDIENTE",
+    "category": "dinner",
+    "prepTime": 30,
+    "servings": 2,
+    "difficulty": "easy",
+    "ingredients": [
+      { "name": "filetes de salmón", "quantity": "2 unidades (180 g cada uno)" },
+      { "name": "espárragos frescos", "quantity": "1 manojo (300 g)" },
+      { "name": "limón", "quantity": "1 unidad" },
+      { "name": "ajo en polvo", "quantity": "1/2 cucharadita" },
+      { "name": "aceite de oliva", "quantity": "2 cucharadas" },
+      { "name": "eneldo fresco o seco", "quantity": "1 cucharadita" },
+      { "name": "sal y pimienta negra", "quantity": "al gusto" }
+    ],
+    "steps": [
+      "Precalentar el horno a 200°C. Cubrir una bandeja para hornear con papel vegetal.",
+      "Lavar los espárragos y retirar la parte leñosa del tallo (los últimos 3–4 cm).",
+      "Distribuir los espárragos en la bandeja, rociar con una cucharada de aceite de oliva, sal y pimienta.",
+      "Colocar los filetes de salmón sobre la bandeja junto a los espárragos.",
+      "Sazonar el salmón con ajo en polvo, eneldo, sal y pimienta. Rociar con el resto del aceite.",
+      "Exprimir medio limón sobre el salmón y los espárragos; cortar la otra mitad en rodajas y colocarlas sobre el pescado.",
+      "Hornear durante 15–18 minutos hasta que el salmón esté opaco en el centro y los espárragos ligeramente dorados.",
+      "Servir inmediatamente con el jugo de limón del fondo de la bandeja."
+    ],
+    "tags": ["diabetes", "omega-3", "proteina", "bajo en carbohidratos", "cena ligera"],
+    "status": "published"
+  },
+  {
+    "title": "Bowl de garbanzos con espinaca y tomate cherry",
+    "description": "Almuerzo vegetariano completo y de bajo índice glucémico. Los garbanzos combinan proteína y fibra que enlentecen la digestión y estabilizan la glucosa. La espinaca aporta magnesio, mineral clave para la sensibilidad a la insulina.",
+    "imageUrl": "PENDIENTE",
+    "category": "lunch",
+    "prepTime": 20,
+    "servings": 2,
+    "difficulty": "easy",
+    "ingredients": [
+      { "name": "garbanzos cocidos (en lata, escurridos y enjuagados)", "quantity": "1 lata (400 g)" },
+      { "name": "espinaca baby fresca", "quantity": "2 tazas" },
+      { "name": "tomates cherry", "quantity": "1 taza" },
+      { "name": "cebolla morada", "quantity": "1/4 unidad" },
+      { "name": "aceite de oliva extra virgen", "quantity": "2 cucharadas" },
+      { "name": "jugo de limón", "quantity": "1 cucharada" },
+      { "name": "comino molido", "quantity": "1/2 cucharadita" },
+      { "name": "pimentón ahumado", "quantity": "1/4 cucharadita" },
+      { "name": "sal y pimienta", "quantity": "al gusto" }
+    ],
+    "steps": [
+      "Escurrir y enjuagar bien los garbanzos para reducir el sodio del líquido de conserva.",
+      "Cortar los tomates cherry por la mitad y la cebolla morada en juliana fina.",
+      "En una sartén a fuego medio, calentar una cucharada de aceite y saltear los garbanzos con el comino y el pimentón durante 4–5 minutos hasta que estén ligeramente dorados.",
+      "En un bol amplio, colocar la espinaca como base.",
+      "Agregar los tomates cherry y la cebolla morada sobre la espinaca.",
+      "Incorporar los garbanzos calientes directamente sobre las verduras (el calor marchitará levemente la espinaca, lo que es ideal).",
+      "Preparar el aderezo mezclando el aceite restante con el jugo de limón, sal y pimienta.",
+      "Rociar el aderezo sobre el bowl y servir de inmediato."
+    ],
+    "tags": ["diabetes", "vegetariano", "fibra", "proteina vegetal", "magnesio", "bajo indice glucemico"],
+    "status": "published"
+  },
+  {
+    "title": "Tortilla de claras con champiñones y pimiento rojo",
+    "description": "Desayuno o cena proteica y muy baja en carbohidratos, ideal para el control glucémico. Las claras de huevo aportan proteína pura sin grasa saturada, mientras que los champiñones y el pimiento rojo añaden fibra, vitamina C y antioxidantes.",
+    "imageUrl": "PENDIENTE",
+    "category": "breakfast",
+    "prepTime": 15,
+    "servings": 1,
+    "difficulty": "easy",
+    "ingredients": [
+      { "name": "claras de huevo", "quantity": "4 unidades" },
+      { "name": "champiñones laminados", "quantity": "1 taza" },
+      { "name": "pimiento rojo", "quantity": "1/2 unidad" },
+      { "name": "espinaca fresca", "quantity": "1 puñado" },
+      { "name": "aceite de oliva", "quantity": "1 cucharadita" },
+      { "name": "ajo en polvo", "quantity": "1 pizca" },
+      { "name": "sal y pimienta", "quantity": "al gusto" }
+    ],
+    "steps": [
+      "Lavar y cortar los champiñones en láminas y el pimiento rojo en tiras finas.",
+      "Calentar el aceite de oliva en una sartén antiadherente a fuego medio.",
+      "Saltear el pimiento rojo durante 2 minutos, luego agregar los champiñones y cocinar 3 minutos más hasta que suelten su agua.",
+      "Incorporar la espinaca y remover hasta que se marchite (1 minuto). Retirar las verduras y reservar.",
+      "Batir las claras con ajo en polvo, sal y pimienta hasta que estén espumosas.",
+      "Verter las claras en la misma sartén a fuego medio-bajo y dejar que cuajen por los bordes.",
+      "Distribuir las verduras salteadas sobre la mitad de la tortilla.",
+      "Doblar la tortilla por la mitad y cocinar un minuto más. Servir caliente."
+    ],
+    "tags": ["diabetes", "proteina", "bajo en carbohidratos", "desayuno saludable", "sin gluten"],
+    "status": "published"
+  },
+  {
+    "title": "Peras pochadas con canela, jengibre y naranja",
+    "description": "Postre elegante y sin azúcar añadida, apto para personas con diabetes. Las peras tienen un índice glucémico moderado y se sirven con el líquido de cocción que concentra los aromas de las especias, siendo una alternativa natural a los postres convencionales.",
+    "imageUrl": "PENDIENTE",
+    "category": "dessert",
+    "prepTime": 30,
+    "servings": 2,
+    "difficulty": "easy",
+    "ingredients": [
+      { "name": "peras maduras pero firmes", "quantity": "2 unidades" },
+      { "name": "agua", "quantity": "2 tazas" },
+      { "name": "cáscara de naranja (sin la parte blanca)", "quantity": "3 tiras" },
+      { "name": "jugo de naranja", "quantity": "3 cucharadas" },
+      { "name": "canela en rama", "quantity": "1 unidad" },
+      { "name": "jengibre fresco rallado", "quantity": "1 cucharadita" },
+      { "name": "clavo de olor", "quantity": "2 unidades" },
+      { "name": "stevia o eritritol (opcional)", "quantity": "al gusto" }
+    ],
+    "steps": [
+      "Pelar las peras dejándolas enteras y con el tallo para una presentación más cuidada.",
+      "En una olla pequeña, mezclar el agua, el jugo y la cáscara de naranja, la canela, el jengibre rallado y los clavos.",
+      "Si se desea mayor dulzor sin azúcar, agregar unas gotas de stevia líquida o eritritol al gusto.",
+      "Llevar el líquido a ebullición a fuego medio y colocar las peras de pie dentro de la olla.",
+      "Reducir el fuego a mínimo, tapar y cocinar durante 20 minutos, girando las peras a la mitad para que se cuezan de forma uniforme.",
+      "Retirar las peras con cuidado y continuar hirviendo el líquido destapado 5 minutos más para que se concentre.",
+      "Servir las peras en un plato hondo y bañarlas con el líquido de cocción reducido."
+    ],
+    "tags": ["diabetes", "postre saludable", "sin azucar añadida", "especias", "fruta"],
+    "status": "published"
   }
 ]
